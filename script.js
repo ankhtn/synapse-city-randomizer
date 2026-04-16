@@ -195,7 +195,6 @@ let levelStates = {
 function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
   if (stage === 2) {
     if (!levelStates[PollutionCount].sites) {
-      alert("Please generate Random 1 first!");
       return;
     }
   }
@@ -378,6 +377,10 @@ function globalRandom1() {
 }
 
 function globalRandom2() {
+  if (!levelStates[6].sites || !levelStates[7].sites) {
+    alert("Please generate Random (Locations) first!");
+    return;
+  }
   generateMap(6, 2, 'map-innovator', 'table-innovator');
   generateMap(7, 2, 'map-master', 'table-master');
 }
