@@ -380,6 +380,14 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 }
 
 let isCompetitionMode = false;
+let compRoundActive = false;
+let compCountdownFinished = false;
+let timerRunning = false;
+
+function setBoxState(boxId, stateClass) {
+  const box = document.getElementById(boxId);
+  if (box) box.className = `comp-box state-${stateClass}`;
+}
 
 function applyModeState() {
   const btnReset = document.getElementById('btn-reset');
@@ -401,6 +409,11 @@ function applyModeState() {
     const clock = document.getElementById('countdown-clock');
     clock.innerText = '2:00';
     clock.style.color = '#95a5a6';
+
+    setBoxState('box-random1', 'inactive');
+    setBoxState('box-quarantine', 'inactive');
+    setBoxState('box-random2', 'inactive');
+    setBoxState('box-slot', 'inactive');
   } else {
     globalClear();
     btnReset.disabled = false;
@@ -414,29 +427,33 @@ function applyModeState() {
     const clock = document.getElementById('countdown-clock');
     clock.innerText = '2:00';
     clock.style.color = '#95a5a6';
+
+    setBoxState('box-random1', 'active');
+    setBoxState('box-quarantine', 'inactive');
+    setBoxState('box-random2', 'active');
+    setBoxState('box-slot', 'inactive');
   }
 }
 
-function handleModeChange(mode) {
-  const toggleFree = document.getElementById('toggle-free');
-  const toggleComp = document.getElementById('toggle-comp');
+function setMode(isComp) {
+  const toggle = document.getElementById('mode-toggle');
+  toggle.checked = isComp;
+  handleSingleModeToggle();
+}
 
-  if (mode === 'free') {
-    if (toggleFree.checked) {
-      toggleComp.checked = false;
-      isCompetitionMode = false;
-    } else {
-      toggleComp.checked = true;
-      isCompetitionMode = true;
-    }
-  } else if (mode === 'comp') {
-    if (toggleComp.checked) {
-      toggleFree.checked = false;
-      isCompetitionMode = true;
-    } else {
-      toggleFree.checked = true;
-      isCompetitionMode = false;
-    }
+function handleSingleModeToggle() {
+  const toggle = document.getElementById('mode-toggle');
+  isCompetitionMode = toggle.checked;
+
+  const labelFree = document.getElementById('label-free');
+  const labelComp = document.getElementById('label-comp');
+
+  if (isCompetitionMode) {
+    labelFree.className = 'inactive';
+    labelComp.className = 'active';
+  } else {
+    labelFree.className = 'active';
+    labelComp.className = 'inactive';
   }
 
   applyModeState();
@@ -444,6 +461,11 @@ function handleModeChange(mode) {
 
 function handleReset() {
   if (isCompetitionMode) {
+    if (compRoundActive && !compCountdownFinished) {
+      if (!confirm("The current round is not finished yet. Are you sure you want to start a New Round?")) {
+        return;
+      }
+    }
     compResetRound();
   } else {
     globalClear();
@@ -519,20 +541,38 @@ function compResetRound() {
   const clock = document.getElementById('countdown-clock');
   clock.innerText = '2:00';
   clock.style.color = '#95a5a6';
+
+  setBoxState('box-random1', 'active');
+  setBoxState('box-quarantine', 'inactive');
+  setBoxState('box-random2', 'inactive');
+  setBoxState('box-slot', 'inactive');
+  
+  compRoundActive = false;
+  compCountdownFinished = false;
+  timerRunning = false;
 }
 
 function compRandom1() {
   globalRandom1();
   document.getElementById('btn-random1').disabled = true;
   document.getElementById('chk-quarantine').disabled = false;
+
+  setBoxState('box-random1', 'completed');
+  setBoxState('box-quarantine', 'active');
+  
+  compRoundActive = true;
 }
 
 function compCheckQuarantine() {
   const chk = document.getElementById('chk-quarantine');
   if (chk.checked) {
     document.getElementById('btn-random2').disabled = false;
+    setBoxState('box-quarantine', 'completed');
+    setBoxState('box-random2', 'active');
   } else {
     document.getElementById('btn-random2').disabled = true;
+    setBoxState('box-quarantine', 'active');
+    setBoxState('box-random2', 'inactive');
   }
 }
 
@@ -541,10 +581,22 @@ function compRandom2() {
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('chk-quarantine').disabled = true;
   document.getElementById('btn-start').disabled = false;
+
+  setBoxState('box-random2', 'completed');
+  setBoxState('box-slot', 'active');
 }
 
 function compStartTimer() {
+  if (timerRunning && !compCountdownFinished) {
+    if (!confirm("The countdown is still running. Are you sure you want to restart it?")) {
+      return;
+    }
+  }
+
   if (timerInterval) clearInterval(timerInterval);
+  timerRunning = true;
+  compCountdownFinished = false;
+  
   let totalSeconds = 120;
   const clock = document.getElementById('countdown-clock');
   clock.style.color = '#2ecc71';
@@ -556,6 +608,8 @@ function compStartTimer() {
       clearInterval(timerInterval);
       totalSeconds = 0;
       clock.style.color = '#e74c3c';
+      compCountdownFinished = true;
+      timerRunning = false;
     }
     updateClock(totalSeconds);
   }, 1000);

@@ -139,6 +139,26 @@
             background-color: #3498db;
         }
 
+        .toggle-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .toggle-labels span {
+            font-size: 13px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .toggle-labels .active {
+            color: #ffffff;
+        }
+
+        .toggle-labels .inactive {
+            color: #7f8c8d;
+        }
+
         input:focus+.slider {
             box-shadow: 0 0 1px #3498db;
         }
@@ -163,8 +183,50 @@
 
         button:disabled {
             background-color: #7f8c8d;
-            cursor: not-allowed;
+            cursor: default !important;
             opacity: 0.6;
+        }
+
+        .comp-box {
+            padding: 10px;
+            margin: 5px auto;
+            border-radius: 6px;
+            width: 85%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .comp-box .box-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .state-inactive {
+            background-color: #e9ecef;
+            color: #7f8c8d;
+        }
+        
+        .state-inactive .box-title {
+            color: #7f8c8d;
+        }
+
+        .state-active {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .state-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .state-completed .box-title {
+            color: #155724;
         }
 
         .cell-body {
@@ -264,40 +326,53 @@
         <div class="center-panel">
             <h1>Synapse City</h1>
 
-            <div id="global-buttons" class="global-buttons">
-                <button id="btn-reset" onclick="handleReset()" style="background-color: #e74c3c;">Reset Round</button>
-                <button id="btn-random1" onclick="handleRandom1()">Random 1</button>
+            <div id="global-buttons" class="global-buttons" style="align-items: center;">
+                <button id="btn-reset" onclick="handleReset()" style="background-color: #e74c3c; width: 100%;">New Round</button>
 
-                <div class="chk-row" style="margin-top: 10px; margin-bottom: 10px;">
-                    <label style="color: white; font-size: 14px; cursor: pointer;">
-                        <input type="checkbox" id="chk-quarantine" onchange="handleCheckQuarantine()">
-                        Quarantine
-                    </label>
-                </div>
+                <div id="group-round" style="width: 100%; border: 1px dashed #7f8c8d; padding: 10px 0; border-radius: 6px; margin-top: 10px; background: rgba(0,0,0,0.1);">
+                    
+                    <div class="comp-box state-active" id="box-random1">
+                        <div class="box-title">Random 1</div>
+                        <button id="btn-random1" onclick="handleRandom1()" style="margin-bottom: 0;">Announce</button>
+                    </div>
 
-                <button id="btn-random2" onclick="handleRandom2()">Random 2</button>
-                <button id="btn-start" onclick="handleStartTimer()"
-                    style="background-color: #f1c40f; color: #2c3e50;">START</button>
+                    <div class="comp-box state-inactive" id="box-quarantine">
+                        <div class="box-title">Quarantine</div>
+                        <label style="font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;">
+                            <input type="checkbox" id="chk-quarantine" onchange="handleCheckQuarantine()"> Done
+                        </label>
+                    </div>
 
-                <div id="countdown-clock"
-                    style="font-size: 28px; text-align: center; color: #95a5a6; font-weight: bold; margin-top: 15px;">
-                    2:00
+                    <div class="comp-box state-inactive" id="box-random2">
+                        <div class="box-title">Random 2</div>
+                        <button id="btn-random2" onclick="handleRandom2()" style="margin-bottom: 0;">Announce</button>
+                    </div>
+
+                    <div class="comp-box state-inactive" id="box-slot">
+                        <div class="box-title">Slot</div>
+                        <button id="btn-start" onclick="handleStartTimer()"
+                            style="background-color: #f1c40f; color: #2c3e50; margin-bottom: 10px;">START</button>
+
+                        <div id="countdown-clock"
+                            style="font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box;">
+                            2:00
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <div style="flex-grow: 1;"></div>
 
             <div class="toggle-container">
-                <span>Free Run</span>
-                <label class="switch">
-                    <input type="checkbox" id="toggle-free" checked onchange="handleModeChange('free')">
+                <label class="switch" style="margin-bottom: 5px;">
+                    <input type="checkbox" id="mode-toggle" onchange="handleSingleModeToggle()">
                     <span class="slider round"></span>
                 </label>
-                <label class="switch">
-                    <input type="checkbox" id="toggle-comp" onchange="handleModeChange('comp')">
-                    <span class="slider round"></span>
-                </label>
-                <span>Competition</span>
+                <div class="toggle-labels">
+                    <span id="label-free" class="active" onclick="setMode(false)" style="cursor: pointer;">Free Run</span>
+                    <span id="label-comp" class="inactive" onclick="setMode(true)" style="cursor: pointer;">Competition</span>
+                </div>
             </div>
         </div>
 
