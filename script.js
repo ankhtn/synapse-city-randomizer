@@ -336,10 +336,18 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 }
 
 function renderTable(randomSites, siteCount, stage, tableContainerId) {
-  let tableHtml = '<table class="info-table"><tr><th>Location</th><th>Color</th></tr>';
+  let entries = [];
   for (let i = 0; i < siteCount; i++) {
     let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
-    tableHtml += `<tr><td>${randomSites[i]}</td><td>${colorName}</td></tr>`;
+    entries.push({ site: randomSites[i], colorName: colorName });
+  }
+
+  // Sort ABC
+  entries.sort((a, b) => a.site.localeCompare(b.site));
+
+  let tableHtml = '<table class="info-table">';
+  for (let entry of entries) {
+    tableHtml += `<tr><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
   }
   tableHtml += '</table>';
 
