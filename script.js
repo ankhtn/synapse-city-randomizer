@@ -195,7 +195,7 @@ let levelStates = {
 function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
   if (stage === 2) {
     if (!levelStates[PollutionCount].sites) {
-      alert("Please generate Random (Locations) first!");
+      alert("Please generate Random 1 first!");
       return;
     }
   }
@@ -216,7 +216,9 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
     random2 = shuffleArray(random1);
 
-    levelStates[PollutionCount].sites = random2;
+    if (levelStates[PollutionCount]) {
+      levelStates[PollutionCount].sites = random2;
+    }
 
     if (stage === 1) {
       OneColor = '#FFF';
@@ -370,6 +372,13 @@ function globalRandom2() {
   generateMap(7, 2, 'map-master', 'table-master');
 }
 
+function globalClear() {
+  generateMap(0, 0, 'map-explorer', 'table-explorer');
+  generateMap(0, 0, 'map-creator', 'table-creator');
+  generateMap(0, 0, 'map-innovator', 'table-innovator');
+  generateMap(0, 0, 'map-master', 'table-master');
+}
+
 window.onload = () => {
-  // Empty onload, maps wait for user click
+  globalClear();
 };
