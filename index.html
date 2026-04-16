@@ -60,21 +60,12 @@
             overflow: hidden;
         }
 
-        .cell-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .cell-header h4 {
-            margin: 0;
+        .table-col h4 {
+            margin: 0 0 10px 0;
             color: #333;
             font-size: 16px;
+            text-align: center;
         }
-
         button {
             padding: 10px 15px;
             font-size: 14px;
@@ -167,44 +158,44 @@
     <div class="main-content">
         <!-- Explorer -->
         <div class="grid-cell" id="cell-explorer">
-            <div class="cell-header">
-                <h4>Explorer</h4>
-            </div>
             <div class="cell-body">
-                <div class="table-col" id="table-explorer"></div>
+                <div class="table-col">
+                    <h4>Explorer</h4>
+                    <div id="table-explorer"></div>
+                </div>
                 <div class="map-col" id="map-explorer"></div>
             </div>
         </div>
 
         <!-- Creator -->
         <div class="grid-cell" id="cell-creator">
-            <div class="cell-header">
-                <h4>Creator</h4>
-            </div>
             <div class="cell-body">
-                <div class="table-col" id="table-creator"></div>
+                <div class="table-col">
+                    <h4>Creator</h4>
+                    <div id="table-creator"></div>
+                </div>
                 <div class="map-col" id="map-creator"></div>
             </div>
         </div>
 
         <!-- Innovator -->
         <div class="grid-cell" id="cell-innovator">
-            <div class="cell-header">
-                <h4>Innovator</h4>
-            </div>
             <div class="cell-body">
-                <div class="table-col" id="table-innovator"></div>
+                <div class="table-col">
+                    <h4>Innovator</h4>
+                    <div id="table-innovator"></div>
+                </div>
                 <div class="map-col" id="map-innovator"></div>
             </div>
         </div>
 
         <!-- Master -->
         <div class="grid-cell" id="cell-master">
-            <div class="cell-header">
-                <h4>Master</h4>
-            </div>
             <div class="cell-body">
-                <div class="table-col" id="table-master"></div>
+                <div class="table-col">
+                    <h4>Master</h4>
+                    <div id="table-master"></div>
+                </div>
                 <div class="map-col" id="map-master"></div>
             </div>
         </div>

@@ -8,13 +8,13 @@ const TERM1 = '#EFE';
 const TERM2 = '#BEB';
 
 const PollutionColors = [
-  ['RED', '#E00'],
-  ['YELLOW', '#EE0'],    // yellow 1
-  ['GREEN', '#0E0'],
-  ['BLUE', '#11F'],
-  ['PURPLE', '#71F'],
-  ['YELLOW', '#EE0'],    // yellow 2
-  ['MYSTERY', '#222'],
+  ['Red', '#E00'],
+  ['Yellow', '#EE0'],    // yellow 1
+  ['Green', '#0E0'],
+  ['Blue', '#11F'],
+  ['Purple', '#71F'],
+  ['Yellow', '#EE0'],    // yellow 2
+  ['Mystery', '#222'],
   ['', 'none'],
 ];
 
