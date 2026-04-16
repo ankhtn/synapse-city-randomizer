@@ -6,11 +6,48 @@
     <title>SVG.js - Synapse City</title>
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.2.5/dist/svg.min.js"></script>
     <style>
-        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f0f0; }
+        body { 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #f0f0f0; 
+            font-family: Arial, sans-serif;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #0056b3; }
+        #map-container { display: flex; justify-content: center; }
         svg { background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
+    <div class="controls">
+        <button onclick="generateMap(4)">Explorer (Level 1)</button>
+        <button onclick="generateMap(5)">Creator (Level 2)</button>
+        <button onclick="generateMap(6)">Innovator (Level 3)</button>
+        <button onclick="generateMap(7)">Master (Level 4)</button>
+    </div>
+    <div id="map-container"></div>
     <script src="script.js"></script>
 </body>
 </html>
