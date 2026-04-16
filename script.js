@@ -8,14 +8,14 @@ const TERM1 = '#EFE';
 const TERM2 = '#BEB';
 
 const PollutionColors = [
-  ['RED'    , '#E00'],
-  ['YELLOW' , '#EE0'],    // yellow 1
-  ['GREEN'  , '#0E0'],
-  ['BLUE'   , '#11F'],
-  ['PURPLE' , '#71F'],
-  ['YELLOW' , '#EE0'],    // yellow 2
+  ['RED', '#E00'],
+  ['YELLOW', '#EE0'],    // yellow 1
+  ['GREEN', '#0E0'],
+  ['BLUE', '#11F'],
+  ['PURPLE', '#71F'],
+  ['YELLOW', '#EE0'],    // yellow 2
   ['MYSTERY', '#222'],
-  [''       , 'none'],
+  ['', 'none'],
 ];
 
 const BLACKLINE = { width: 50 / 3, linecap: 'butt' };
@@ -63,7 +63,7 @@ function drawGrid(draw, lineStroke) {
   let DR = DD - RR;
   let DRfix = DR + (RR == 0 ? fixup : 0);
   const DDh = DD + hLength;
-  
+
   for (const t of [-1, +1]) {
     draw.line(t * HP, -DDh, t * HP, +DDh).stroke(lineStroke);
     draw.line(-DDh, t * HP, +DDh, t * HP).stroke(lineStroke);
@@ -144,7 +144,7 @@ function siteXY(siteId) {
 }
 
 function shuffleArray(arraySrc) {
-  const array = [...arraySrc]; 
+  const array = [...arraySrc];
   for (let i = array.length - 1; i >= 1; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
@@ -153,8 +153,8 @@ function shuffleArray(arraySrc) {
 }
 
 function generateRandomPollutions() {
-  const originalArray = ['A','B','C','D','E','F','G','H'];
-  const originalSubZ  = ['1','2','3','4','1','2','3','4'];
+  const originalArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  const originalSubZ = ['1', '2', '3', '4', '1', '2', '3', '4'];
 
   const randomPermutation = shuffleArray(originalArray);
   const randomSubZ = shuffleArray(originalSubZ);
@@ -170,15 +170,15 @@ function visualizePollutions(draw, randomSites, siteCount, oneColor = null) {
   let configuration = ''
   for (let i = 0; i < siteCount; i++) {
     let site = randomSites[i]
-    let color = ( ! oneColor ) ? PollutionColors[i][1] : oneColor;
-     
+    let color = (!oneColor) ? PollutionColors[i][1] : oneColor;
+
     configuration += site + ' - ' + PollutionColors[i][0] + '\n'
 
     let g1 = draw.group();
     g1.transform(siteXY(site));
     const dd = PolutionRR * 2
     const rr = PolutionRR * 1
-    g1.circle(dd,dd).translate(-rr,-rr)
+    g1.circle(dd, dd).translate(-rr, -rr)
       .fill(color)
       .stroke(PollutionMarker)
   }
@@ -214,16 +214,16 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     random1 = random1.slice(0, PollutionCount);
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
     random2 = shuffleArray(random1);
-    
+
     levelStates[PollutionCount].sites = random2;
-    
+
     if (stage === 1) {
       OneColor = '#FFF';
     }
   }
 
   var draw0 = SVG().addTo('#' + mapContainerId);
-  var draw = draw0.size('100%', '100%').viewbox(0, 0, ImageSize, ImageSize).group();
+  var draw = draw0.size('100%', '100%').attr({ viewBox: '0 0 ' + ImageSize + ' ' + ImageSize }).group();
   draw.translate(ImageSize / 2, ImageSize / 2);
   draw.scale(ImageSize / 1200);
 
@@ -233,7 +233,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   // Border Frame
   let x = 1200 / 2;
   draw.polygon([[x, x], [x, -x], [-x, -x], [-x, x]])
-      .stroke(MARKER).fill(BACKGROUND);
+    .stroke(MARKER).fill(BACKGROUND);
 
   // Gray testing
   for (let x = -2; x <= +2; x += 2) {
@@ -312,7 +312,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
       let s2 = s1.group().translate(tt, ((i + shift) * hPitch) / 2);
       drawObject(s2, DEVICE);
 
-      const idx = ( angle != 0 ) ? 7 - (i + 2) * 2 : 0 + (i + 2) * 2;
+      const idx = (angle != 0) ? 7 - (i + 2) * 2 : 0 + (i + 2) * 2;
       let s3 = s2.group().rotate(-90);
       drawSubText(s3, 'S' + idx, 0, 0.777, DEVICE);
     }
@@ -330,7 +330,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 
   // Border Frame washout
   draw.polygon([[x, x], [x, -x], [-x, -x], [-x, x]])
-      .fill('#FFF').opacity(WhiteWashout);
+    .fill('#FFF').opacity(WhiteWashout);
 
   renderTable(random2, PollutionCount, stage, tableContainerId);
 }
@@ -342,7 +342,7 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
     tableHtml += `<tr><td>${randomSites[i]}</td><td>${colorName}</td></tr>`;
   }
   tableHtml += '</table>';
-  
+
   const tbContainer = document.getElementById(tableContainerId);
   if (tbContainer) {
     tbContainer.innerHTML = tableHtml;
@@ -350,17 +350,17 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 }
 
 function globalRandom1() {
-    generateMap(4, 0, 'map-explorer', 'table-explorer');
-    generateMap(5, 0, 'map-creator', 'table-creator');
-    generateMap(6, 1, 'map-innovator', 'table-innovator');
-    generateMap(7, 1, 'map-master', 'table-master');
+  generateMap(4, 0, 'map-explorer', 'table-explorer');
+  generateMap(5, 0, 'map-creator', 'table-creator');
+  generateMap(6, 1, 'map-innovator', 'table-innovator');
+  generateMap(7, 1, 'map-master', 'table-master');
 }
 
 function globalRandom2() {
-    generateMap(6, 2, 'map-innovator', 'table-innovator');
-    generateMap(7, 2, 'map-master', 'table-master');
+  generateMap(6, 2, 'map-innovator', 'table-innovator');
+  generateMap(7, 2, 'map-master', 'table-master');
 }
 
 window.onload = () => {
-    globalRandom1();
+  globalRandom1();
 };
