@@ -208,7 +208,8 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   let random2;
 
   if (stage === 2) {
-    random2 = levelStates[PollutionCount].sites;
+    random2 = shuffleArray(levelStates[PollutionCount].sites);
+    levelStates[PollutionCount].sites = random2;
   } else {
     let random1 = generateRandomPollutions();
     random1 = random1.slice(0, PollutionCount);
