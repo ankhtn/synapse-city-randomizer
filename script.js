@@ -371,5 +371,5 @@ function globalRandom2() {
 }
 
 window.onload = () => {
-  globalRandom1();
+  // Empty onload, maps wait for user click
 };
