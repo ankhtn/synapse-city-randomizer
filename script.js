@@ -383,6 +383,7 @@ let isCompetitionMode = false;
 let compRoundActive = false;
 let compCountdownFinished = false;
 let timerRunning = false;
+let currentGameNumber = 1;
 
 function setBoxState(boxId, stateClass) {
   const box = document.getElementById(boxId);
@@ -405,6 +406,9 @@ function applyModeState() {
     chkQuar.checked = false;
     btnStart.disabled = true;
     
+    currentGameNumber = 1;
+    btnStart.innerText = `Start Game ${currentGameNumber}`;
+
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
     clock.innerText = '2:00';
@@ -423,6 +427,9 @@ function applyModeState() {
     chkQuar.checked = false;
     btnStart.disabled = true;
     
+    currentGameNumber = 1;
+    btnStart.innerText = `Start Game ${currentGameNumber}`;
+
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
     clock.innerText = '2:00';
@@ -462,7 +469,7 @@ function handleSingleModeToggle() {
 function handleReset() {
   if (isCompetitionMode) {
     if (compRoundActive && !compCountdownFinished) {
-      if (!confirm("The current round is not finished yet. Are you sure you want to start a New Round?")) {
+      if (!confirm("This round is still in progress (countdown not finished). Are you sure you want to abandon it and start a New Round?")) {
         return;
       }
     }
@@ -536,6 +543,9 @@ function compResetRound() {
 
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('btn-start').disabled = true;
+  
+  currentGameNumber = 1;
+  document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
 
   if (timerInterval) clearInterval(timerInterval);
   const clock = document.getElementById('countdown-clock');
@@ -588,7 +598,7 @@ function compRandom2() {
 
 function compStartTimer() {
   if (timerRunning && !compCountdownFinished) {
-    if (!confirm("The countdown is still running. Are you sure you want to restart it?")) {
+    if (!confirm(`The countdown for Game ${currentGameNumber - 1} is still running. Are you sure you want to start Game ${currentGameNumber}?`)) {
       return;
     }
   }
@@ -597,6 +607,9 @@ function compStartTimer() {
   timerRunning = true;
   compCountdownFinished = false;
   
+  currentGameNumber++;
+  document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
+
   let totalSeconds = 120;
   const clock = document.getElementById('countdown-clock');
   clock.style.color = '#2ecc71';
