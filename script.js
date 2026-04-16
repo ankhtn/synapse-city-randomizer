@@ -348,9 +348,19 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   // Sort ABC
   entries.sort((a, b) => a.site.localeCompare(b.site));
 
+  const LightColorMap = {
+    'Red': '#ffcccc',
+    'Yellow': '#ffffcc',
+    'Green': '#ccffcc',
+    'Blue': '#ccccff',
+    'Purple': '#e6ccff',
+    'Mystery': '#e6e6e6'
+  };
+
   let tableHtml = '<table class="info-table">';
   for (let entry of entries) {
-    tableHtml += `<tr><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
+    let bgColor = LightColorMap[entry.colorName] || 'transparent';
+    tableHtml += `<tr style="background-color: ${bgColor};"><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
   }
   tableHtml += '</table>';
 
