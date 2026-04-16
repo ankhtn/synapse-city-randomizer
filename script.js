@@ -378,7 +378,7 @@ function globalRandom1() {
 
 function globalRandom2() {
   if (!levelStates[6].sites || !levelStates[7].sites) {
-    alert("Please generate Random (Locations) first!");
+    alert("Please generate Random 1 first!");
     return;
   }
   generateMap(6, 2, 'map-innovator', 'table-innovator');
