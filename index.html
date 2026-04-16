@@ -128,12 +128,21 @@
             border-collapse: collapse;
             text-align: center;
             font-size: 12px;
+            table-layout: fixed;
         }
 
         .info-table th,
         .info-table td {
             border: 1px solid #ccc;
             padding: 6px 2px;
+        }
+
+        .info-table td:first-child {
+            width: 35%;
+        }
+
+        .info-table td:last-child {
+            width: 65%;
         }
 
         .info-table th {
