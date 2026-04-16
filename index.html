@@ -22,10 +22,27 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
+            justify-content: center;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .btn-group h4 {
+            margin: 0 0 5px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
         }
         button {
-            padding: 10px 20px;
+            padding: 8px 16px;
             font-size: 16px;
             font-weight: bold;
             color: white;
@@ -42,10 +59,23 @@
 </head>
 <body>
     <div class="controls">
-        <button onclick="generateMap(4)">Explorer (Level 1)</button>
-        <button onclick="generateMap(5)">Creator (Level 2)</button>
-        <button onclick="generateMap(6)">Innovator (Level 3)</button>
-        <button onclick="generateMap(7)">Master (Level 4)</button>
+        <div class="btn-group">
+            <h4>Explorer & Creator</h4>
+            <div>
+                <button onclick="generateMap(4, 0)">Explorer (L1)</button>
+                <button onclick="generateMap(5, 0)">Creator (L2)</button>
+            </div>
+        </div>
+        <div class="btn-group">
+            <h4>Innovator (Level 3)</h4>
+            <button onclick="generateMap(6, 1)">1. Random Vị trí</button>
+            <button onclick="generateMap(6, 2)">2. Random Màu sắc</button>
+        </div>
+        <div class="btn-group">
+            <h4>Master (Level 4)</h4>
+            <button onclick="generateMap(7, 1)">1. Random Vị trí</button>
+            <button onclick="generateMap(7, 2)">2. Random Màu sắc</button>
+        </div>
     </div>
     <div id="map-container"></div>
     <script src="script.js"></script>

@@ -185,16 +185,41 @@ function visualizePollutions(draw, randomSites, siteCount, oneColor = null) {
   console.log(configuration)
 }
 
-function generateMap(PollutionCount) {
+let savedRandomSites = null;
+let savedLevelCount = null;
+
+function generateMap(PollutionCount, stage = 0) {
+  if (stage === 2) {
+    if (!savedRandomSites || savedLevelCount !== PollutionCount) {
+      alert("Vui lòng ấn Random #1 để sinh vị trí trước!");
+      return;
+    }
+  }
+
   // Clear map container
   const container = document.getElementById('map-container');
   if (container) container.innerHTML = '';
 
   let OneColor = null;
-  let random1 = generateRandomPollutions();
-  random1 = random1.slice(0, PollutionCount);
-  console.log('Pollutions:', random1);
-  let random2 = shuffleArray(random1);
+  let random2;
+
+  if (stage === 2) {
+    random2 = savedRandomSites;
+  } else {
+    let random1 = generateRandomPollutions();
+    random1 = random1.slice(0, PollutionCount);
+    console.log('Pollutions:', random1);
+    random2 = shuffleArray(random1);
+    
+    if (stage === 1) {
+      savedRandomSites = random2;
+      savedLevelCount = PollutionCount;
+      OneColor = '#FFF';
+    } else {
+      savedRandomSites = null;
+      savedLevelCount = null;
+    }
+  }
 
   var draw0 = SVG().addTo('#map-container');
   var draw = draw0.size(ImageSize, ImageSize).group();
