@@ -3,98 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVG.js - Synapse City</title>
+    <title>AIROC 2026 - Synapse City Randomizer</title>
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.2.5/dist/svg.min.js"></script>
     <style>
         body { 
             margin: 0; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh; 
+            display: flex;
+            height: 100vh;
             background-color: #f0f0f0; 
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
-        .controls {
-            margin: 20px 0;
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .sidebar h1 {
+            font-size: 24px;
+            margin-top: 0;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        .sidebar p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #bdc3c7;
+        }
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
             padding: 15px;
+            box-sizing: border-box;
+            background-color: #ddd;
+        }
+        .grid-cell {
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-        .btn-group {
-            display: flex;
             flex-direction: column;
-            gap: 5px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background: #f9f9f9;
+            overflow: hidden;
         }
-        .btn-group h4 {
-            margin: 0 0 5px 0;
-            text-align: center;
-            font-size: 14px;
+        .cell-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .cell-header h4 {
+            margin: 0;
             color: #333;
+            font-size: 16px;
         }
         button {
-            padding: 8px 16px;
-            font-size: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
             font-weight: bold;
             color: white;
             background-color: #007bff;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s;
+            margin-left: 5px;
         }
         button:hover { background-color: #0056b3; }
+        
+        .cell-body {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+            min-height: 0;
+            justify-content: center;
+        }
+        .table-col {
+            width: 120px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+        .map-col {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        svg { 
+            width: 100%; 
+            height: 100%; 
+            background-color: white; 
+            border-radius: 5px;
+        }
+
         .info-table {
-            margin: 10px auto 20px auto;
+            width: 100%;
             border-collapse: collapse;
             text-align: center;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 16px;
+            font-size: 12px;
         }
         .info-table th, .info-table td {
             border: 1px solid #ccc;
-            padding: 8px 15px;
-            min-width: 60px;
+            padding: 6px 2px;
         }
         .info-table th { background-color: #e9ecef; color: #333; }
         .info-table td { font-weight: bold; }
-        #map-container { display: flex; justify-content: center; }
-        svg { background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-    <div class="controls">
-        <div class="btn-group">
-            <h4>Explorer</h4>
-            <button onclick="generateMap(4, 0)">Random</button>
+    <div class="sidebar">
+        <h1>Synapse City</h1>
+        <p>Mô phỏng 4 cấp độ Random cho sa bàn AIROC 2026 CODE RED.</p>
+        <p>
+            <b>1. Explorer:</b> 4 khối (Biết màu).<br/>
+            <b>2. Creator:</b> 5 khối (Biết màu).<br/>
+            <b>3. Innovator:</b> 6 khối (Vị trí đóng).<br/>
+            <b>4. Master:</b> 7 khối (Vị trí đóng).
+        </p>
+    </div>
+
+    <div class="main-content">
+        <!-- Explorer (L1) -->
+        <div class="grid-cell" id="cell-explorer">
+            <div class="cell-header">
+                <h4>1. Explorer (L1)</h4>
+                <div><button onclick="generateMap(4, 0, 'map-explorer', 'table-explorer')">Random Default</button></div>
+            </div>
+            <div class="cell-body">
+                <div class="table-col" id="table-explorer"></div>
+                <div class="map-col" id="map-explorer"></div>
+            </div>
         </div>
-        <div class="btn-group">
-            <h4>Creator</h4>
-            <button onclick="generateMap(5, 0)">Random</button>
+
+        <!-- Creator (L2) -->
+        <div class="grid-cell" id="cell-creator">
+            <div class="cell-header">
+                <h4>2. Creator (L2)</h4>
+                <div><button onclick="generateMap(5, 0, 'map-creator', 'table-creator')">Random Default</button></div>
+            </div>
+            <div class="cell-body">
+                <div class="table-col" id="table-creator"></div>
+                <div class="map-col" id="map-creator"></div>
+            </div>
         </div>
-        <div class="btn-group">
-            <h4>Innovator</h4>
-            <button onclick="generateMap(6, 1)">1. Random Vị trí</button>
-            <button onclick="generateMap(6, 2)">2. Random Màu sắc</button>
+
+        <!-- Innovator (L3) -->
+        <div class="grid-cell" id="cell-innovator">
+            <div class="cell-header">
+                <h4>3. Innovator (L3)</h4>
+                <div>
+                    <button onclick="generateMap(6, 1, 'map-innovator', 'table-innovator')">1. Vị trí</button>
+                    <button onclick="generateMap(6, 2, 'map-innovator', 'table-innovator')">2. Màu sắc</button>
+                </div>
+            </div>
+            <div class="cell-body">
+                <div class="table-col" id="table-innovator"></div>
+                <div class="map-col" id="map-innovator"></div>
+            </div>
         </div>
-        <div class="btn-group">
-            <h4>Master</h4>
-            <button onclick="generateMap(7, 1)">1. Random Vị trí</button>
-            <button onclick="generateMap(7, 2)">2. Random Màu sắc</button>
+
+        <!-- Master (L4) -->
+        <div class="grid-cell" id="cell-master">
+            <div class="cell-header">
+                <h4>4. Master (L4)</h4>
+                <div>
+                    <button onclick="generateMap(7, 1, 'map-master', 'table-master')">1. Vị trí</button>
+                    <button onclick="generateMap(7, 2, 'map-master', 'table-master')">2. Màu sắc</button>
+                </div>
+            </div>
+            <div class="cell-body">
+                <div class="table-col" id="table-master"></div>
+                <div class="map-col" id="map-master"></div>
+            </div>
         </div>
     </div>
-    <div id="info-table-container"></div>
-    <div id="map-container"></div>
+
     <script src="script.js"></script>
 </body>
 </html>

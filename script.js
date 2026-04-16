@@ -185,44 +185,45 @@ function visualizePollutions(draw, randomSites, siteCount, oneColor = null) {
   console.log(configuration)
 }
 
-let savedRandomSites = null;
-let savedLevelCount = null;
+let levelStates = {
+  4: { sites: null },
+  5: { sites: null },
+  6: { sites: null },
+  7: { sites: null }
+};
 
-function generateMap(PollutionCount, stage = 0) {
+function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
   if (stage === 2) {
-    if (!savedRandomSites || savedLevelCount !== PollutionCount) {
-      alert("Vui lòng ấn Random #1 để sinh vị trí trước!");
+    if (!levelStates[PollutionCount].sites) {
+      alert("Vui lòng ấn Random 1 để sinh vị trí trước!");
       return;
     }
   }
 
   // Clear map container
-  const container = document.getElementById('map-container');
+  const container = document.getElementById(mapContainerId);
   if (container) container.innerHTML = '';
 
   let OneColor = null;
   let random2;
 
   if (stage === 2) {
-    random2 = savedRandomSites;
+    random2 = levelStates[PollutionCount].sites;
   } else {
     let random1 = generateRandomPollutions();
     random1 = random1.slice(0, PollutionCount);
-    console.log('Pollutions:', random1);
+    console.log('Pollutions Level ' + PollutionCount + ':', random1);
     random2 = shuffleArray(random1);
     
+    levelStates[PollutionCount].sites = random2;
+    
     if (stage === 1) {
-      savedRandomSites = random2;
-      savedLevelCount = PollutionCount;
       OneColor = '#FFF';
-    } else {
-      savedRandomSites = null;
-      savedLevelCount = null;
     }
   }
 
-  var draw0 = SVG().addTo('#map-container');
-  var draw = draw0.size(ImageSize, ImageSize).group();
+  var draw0 = SVG().addTo('#' + mapContainerId);
+  var draw = draw0.size('100%', '100%').viewbox(0, 0, ImageSize, ImageSize).group();
   draw.translate(ImageSize / 2, ImageSize / 2);
   draw.scale(ImageSize / 1200);
 
@@ -331,30 +332,26 @@ function generateMap(PollutionCount, stage = 0) {
   draw.polygon([[x, x], [x, -x], [-x, -x], [-x, x]])
       .fill('#FFF').opacity(WhiteWashout);
 
-  renderTable(random2, PollutionCount, stage);
+  renderTable(random2, PollutionCount, stage, tableContainerId);
 }
 
-function renderTable(randomSites, siteCount, stage) {
-  let tableHtml = '<table class="info-table"><tr>';
-  // Row 1: Positions
-  for (let i = 0; i < siteCount; i++) {
-    tableHtml += `<th>${randomSites[i]}</th>`;
-  }
-  tableHtml += '</tr><tr>';
-  // Row 2: Colors
+function renderTable(randomSites, siteCount, stage, tableContainerId) {
+  let tableHtml = '<table class="info-table"><tr><th>Vị trí</th><th>Màu sắc</th></tr>';
   for (let i = 0; i < siteCount; i++) {
     let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
-    tableHtml += `<td>${colorName}</td>`;
+    tableHtml += `<tr><td>${randomSites[i]}</td><td>${colorName}</td></tr>`;
   }
-  tableHtml += '</tr></table>';
+  tableHtml += '</table>';
   
-  const tbContainer = document.getElementById('info-table-container');
+  const tbContainer = document.getElementById(tableContainerId);
   if (tbContainer) {
     tbContainer.innerHTML = tableHtml;
   }
 }
 
-// Ensure first random map loads with default Explorer (4 elements)
 window.onload = () => {
-    generateMap(4);
+    generateMap(4, 0, 'map-explorer', 'table-explorer');
+    generateMap(5, 0, 'map-creator', 'table-creator');
+    generateMap(6, 1, 'map-innovator', 'table-innovator');
+    generateMap(7, 1, 'map-master', 'table-master');
 };
