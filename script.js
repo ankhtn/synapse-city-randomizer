@@ -338,7 +338,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 function renderTable(randomSites, siteCount, stage, tableContainerId) {
   let tableHtml = '<table class="info-table"><tr><th>Location</th><th>Color</th></tr>';
   for (let i = 0; i < siteCount; i++) {
-    let colorName = (stage === 1) ? 'UNKNOWN' : (PollutionColors[i][0] || 'NONE');
+    let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
     tableHtml += `<tr><td>${randomSites[i]}</td><td>${colorName}</td></tr>`;
   }
   tableHtml += '</table>';
