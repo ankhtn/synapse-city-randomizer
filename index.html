@@ -67,8 +67,8 @@
             font-size: 16px;
         }
         button {
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 10px 15px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
             background-color: #007bff;
@@ -76,9 +76,17 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s;
-            margin-left: 5px;
+            width: 100%;
+            margin-bottom: 10px;
         }
         button:hover { background-color: #0056b3; }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+        .global-buttons {
+            margin-top: 20px;
+        }
         
         .cell-body {
             display: flex;
@@ -122,13 +130,17 @@
 <body>
     <div class="sidebar">
         <h1>Synapse City</h1>
-        <p>Mô phỏng 4 cấp độ Random cho sa bàn AIROC 2026 CODE RED.</p>
+        <p>AIROC 2026 CODE RED Randomizer.</p>
         <p>
-            <b>1. Explorer:</b> 4 khối (Biết màu).<br/>
-            <b>2. Creator:</b> 5 khối (Biết màu).<br/>
-            <b>3. Innovator:</b> 6 khối (Vị trí đóng).<br/>
-            <b>4. Master:</b> 7 khối (Vị trí đóng).
+            <b>1. Explorer:</b> 4 blocks (Colors Known).<br/>
+            <b>2. Creator:</b> 5 blocks (Colors Known).<br/>
+            <b>3. Innovator:</b> 6 blocks (Colors Hidden).<br/>
+            <b>4. Master:</b> 7 blocks (Colors Hidden).
         </p>
+        <div class="global-buttons">
+            <button onclick="globalRandom1()">Random #1 (Locations)</button>
+            <button onclick="globalRandom2()">Random #2 (Colors)</button>
+        </div>
     </div>
 
     <div class="main-content">
@@ -136,7 +148,6 @@
         <div class="grid-cell" id="cell-explorer">
             <div class="cell-header">
                 <h4>1. Explorer (L1)</h4>
-                <div><button onclick="generateMap(4, 0, 'map-explorer', 'table-explorer')">Random Default</button></div>
             </div>
             <div class="cell-body">
                 <div class="table-col" id="table-explorer"></div>
@@ -148,7 +159,6 @@
         <div class="grid-cell" id="cell-creator">
             <div class="cell-header">
                 <h4>2. Creator (L2)</h4>
-                <div><button onclick="generateMap(5, 0, 'map-creator', 'table-creator')">Random Default</button></div>
             </div>
             <div class="cell-body">
                 <div class="table-col" id="table-creator"></div>
@@ -160,10 +170,6 @@
         <div class="grid-cell" id="cell-innovator">
             <div class="cell-header">
                 <h4>3. Innovator (L3)</h4>
-                <div>
-                    <button onclick="generateMap(6, 1, 'map-innovator', 'table-innovator')">1. Vị trí</button>
-                    <button onclick="generateMap(6, 2, 'map-innovator', 'table-innovator')">2. Màu sắc</button>
-                </div>
             </div>
             <div class="cell-body">
                 <div class="table-col" id="table-innovator"></div>
@@ -175,10 +181,6 @@
         <div class="grid-cell" id="cell-master">
             <div class="cell-header">
                 <h4>4. Master (L4)</h4>
-                <div>
-                    <button onclick="generateMap(7, 1, 'map-master', 'table-master')">1. Vị trí</button>
-                    <button onclick="generateMap(7, 2, 'map-master', 'table-master')">2. Màu sắc</button>
-                </div>
             </div>
             <div class="cell-body">
                 <div class="table-col" id="table-master"></div>

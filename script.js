@@ -195,7 +195,7 @@ let levelStates = {
 function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
   if (stage === 2) {
     if (!levelStates[PollutionCount].sites) {
-      alert("Vui lòng ấn Random 1 để sinh vị trí trước!");
+      alert("Please generate Random #1 (Locations) first!");
       return;
     }
   }
@@ -336,9 +336,9 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 }
 
 function renderTable(randomSites, siteCount, stage, tableContainerId) {
-  let tableHtml = '<table class="info-table"><tr><th>Vị trí</th><th>Màu sắc</th></tr>';
+  let tableHtml = '<table class="info-table"><tr><th>Location</th><th>Color</th></tr>';
   for (let i = 0; i < siteCount; i++) {
-    let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
+    let colorName = (stage === 1) ? 'UNKNOWN' : (PollutionColors[i][0] || 'NONE');
     tableHtml += `<tr><td>${randomSites[i]}</td><td>${colorName}</td></tr>`;
   }
   tableHtml += '</table>';
@@ -349,9 +349,18 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   }
 }
 
-window.onload = () => {
+function globalRandom1() {
     generateMap(4, 0, 'map-explorer', 'table-explorer');
     generateMap(5, 0, 'map-creator', 'table-creator');
     generateMap(6, 1, 'map-innovator', 'table-innovator');
     generateMap(7, 1, 'map-master', 'table-master');
+}
+
+function globalRandom2() {
+    generateMap(6, 2, 'map-innovator', 'table-innovator');
+    generateMap(7, 2, 'map-master', 'table-master');
+}
+
+window.onload = () => {
+    globalRandom1();
 };
