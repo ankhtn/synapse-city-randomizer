@@ -330,6 +330,28 @@ function generateMap(PollutionCount, stage = 0) {
   // Border Frame washout
   draw.polygon([[x, x], [x, -x], [-x, -x], [-x, x]])
       .fill('#FFF').opacity(WhiteWashout);
+
+  renderTable(random2, PollutionCount, stage);
+}
+
+function renderTable(randomSites, siteCount, stage) {
+  let tableHtml = '<table class="info-table"><tr>';
+  // Row 1: Positions
+  for (let i = 0; i < siteCount; i++) {
+    tableHtml += `<th>${randomSites[i]}</th>`;
+  }
+  tableHtml += '</tr><tr>';
+  // Row 2: Colors
+  for (let i = 0; i < siteCount; i++) {
+    let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
+    tableHtml += `<td>${colorName}</td>`;
+  }
+  tableHtml += '</tr></table>';
+  
+  const tbContainer = document.getElementById('info-table-container');
+  if (tbContainer) {
+    tbContainer.innerHTML = tableHtml;
+  }
 }
 
 // Ensure first random map loads with default Explorer (4 elements)
