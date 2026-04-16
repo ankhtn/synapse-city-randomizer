@@ -326,7 +326,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   drawCellText(draw, 'F', +2, -2);
   drawCellText(draw, 'G', 0, +2);
   drawCellText(draw, 'H', +2, 0);
-  drawCellText(draw, 'TERMINAL', +2, +2, -45);
+  drawCellText(draw, 'CRL', +2, +2, -45);
 
   // Border Frame washout
   draw.polygon([[x, x], [x, -x], [-x, -x], [-x, x]])
