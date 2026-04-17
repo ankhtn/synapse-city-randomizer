@@ -384,6 +384,7 @@ let compRoundActive = false;
 let compCountdownFinished = false;
 let timerRunning = false;
 let currentGameNumber = 1;
+let currentRemainingSeconds = 0;
 
 function setBoxState(boxId, stateClass) {
   const box = document.getElementById(boxId);
@@ -394,6 +395,7 @@ function applyModeState() {
   const btnReset = document.getElementById('btn-reset');
   const btnRand1 = document.getElementById('btn-random1');
   const btnRand2 = document.getElementById('btn-random2');
+  const chkPrac = document.getElementById('chk-practice');
   const chkQuar = document.getElementById('chk-quarantine');
   const btnStart = document.getElementById('btn-start');
 
@@ -402,6 +404,8 @@ function applyModeState() {
     btnReset.disabled = false;
     btnRand1.disabled = true;
     btnRand2.disabled = true;
+    chkPrac.disabled = true;
+    chkPrac.checked = false;
     chkQuar.disabled = true;
     chkQuar.checked = false;
     btnStart.disabled = true;
@@ -419,6 +423,7 @@ function applyModeState() {
     clock.style.color = '#95a5a6';
 
     setBoxState('box-random1', 'inactive');
+    setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
     setBoxState('box-random2', 'inactive');
     setBoxState('box-slot', 'inactive');
@@ -427,6 +432,8 @@ function applyModeState() {
     btnReset.disabled = false;
     btnRand1.disabled = false;
     btnRand2.disabled = false;
+    chkPrac.disabled = true;
+    chkPrac.checked = false;
     chkQuar.disabled = true;
     chkQuar.checked = false;
     btnStart.disabled = true;
@@ -444,6 +451,7 @@ function applyModeState() {
     clock.style.color = '#95a5a6';
 
     setBoxState('box-random1', 'active');
+    setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
     setBoxState('box-random2', 'active');
     setBoxState('box-slot', 'inactive');
@@ -503,6 +511,12 @@ function handleRandom2() {
   }
 }
 
+function handleCheckPractice() {
+  if (isCompetitionMode) {
+    compCheckPractice();
+  }
+}
+
 function handleCheckQuarantine() {
   if (isCompetitionMode) {
     compCheckQuarantine();
@@ -545,9 +559,13 @@ function compResetRound() {
 
   document.getElementById('btn-random1').disabled = false;
 
-  const chk = document.getElementById('chk-quarantine');
-  chk.checked = false;
-  chk.disabled = true;
+  const chkPrac = document.getElementById('chk-practice');
+  chkPrac.checked = false;
+  chkPrac.disabled = true;
+
+  const chkQuar = document.getElementById('chk-quarantine');
+  chkQuar.checked = false;
+  chkQuar.disabled = true;
 
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('btn-start').disabled = true;
@@ -561,6 +579,7 @@ function compResetRound() {
   clock.style.color = '#95a5a6';
 
   setBoxState('box-random1', 'active');
+  setBoxState('box-practice', 'inactive');
   setBoxState('box-quarantine', 'inactive');
   setBoxState('box-random2', 'inactive');
   setBoxState('box-slot', 'inactive');
@@ -573,12 +592,28 @@ function compResetRound() {
 function compRandom1() {
   globalRandom1();
   document.getElementById('btn-random1').disabled = true;
-  document.getElementById('chk-quarantine').disabled = false;
+  document.getElementById('chk-practice').disabled = false;
 
   setBoxState('box-random1', 'completed');
-  setBoxState('box-quarantine', 'active');
+  setBoxState('box-practice', 'active');
   
   compRoundActive = true;
+}
+
+function compCheckPractice() {
+  const chkPrac = document.getElementById('chk-practice');
+  const chkQuar = document.getElementById('chk-quarantine');
+  if (chkPrac.checked) {
+    chkQuar.disabled = false;
+    setBoxState('box-practice', 'completed');
+    setBoxState('box-quarantine', 'active');
+  } else {
+    chkQuar.disabled = true;
+    chkQuar.checked = false;
+    compCheckQuarantine();
+    setBoxState('box-practice', 'active');
+    setBoxState('box-quarantine', 'inactive');
+  }
 }
 
 function compCheckQuarantine() {
@@ -606,33 +641,47 @@ function compRandom2() {
 
 function compStartTimer() {
   if (timerRunning && !compCountdownFinished) {
-    if (!confirm(`The countdown for Game ${currentGameNumber - 1} is still running. Are you sure you want to start Game ${currentGameNumber}?`)) {
-      return;
+    currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
+    updateClock(currentRemainingSeconds);
+    
+    if (currentRemainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      currentRemainingSeconds = 0;
+      const clock = document.getElementById('countdown-clock');
+      clock.style.color = '#e74c3c';
+      compCountdownFinished = true;
+      timerRunning = false;
+      
+      currentGameNumber++;
+      document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
     }
+    return;
   }
 
   if (timerInterval) clearInterval(timerInterval);
   timerRunning = true;
   compCountdownFinished = false;
   
-  currentGameNumber++;
-  document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
+  document.getElementById('btn-start').innerText = `Skip Time`;
 
-  let totalSeconds = 120;
+  currentRemainingSeconds = 120;
   const clock = document.getElementById('countdown-clock');
   clock.style.color = '#2ecc71';
-  updateClock(totalSeconds);
+  updateClock(currentRemainingSeconds);
 
   timerInterval = setInterval(() => {
-    totalSeconds--;
-    if (totalSeconds <= 0) {
+    currentRemainingSeconds--;
+    if (currentRemainingSeconds <= 0) {
       clearInterval(timerInterval);
-      totalSeconds = 0;
+      currentRemainingSeconds = 0;
       clock.style.color = '#e74c3c';
       compCountdownFinished = true;
       timerRunning = false;
+      
+      currentGameNumber++;
+      document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
     }
-    updateClock(totalSeconds);
+    updateClock(currentRemainingSeconds);
   }, 1000);
 }
 

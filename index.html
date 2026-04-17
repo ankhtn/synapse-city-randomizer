@@ -193,7 +193,7 @@
         }
 
         .comp-box {
-            padding: 10px;
+            padding: 6px 10px;
             margin: 5px auto;
             border-radius: 6px;
             width: 85%;
@@ -208,7 +208,7 @@
         .comp-box .box-title {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
             cursor: default;
             user-select: none;
         }
@@ -217,7 +217,7 @@
             background-color: #aeb6bf;
             color: #566573;
         }
-        
+
         .state-inactive .box-title {
             color: #566573;
         }
@@ -272,14 +272,15 @@
             width: 100%;
             border-collapse: collapse;
             text-align: center;
-            font-size: 14px;
+            font-size: 18px;
+            font-weight: bold;
             table-layout: fixed;
         }
 
         .info-table th,
         .info-table td {
             border: 1px solid #ccc;
-            padding: 6px 2px;
+            padding: 6px 0;
         }
 
         .info-table td:first-child {
@@ -303,7 +304,7 @@
 
 <body>
     <div class="main-layout">
-        
+
         <!-- Left Column -->
         <div class="side-column">
             <!-- Explorer -->
@@ -336,16 +337,26 @@
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
                 <button id="btn-reset" onclick="handleReset()">New Round</button>
 
-                <div id="group-round" style="width: 100%; border: 1px dashed #7f8c8d; padding: 10px 0; border-radius: 6px; margin-top: 10px; background: rgba(0,0,0,0.1);">
-                    
+                <div id="group-round"
+                    style="width: 100%; border: 1px dashed #7f8c8d; padding: 10px 0; border-radius: 6px; margin-top: 10px; background: rgba(0,0,0,0.1);">
+
                     <div class="comp-box state-active" id="box-random1">
                         <div class="box-title">Random 1</div>
                         <button id="btn-random1" onclick="handleRandom1()" style="margin-bottom: 0;">Announce</button>
                     </div>
 
+                    <div class="comp-box state-inactive" id="box-practice">
+                        <div class="box-title">Practice</div>
+                        <label
+                            style="font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;">
+                            <input type="checkbox" id="chk-practice" onchange="handleCheckPractice()"> Done
+                        </label>
+                    </div>
+
                     <div class="comp-box state-inactive" id="box-quarantine">
                         <div class="box-title">Quarantine</div>
-                        <label style="font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;">
+                        <label
+                            style="font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;">
                             <input type="checkbox" id="chk-quarantine" onchange="handleCheckQuarantine()"> Done
                         </label>
                     </div>
@@ -356,7 +367,6 @@
                     </div>
 
                     <div class="comp-box state-inactive" id="box-slot">
-                        <div class="box-title">Slot</div>
                         <button id="btn-start" onclick="handleStartTimer()">Start Game 1</button>
 
                         <div id="countdown-clock"
@@ -376,8 +386,10 @@
                     <span class="slider round"></span>
                 </label>
                 <div class="toggle-labels">
-                    <span id="label-free" class="active" onclick="setMode(false)" style="cursor: pointer;">Free Run</span>
-                    <span id="label-comp" class="inactive" onclick="setMode(true)" style="cursor: pointer;">Competition</span>
+                    <span id="label-free" class="active" onclick="setMode(false)" style="cursor: pointer;">Free
+                        Run</span>
+                    <span id="label-comp" class="inactive" onclick="setMode(true)"
+                        style="cursor: pointer;">Competition</span>
                 </div>
             </div>
         </div>
