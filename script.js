@@ -379,6 +379,41 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   }
 }
 
+let isCompetitionMode = false;
+
+function handleModeChange(mode) {
+  const toggleFree = document.getElementById('toggle-free');
+  const toggleComp = document.getElementById('toggle-comp');
+  
+  if (mode === 'free') {
+    if (toggleFree.checked) {
+      toggleComp.checked = false;
+      isCompetitionMode = false;
+    } else {
+      toggleComp.checked = true;
+      isCompetitionMode = true;
+    }
+  } else if (mode === 'comp') {
+    if (toggleComp.checked) {
+      toggleFree.checked = false;
+      isCompetitionMode = true;
+    } else {
+      toggleFree.checked = true;
+      isCompetitionMode = false;
+    }
+  }
+  
+  if (isCompetitionMode) {
+    document.getElementById('free-run-buttons').style.display = 'none';
+    document.getElementById('comp-mode-buttons').style.display = 'flex';
+    compResetRound();
+  } else {
+    document.getElementById('free-run-buttons').style.display = 'flex';
+    document.getElementById('comp-mode-buttons').style.display = 'none';
+    globalClear();
+  }
+}
+
 function globalRandom1() {
   generateMap(4, 0, 'map-explorer', 'table-explorer');
   generateMap(5, 0, 'map-creator', 'table-creator');
@@ -387,7 +422,7 @@ function globalRandom1() {
 }
 
 function globalRandom2() {
-  if (!levelStates[6].sites || !levelStates[7].sites) {
+  if (!levelStates[6].sites || !levelStates[7].sites || levelStates[6].sites.length === 0) {
     alert("Please generate Random 1 first!");
     return;
   }
@@ -400,8 +435,78 @@ function globalClear() {
   generateMap(5, -1, 'map-creator', 'table-creator');
   generateMap(6, -1, 'map-innovator', 'table-innovator');
   generateMap(7, -1, 'map-master', 'table-master');
+
+  const btn1 = document.getElementById('btn-free-random1');
+  const btn2 = document.getElementById('btn-free-random2');
+  if (btn1) btn1.disabled = false;
+  if (btn2) btn2.disabled = false;
+}
+
+let timerInterval = null;
+
+function compResetRound() {
+  globalClear();
+
+  document.getElementById('btn-comp-random1').disabled = false;
+  
+  const chk = document.getElementById('chk-quarantine');
+  chk.checked = false;
+  chk.disabled = true;
+
+  document.getElementById('btn-comp-random2').disabled = true;
+  document.getElementById('btn-comp-start').disabled = true;
+
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('countdown-clock').innerText = '02:00';
+}
+
+function compRandom1() {
+  globalRandom1();
+  document.getElementById('btn-comp-random1').disabled = true;
+  document.getElementById('chk-quarantine').disabled = false;
+}
+
+function compCheckQuarantine() {
+  const chk = document.getElementById('chk-quarantine');
+  if (chk.checked) {
+    document.getElementById('btn-comp-random2').disabled = false;
+  } else {
+    document.getElementById('btn-comp-random2').disabled = true;
+  }
+}
+
+function compRandom2() {
+  globalRandom2();
+  document.getElementById('btn-comp-random2').disabled = true;
+  document.getElementById('chk-quarantine').disabled = true;
+  document.getElementById('btn-comp-start').disabled = false;
+}
+
+function compStartTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  let totalSeconds = 120;
+  updateClock(totalSeconds);
+
+  timerInterval = setInterval(() => {
+    totalSeconds--;
+    if (totalSeconds <= 0) {
+      clearInterval(timerInterval);
+      totalSeconds = 0;
+    }
+    updateClock(totalSeconds);
+  }, 1000);
+}
+
+function updateClock(seconds) {
+  let m = Math.floor(seconds / 60);
+  let s = seconds % 60;
+  let mm = m < 10 ? '0' + m : m;
+  let ss = s < 10 ? '0' + s : s;
+  document.getElementById('countdown-clock').innerText = `${mm}:${ss}`;
 }
 
 window.onload = () => {
+  document.getElementById('comp-mode-buttons').style.display = 'none';
+  document.getElementById('free-run-buttons').style.display = 'flex';
   globalClear();
 };
