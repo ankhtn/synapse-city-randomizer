@@ -381,7 +381,8 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   let tableHtml = '<table class="info-table">';
   for (let entry of entries) {
     let bgColor = LightColorMap[entry.colorName] || 'transparent';
-    tableHtml += `<tr style="background-color: ${bgColor};"><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
+    let textColor = (entry.site === '?' || entry.colorName === '?') ? '#aeb6bf' : '#333';
+    tableHtml += `<tr style="background-color: ${bgColor}; color: ${textColor};"><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
   }
   tableHtml += '</table>';
 
@@ -699,7 +700,7 @@ function updateClock(seconds) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
   let ss = s < 10 ? '0' + s : s;
-  document.getElementById('countdown-clock').innerText = `${m}:${ss}`;
+  document.getElementById('countdown-clock').innerText = ` ${m}:${ss}`;
 
   let elapsed = 120 - seconds;
   let percent = (elapsed / 120) * 100;
