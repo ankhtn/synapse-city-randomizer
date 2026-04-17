@@ -400,7 +400,9 @@ function applyModeState() {
     btnStart.disabled = true;
     
     if (timerInterval) clearInterval(timerInterval);
-    document.getElementById('countdown-clock').innerText = '02:00';
+    const clock = document.getElementById('countdown-clock');
+    clock.innerText = '2:00';
+    clock.style.color = '#95a5a6';
   }
 }
 
@@ -503,7 +505,9 @@ function compResetRound() {
   document.getElementById('btn-start').disabled = true;
 
   if (timerInterval) clearInterval(timerInterval);
-  document.getElementById('countdown-clock').innerText = '02:00';
+  const clock = document.getElementById('countdown-clock');
+  clock.innerText = '2:00';
+  clock.style.color = '#95a5a6';
 }
 
 function compRandom1() {
@@ -531,6 +535,8 @@ function compRandom2() {
 function compStartTimer() {
   if (timerInterval) clearInterval(timerInterval);
   let totalSeconds = 120;
+  const clock = document.getElementById('countdown-clock');
+  clock.style.color = '#2ecc71';
   updateClock(totalSeconds);
 
   timerInterval = setInterval(() => {
@@ -538,6 +544,7 @@ function compStartTimer() {
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
       totalSeconds = 0;
+      clock.style.color = '#e74c3c';
     }
     updateClock(totalSeconds);
   }, 1000);
@@ -546,9 +553,8 @@ function compStartTimer() {
 function updateClock(seconds) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
-  let mm = m < 10 ? '0' + m : m;
   let ss = s < 10 ? '0' + s : s;
-  document.getElementById('countdown-clock').innerText = `${mm}:${ss}`;
+  document.getElementById('countdown-clock').innerText = `${m}:${ss}`;
 }
 
 window.onload = () => {
