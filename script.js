@@ -395,8 +395,8 @@ function applyModeState() {
   const btnReset = document.getElementById('btn-reset');
   const btnRand1 = document.getElementById('btn-random1');
   const btnRand2 = document.getElementById('btn-random2');
-  const chkPrac = document.getElementById('chk-practice');
-  const chkQuar = document.getElementById('chk-quarantine');
+  const btnPrac = document.getElementById('btn-practice');
+  const btnQuar = document.getElementById('btn-quarantine');
   const btnStart = document.getElementById('btn-start');
 
   if (isCompetitionMode) {
@@ -404,10 +404,8 @@ function applyModeState() {
     btnReset.disabled = false;
     btnRand1.disabled = true;
     btnRand2.disabled = true;
-    chkPrac.disabled = true;
-    chkPrac.checked = false;
-    chkQuar.disabled = true;
-    chkQuar.checked = false;
+    btnPrac.disabled = true;
+    btnQuar.disabled = true;
     btnStart.disabled = true;
     
     currentGameNumber = 1;
@@ -432,10 +430,8 @@ function applyModeState() {
     btnReset.disabled = false;
     btnRand1.disabled = false;
     btnRand2.disabled = false;
-    chkPrac.disabled = true;
-    chkPrac.checked = false;
-    chkQuar.disabled = true;
-    chkQuar.checked = false;
+    btnPrac.disabled = true;
+    btnQuar.disabled = true;
     btnStart.disabled = true;
     
     currentGameNumber = 1;
@@ -511,15 +507,15 @@ function handleRandom2() {
   }
 }
 
-function handleCheckPractice() {
+function handleBtnPractice() {
   if (isCompetitionMode) {
-    compCheckPractice();
+    compBtnPractice();
   }
 }
 
-function handleCheckQuarantine() {
+function handleBtnQuarantine() {
   if (isCompetitionMode) {
-    compCheckQuarantine();
+    compBtnQuarantine();
   }
 }
 
@@ -559,13 +555,11 @@ function compResetRound() {
 
   document.getElementById('btn-random1').disabled = false;
 
-  const chkPrac = document.getElementById('chk-practice');
-  chkPrac.checked = false;
-  chkPrac.disabled = true;
+  const btnPrac = document.getElementById('btn-practice');
+  btnPrac.disabled = true;
 
-  const chkQuar = document.getElementById('chk-quarantine');
-  chkQuar.checked = false;
-  chkQuar.disabled = true;
+  const btnQuar = document.getElementById('btn-quarantine');
+  btnQuar.disabled = true;
 
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('btn-start').disabled = true;
@@ -592,7 +586,7 @@ function compResetRound() {
 function compRandom1() {
   globalRandom1();
   document.getElementById('btn-random1').disabled = true;
-  document.getElementById('chk-practice').disabled = false;
+  document.getElementById('btn-practice').disabled = false;
 
   setBoxState('box-random1', 'completed');
   setBoxState('box-practice', 'active');
@@ -600,42 +594,24 @@ function compRandom1() {
   compRoundActive = true;
 }
 
-function compCheckPractice() {
-  const chkPrac = document.getElementById('chk-practice');
-  const chkQuar = document.getElementById('chk-quarantine');
-  if (chkPrac.checked) {
-    chkQuar.disabled = false;
-    setBoxState('box-practice', 'completed');
-    setBoxState('box-quarantine', 'active');
-  } else {
-    chkQuar.disabled = true;
-    chkQuar.checked = false;
-    compCheckQuarantine();
-    setBoxState('box-practice', 'active');
-    setBoxState('box-quarantine', 'inactive');
-  }
+function compBtnPractice() {
+  document.getElementById('btn-practice').disabled = true;
+  document.getElementById('btn-quarantine').disabled = false;
+  setBoxState('box-practice', 'completed');
+  setBoxState('box-quarantine', 'active');
 }
 
-function compCheckQuarantine() {
-  const chk = document.getElementById('chk-quarantine');
-  const chkPrac = document.getElementById('chk-practice');
-  if (chk.checked) {
-    document.getElementById('btn-random2').disabled = false;
-    setBoxState('box-quarantine', 'completed');
-    setBoxState('box-random2', 'active');
-    chkPrac.disabled = true;
-  } else {
-    document.getElementById('btn-random2').disabled = true;
-    setBoxState('box-quarantine', 'active');
-    setBoxState('box-random2', 'inactive');
-    chkPrac.disabled = false;
-  }
+function compBtnQuarantine() {
+  document.getElementById('btn-quarantine').disabled = true;
+  document.getElementById('btn-random2').disabled = false;
+  setBoxState('box-quarantine', 'completed');
+  setBoxState('box-random2', 'active');
 }
 
 function compRandom2() {
   globalRandom2();
   document.getElementById('btn-random2').disabled = true;
-  document.getElementById('chk-quarantine').disabled = true;
+  document.getElementById('btn-quarantine').disabled = true;
   document.getElementById('btn-start').disabled = false;
 
   setBoxState('box-random2', 'completed');
