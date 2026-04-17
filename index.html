@@ -266,6 +266,8 @@
             height: 100%;
             background-color: white;
             border-radius: 5px;
+            cursor: default;
+            user-select: none;
         }
 
         .info-table {
@@ -275,6 +277,8 @@
             font-size: 18px;
             font-weight: bold;
             table-layout: fixed;
+            cursor: default;
+            user-select: none;
         }
 
         .info-table th,
@@ -352,7 +356,8 @@
 
                     <div class="comp-box state-inactive" id="box-quarantine">
                         <div class="box-title">Quarantine</div>
-                        <button id="btn-quarantine" onclick="handleBtnQuarantine()" style="margin-bottom: 0;">Done</button>
+                        <button id="btn-quarantine" onclick="handleBtnQuarantine()"
+                            style="margin-bottom: 0;">Done</button>
                     </div>
 
                     <div class="comp-box state-inactive" id="box-random2">
@@ -364,12 +369,15 @@
                         <button id="btn-start" onclick="handleStartTimer()">Start Game 1</button>
 
                         <div id="countdown-clock"
-                            style="font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box;">
+                            style="font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box; cursor: default; user-select: none;">
                             2:00
                         </div>
-                        
-                        <div style="width: 100%; height: 10px; background: #2ecc71; border-radius: 6px; margin-top: 6px; overflow: hidden; box-sizing: border-box; display: flex;">
-                            <div id="progress-elapsed" style="width: 0%; height: 100%; background: #c0392b; transition: width 1s linear;"></div>
+
+                        <div
+                            style="width: 100%; height: 10px; background: #2ecc71; border-radius: 6px; margin-top: 6px; overflow: hidden; box-sizing: border-box; display: flex;">
+                            <div id="progress-elapsed"
+                                style="width: 0%; height: 100%; background: #c0392b; transition: width 1s linear;">
+                            </div>
                         </div>
                     </div>
 
