@@ -381,8 +381,9 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   let tableHtml = '<table class="info-table">';
   for (let entry of entries) {
     let bgColor = LightColorMap[entry.colorName] || 'transparent';
-    let textColor = (entry.site === '?' || entry.colorName === '?') ? '#aeb6bf' : '#333';
-    tableHtml += `<tr style="background-color: ${bgColor}; color: ${textColor};"><td>${entry.site}</td><td>${entry.colorName}</td></tr>`;
+    let siteColor = entry.site === '?' ? '#aeb6bf' : '#333';
+    let labelColor = entry.colorName === '?' ? '#aeb6bf' : '#333';
+    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor};">${entry.site}</td><td style="color: ${labelColor};">${entry.colorName}</td></tr>`;
   }
   tableHtml += '</table>';
 
