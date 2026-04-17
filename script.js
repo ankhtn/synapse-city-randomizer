@@ -433,6 +433,7 @@ function applyModeState() {
     const clock = document.getElementById('countdown-clock');
     updateClock(120);
     clock.style.color = '#95a5a6';
+    document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
 
     setBoxState('box-random1', 'inactive');
     setBoxState('box-practice', 'inactive');
@@ -459,6 +460,7 @@ function applyModeState() {
     const clock = document.getElementById('countdown-clock');
     updateClock(120);
     clock.style.color = '#95a5a6';
+    document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
 
     setBoxState('box-random1', 'active');
     setBoxState('box-practice', 'inactive');
@@ -537,6 +539,7 @@ function handleRandom2() {
       const clock = document.getElementById('countdown-clock');
       updateClock(120);
       clock.style.color = '#95a5a6';
+      document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
     }
   }
 }
@@ -604,6 +607,7 @@ function compResetRound() {
   const clock = document.getElementById('countdown-clock');
   updateClock(120);
   clock.style.color = '#95a5a6';
+  document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
 
   setBoxState('box-random1', 'active');
   setBoxState('box-practice', 'inactive');
@@ -679,6 +683,7 @@ function compStartTimer() {
   currentRemainingSeconds = 120;
   const clock = document.getElementById('countdown-clock');
   clock.style.color = '#2ecc71';
+  document.getElementById('countdown-progress-bg').style.background = '#2ecc71';
   updateClock(currentRemainingSeconds);
 
   timerInterval = setInterval(() => {
@@ -687,6 +692,7 @@ function compStartTimer() {
       clearInterval(timerInterval);
       currentRemainingSeconds = 0;
       clock.style.color = '#e74c3c';
+      document.getElementById('countdown-progress-bg').style.background = '#e74c3c';
       compCountdownFinished = true;
       timerRunning = false;
 
