@@ -381,6 +381,29 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 
 let isCompetitionMode = false;
 
+function applyModeState() {
+  const btnReset = document.getElementById('btn-reset');
+  const btnRand1 = document.getElementById('btn-random1');
+  const btnRand2 = document.getElementById('btn-random2');
+  const chkQuar = document.getElementById('chk-quarantine');
+  const btnStart = document.getElementById('btn-start');
+
+  if (isCompetitionMode) {
+    compResetRound();
+  } else {
+    globalClear();
+    btnReset.disabled = false;
+    btnRand1.disabled = false;
+    btnRand2.disabled = false;
+    chkQuar.disabled = true;
+    chkQuar.checked = false;
+    btnStart.disabled = true;
+    
+    if (timerInterval) clearInterval(timerInterval);
+    document.getElementById('countdown-clock').innerText = '02:00';
+  }
+}
+
 function handleModeChange(mode) {
   const toggleFree = document.getElementById('toggle-free');
   const toggleComp = document.getElementById('toggle-comp');
@@ -403,14 +426,42 @@ function handleModeChange(mode) {
     }
   }
 
+  applyModeState();
+}
+
+function handleReset() {
   if (isCompetitionMode) {
-    document.getElementById('free-run-buttons').style.display = 'none';
-    document.getElementById('comp-mode-buttons').style.display = 'flex';
     compResetRound();
   } else {
-    document.getElementById('free-run-buttons').style.display = 'flex';
-    document.getElementById('comp-mode-buttons').style.display = 'none';
     globalClear();
+  }
+}
+
+function handleRandom1() {
+  if (isCompetitionMode) {
+    compRandom1();
+  } else {
+    globalRandom1();
+  }
+}
+
+function handleRandom2() {
+  if (isCompetitionMode) {
+    compRandom2();
+  } else {
+    globalRandom2();
+  }
+}
+
+function handleCheckQuarantine() {
+  if (isCompetitionMode) {
+    compCheckQuarantine();
+  }
+}
+
+function handleStartTimer() {
+  if (isCompetitionMode) {
+    compStartTimer();
   }
 }
 
@@ -435,11 +486,6 @@ function globalClear() {
   generateMap(5, -1, 'map-creator', 'table-creator');
   generateMap(6, -1, 'map-innovator', 'table-innovator');
   generateMap(7, -1, 'map-master', 'table-master');
-
-  const btn1 = document.getElementById('btn-free-random1');
-  const btn2 = document.getElementById('btn-free-random2');
-  if (btn1) btn1.disabled = false;
-  if (btn2) btn2.disabled = false;
 }
 
 let timerInterval = null;
@@ -447,14 +493,14 @@ let timerInterval = null;
 function compResetRound() {
   globalClear();
 
-  document.getElementById('btn-comp-random1').disabled = false;
+  document.getElementById('btn-random1').disabled = false;
 
   const chk = document.getElementById('chk-quarantine');
   chk.checked = false;
   chk.disabled = true;
 
-  document.getElementById('btn-comp-random2').disabled = true;
-  document.getElementById('btn-comp-start').disabled = true;
+  document.getElementById('btn-random2').disabled = true;
+  document.getElementById('btn-start').disabled = true;
 
   if (timerInterval) clearInterval(timerInterval);
   document.getElementById('countdown-clock').innerText = '02:00';
@@ -462,24 +508,24 @@ function compResetRound() {
 
 function compRandom1() {
   globalRandom1();
-  document.getElementById('btn-comp-random1').disabled = true;
+  document.getElementById('btn-random1').disabled = true;
   document.getElementById('chk-quarantine').disabled = false;
 }
 
 function compCheckQuarantine() {
   const chk = document.getElementById('chk-quarantine');
   if (chk.checked) {
-    document.getElementById('btn-comp-random2').disabled = false;
+    document.getElementById('btn-random2').disabled = false;
   } else {
-    document.getElementById('btn-comp-random2').disabled = true;
+    document.getElementById('btn-random2').disabled = true;
   }
 }
 
 function compRandom2() {
   globalRandom2();
-  document.getElementById('btn-comp-random2').disabled = true;
+  document.getElementById('btn-random2').disabled = true;
   document.getElementById('chk-quarantine').disabled = true;
-  document.getElementById('btn-comp-start').disabled = false;
+  document.getElementById('btn-start').disabled = false;
 }
 
 function compStartTimer() {
@@ -506,7 +552,5 @@ function updateClock(seconds) {
 }
 
 window.onload = () => {
-  document.getElementById('comp-mode-buttons').style.display = 'none';
-  document.getElementById('free-run-buttons').style.display = 'flex';
-  globalClear();
+  applyModeState();
 };
