@@ -212,8 +212,20 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   } else if (stage === -1) {
     random2 = [];
   } else {
-    let random1 = generateRandomPollutions();
-    random1 = random1.slice(0, PollutionCount);
+    let random1;
+    while (true) {
+      random1 = generateRandomPollutions().slice(0, PollutionCount);
+      let hasABC = false, hasBDG = false, hasCFH = false;
+      for (let site of random1) {
+        let letter = site[0];
+        if (['A', 'B', 'C'].includes(letter)) hasABC = true;
+        if (['B', 'D', 'G'].includes(letter)) hasBDG = true;
+        if (['C', 'F', 'H'].includes(letter)) hasCFH = true;
+      }
+      if (hasABC && hasBDG && hasCFH) {
+        break;
+      }
+    }
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
     random2 = shuffleArray(random1);
 
@@ -407,10 +419,10 @@ function applyModeState() {
     btnPrac.disabled = true;
     btnQuar.disabled = true;
     btnStart.disabled = true;
-    
+
     currentGameNumber = 1;
     btnStart.innerText = `Start Game ${currentGameNumber}`;
-    
+
     compRoundActive = false;
     compCountdownFinished = false;
     timerRunning = false;
@@ -433,10 +445,10 @@ function applyModeState() {
     btnPrac.disabled = true;
     btnQuar.disabled = true;
     btnStart.disabled = true;
-    
+
     currentGameNumber = 1;
     btnStart.innerText = `Start Game ${currentGameNumber}`;
-    
+
     compRoundActive = false;
     compCountdownFinished = false;
     timerRunning = false;
@@ -563,7 +575,7 @@ function compResetRound() {
 
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('btn-start').disabled = true;
-  
+
   currentGameNumber = 1;
   document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
 
@@ -577,7 +589,7 @@ function compResetRound() {
   setBoxState('box-quarantine', 'inactive');
   setBoxState('box-random2', 'inactive');
   setBoxState('box-slot', 'inactive');
-  
+
   compRoundActive = false;
   compCountdownFinished = false;
   timerRunning = false;
@@ -590,7 +602,7 @@ function compRandom1() {
 
   setBoxState('box-random1', 'completed');
   setBoxState('box-practice', 'active');
-  
+
   compRoundActive = true;
 }
 
@@ -622,7 +634,7 @@ function compStartTimer() {
   if (timerRunning && !compCountdownFinished) {
     currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
     updateClock(currentRemainingSeconds);
-    
+
     if (currentRemainingSeconds <= 0) {
       clearInterval(timerInterval);
       currentRemainingSeconds = 0;
@@ -630,7 +642,7 @@ function compStartTimer() {
       clock.style.color = '#e74c3c';
       compCountdownFinished = true;
       timerRunning = false;
-      
+
       currentGameNumber++;
       document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
     }
@@ -640,8 +652,8 @@ function compStartTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerRunning = true;
   compCountdownFinished = false;
-  
-  document.getElementById('btn-start').innerText = `Skip Time`;
+
+  document.getElementById('btn-start').innerText = `Skip 1/2 Time`;
 
   currentRemainingSeconds = 120;
   const clock = document.getElementById('countdown-clock');
@@ -656,7 +668,7 @@ function compStartTimer() {
       clock.style.color = '#e74c3c';
       compCountdownFinished = true;
       timerRunning = false;
-      
+
       currentGameNumber++;
       document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
     }
