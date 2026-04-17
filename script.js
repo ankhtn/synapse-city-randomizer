@@ -429,7 +429,7 @@ function applyModeState() {
 
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
-    clock.innerText = '2:00';
+    updateClock(120);
     clock.style.color = '#95a5a6';
 
     setBoxState('box-random1', 'inactive');
@@ -455,7 +455,7 @@ function applyModeState() {
 
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
-    clock.innerText = '2:00';
+    updateClock(120);
     clock.style.color = '#95a5a6';
 
     setBoxState('box-random1', 'active');
@@ -533,7 +533,7 @@ function handleRandom2() {
       btnStart.innerText = `Start Game ${currentGameNumber}`;
       
       const clock = document.getElementById('countdown-clock');
-      clock.innerText = '2:00';
+      updateClock(120);
       clock.style.color = '#95a5a6';
     }
   }
@@ -600,7 +600,7 @@ function compResetRound() {
 
   if (timerInterval) clearInterval(timerInterval);
   const clock = document.getElementById('countdown-clock');
-  clock.innerText = '2:00';
+  updateClock(120);
   clock.style.color = '#95a5a6';
 
   setBoxState('box-random1', 'active');
@@ -700,6 +700,15 @@ function updateClock(seconds) {
   let s = seconds % 60;
   let ss = s < 10 ? '0' + s : s;
   document.getElementById('countdown-clock').innerText = `${m}:${ss}`;
+
+  let elapsed = 120 - seconds;
+  let percent = (elapsed / 120) * 100;
+  percent = Math.min(100, Math.max(0, percent));
+  
+  const prog = document.getElementById('progress-elapsed');
+  if (prog) {
+    prog.style.width = `${percent}%`;
+  }
 }
 
 window.onload = () => {
