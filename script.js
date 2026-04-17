@@ -618,14 +618,17 @@ function compCheckPractice() {
 
 function compCheckQuarantine() {
   const chk = document.getElementById('chk-quarantine');
+  const chkPrac = document.getElementById('chk-practice');
   if (chk.checked) {
     document.getElementById('btn-random2').disabled = false;
     setBoxState('box-quarantine', 'completed');
     setBoxState('box-random2', 'active');
+    chkPrac.disabled = true;
   } else {
     document.getElementById('btn-random2').disabled = true;
     setBoxState('box-quarantine', 'active');
     setBoxState('box-random2', 'inactive');
+    chkPrac.disabled = false;
   }
 }
 
