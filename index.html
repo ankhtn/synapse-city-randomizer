@@ -16,16 +16,18 @@
             overflow: hidden;
         }
 
-        .sidebar {
-            width: 98px;
+        .center-panel {
             background: #2c3e50;
             color: white;
             padding: 15px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
             z-index: 10;
         }
 
-        .sidebar h1 {
+        .center-panel h1 {
             font-size: 24px;
             margin-top: 0;
             border-bottom: 2px solid #34495e;
@@ -33,21 +35,20 @@
             text-align: center;
         }
 
-        .sidebar p {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #bdc3c7;
-        }
-
-        .main-content {
+        .main-layout {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 220px 1fr;
             gap: 15px;
             padding: 15px;
             box-sizing: border-box;
             background-color: #ddd;
+        }
+
+        .side-column {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
         }
 
         .grid-cell {
@@ -83,11 +84,6 @@
 
         button:hover {
             background-color: #0056b3;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
         }
 
         .toggle-container {
@@ -234,90 +230,99 @@
 </head>
 
 <body>
-    <div class="sidebar">
-        <h1>Synapse City</h1>
+    <div class="main-layout">
+        
+        <!-- Left Column -->
+        <div class="side-column">
+            <!-- Explorer -->
+            <div class="grid-cell" id="cell-explorer">
+                <div class="cell-body">
+                    <div class="map-col" id="map-explorer"></div>
+                    <div class="table-col">
+                        <h4>Explorer</h4>
+                        <div id="table-explorer"></div>
+                    </div>
+                </div>
+            </div>
 
-        <div id="global-buttons" class="global-buttons">
-            <button id="btn-reset" onclick="handleReset()" style="background-color: #e74c3c;">Reset Round</button>
-            <button id="btn-random1" onclick="handleRandom1()">Random 1</button>
+            <!-- Innovator -->
+            <div class="grid-cell" id="cell-innovator">
+                <div class="cell-body">
+                    <div class="map-col" id="map-innovator"></div>
+                    <div class="table-col">
+                        <h4>Innovator</h4>
+                        <div id="table-innovator"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <div class="chk-row" style="margin-top: 10px; margin-bottom: 10px;">
-                <label style="color: white; font-size: 14px; cursor: pointer;">
-                    <input type="checkbox" id="chk-quarantine" onchange="handleCheckQuarantine()">
-                    Quarantine
+        <!-- Center Column -->
+        <div class="center-panel">
+            <h1>Synapse City</h1>
+
+            <div id="global-buttons" class="global-buttons">
+                <button id="btn-reset" onclick="handleReset()" style="background-color: #e74c3c;">Reset Round</button>
+                <button id="btn-random1" onclick="handleRandom1()">Random 1</button>
+
+                <div class="chk-row" style="margin-top: 10px; margin-bottom: 10px;">
+                    <label style="color: white; font-size: 14px; cursor: pointer;">
+                        <input type="checkbox" id="chk-quarantine" onchange="handleCheckQuarantine()">
+                        Quarantine
+                    </label>
+                </div>
+
+                <button id="btn-random2" onclick="handleRandom2()">Random 2</button>
+                <button id="btn-start" onclick="handleStartTimer()"
+                    style="background-color: #f1c40f; color: #2c3e50;">START</button>
+
+                <div id="countdown-clock"
+                    style="font-size: 28px; text-align: center; color: #95a5a6; font-weight: bold; margin-top: 15px;">
+                    2:00
+                </div>
+            </div>
+
+            <div style="flex-grow: 1;"></div>
+
+            <div class="toggle-container">
+                <span>Free Run</span>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-free" checked onchange="handleModeChange('free')">
+                    <span class="slider round"></span>
                 </label>
-            </div>
-
-            <button id="btn-random2" onclick="handleRandom2()">Random 2</button>
-            <button id="btn-start" onclick="handleStartTimer()"
-                style="background-color: #f1c40f; color: #2c3e50;">START</button>
-
-            <div id="countdown-clock"
-                style="font-size: 28px; text-align: center; color: #95a5a6; font-weight: bold; margin-top: 15px;">
-                2:00
+                <label class="switch">
+                    <input type="checkbox" id="toggle-comp" onchange="handleModeChange('comp')">
+                    <span class="slider round"></span>
+                </label>
+                <span>Competition</span>
             </div>
         </div>
 
-        <div style="flex-grow: 1;"></div>
-
-        <div class="toggle-container">
-            <span>Free Run</span>
-            <label class="switch">
-                <input type="checkbox" id="toggle-free" checked onchange="handleModeChange('free')">
-                <span class="slider round"></span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" id="toggle-comp" onchange="handleModeChange('comp')">
-                <span class="slider round"></span>
-            </label>
-            <span>Competition</span>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <!-- Explorer -->
-        <div class="grid-cell" id="cell-explorer">
-            <div class="cell-body">
-                <div class="table-col">
-                    <h4>Explorer</h4>
-                    <div id="table-explorer"></div>
+        <!-- Right Column -->
+        <div class="side-column">
+            <!-- Creator -->
+            <div class="grid-cell" id="cell-creator">
+                <div class="cell-body">
+                    <div class="table-col">
+                        <h4>Creator</h4>
+                        <div id="table-creator"></div>
+                    </div>
+                    <div class="map-col" id="map-creator"></div>
                 </div>
-                <div class="map-col" id="map-explorer"></div>
+            </div>
+
+            <!-- Master -->
+            <div class="grid-cell" id="cell-master">
+                <div class="cell-body">
+                    <div class="table-col">
+                        <h4>Master</h4>
+                        <div id="table-master"></div>
+                    </div>
+                    <div class="map-col" id="map-master"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Creator -->
-        <div class="grid-cell" id="cell-creator">
-            <div class="cell-body">
-                <div class="table-col">
-                    <h4>Creator</h4>
-                    <div id="table-creator"></div>
-                </div>
-                <div class="map-col" id="map-creator"></div>
-            </div>
-        </div>
-
-        <!-- Innovator -->
-        <div class="grid-cell" id="cell-innovator">
-            <div class="cell-body">
-                <div class="table-col">
-                    <h4>Innovator</h4>
-                    <div id="table-innovator"></div>
-                </div>
-                <div class="map-col" id="map-innovator"></div>
-            </div>
-        </div>
-
-        <!-- Master -->
-        <div class="grid-cell" id="cell-master">
-            <div class="cell-body">
-                <div class="table-col">
-                    <h4>Master</h4>
-                    <div id="table-master"></div>
-                </div>
-                <div class="map-col" id="map-master"></div>
-            </div>
-        </div>
     </div>
 
     <script src="script.js"></script>

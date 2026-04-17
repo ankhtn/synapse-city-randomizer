@@ -389,7 +389,18 @@ function applyModeState() {
   const btnStart = document.getElementById('btn-start');
 
   if (isCompetitionMode) {
-    compResetRound();
+    globalClear();
+    btnReset.disabled = false;
+    btnRand1.disabled = true;
+    btnRand2.disabled = true;
+    chkQuar.disabled = true;
+    chkQuar.checked = false;
+    btnStart.disabled = true;
+    
+    if (timerInterval) clearInterval(timerInterval);
+    const clock = document.getElementById('countdown-clock');
+    clock.innerText = '2:00';
+    clock.style.color = '#95a5a6';
   } else {
     globalClear();
     btnReset.disabled = false;
