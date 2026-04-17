@@ -678,7 +678,7 @@ function compStartTimer() {
   timerRunning = true;
   compCountdownFinished = false;
 
-  document.getElementById('btn-start').innerText = `Skip 1/2 Time`;
+  document.getElementById('btn-start').innerText = `Skip ½ Time`;
 
   currentRemainingSeconds = 120;
   const clock = document.getElementById('countdown-clock');
