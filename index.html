@@ -139,15 +139,15 @@
             transition: .4s;
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background-color: #3498db;
         }
 
-        input:focus + .slider {
+        input:focus+.slider {
             box-shadow: 0 0 1px #3498db;
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(16px);
         }
 
@@ -258,7 +258,8 @@
         </div>
 
         <div id="comp-mode-buttons" class="global-buttons" style="display: none;">
-            <button id="btn-comp-reset" onclick="compResetRound()" style="background-color: #e74c3c;">Reset Round</button>
+            <button id="btn-comp-reset" onclick="compResetRound()" style="background-color: #e74c3c;">Reset
+                Round</button>
             <button id="btn-comp-random1" onclick="compRandom1()">Random 1</button>
 
             <div class="chk-row" style="margin-top: 10px; margin-bottom: 10px;">
@@ -269,9 +270,11 @@
             </div>
 
             <button id="btn-comp-random2" onclick="compRandom2()">Random 2</button>
-            <button id="btn-comp-start" onclick="compStartTimer()" style="background-color: #f1c40f; color: #2c3e50;">START</button>
-            
-            <div id="countdown-clock" style="font-size: 28px; text-align: center; color: #f1c40f; font-weight: bold; margin-top: 15px;">
+            <button id="btn-comp-start" onclick="compStartTimer()"
+                style="background-color: #f1c40f; color: #2c3e50;">START</button>
+
+            <div id="countdown-clock"
+                style="font-size: 28px; text-align: center; color: #f1c40f; font-weight: bold; margin-top: 15px;">
                 02:00
             </div>
         </div>

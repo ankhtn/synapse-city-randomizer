@@ -344,7 +344,7 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
   let entries = [];
   if (stage === -1) {
     for (let i = 0; i < siteCount; i++) {
-      entries.push({ site: '-', colorName: '-' });
+      entries.push({ site: '?', colorName: '?' });
     }
   } else {
     for (let i = 0; i < siteCount; i++) {
@@ -384,7 +384,7 @@ let isCompetitionMode = false;
 function handleModeChange(mode) {
   const toggleFree = document.getElementById('toggle-free');
   const toggleComp = document.getElementById('toggle-comp');
-  
+
   if (mode === 'free') {
     if (toggleFree.checked) {
       toggleComp.checked = false;
@@ -402,7 +402,7 @@ function handleModeChange(mode) {
       isCompetitionMode = false;
     }
   }
-  
+
   if (isCompetitionMode) {
     document.getElementById('free-run-buttons').style.display = 'none';
     document.getElementById('comp-mode-buttons').style.display = 'flex';
@@ -448,7 +448,7 @@ function compResetRound() {
   globalClear();
 
   document.getElementById('btn-comp-random1').disabled = false;
-  
+
   const chk = document.getElementById('chk-quarantine');
   chk.checked = false;
   chk.disabled = true;
