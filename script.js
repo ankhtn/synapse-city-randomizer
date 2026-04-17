@@ -204,11 +204,13 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   if (container) container.innerHTML = '';
 
   let OneColor = null;
-  let random2;
+  let random2 = [];
 
   if (stage === 2) {
     random2 = shuffleArray(levelStates[PollutionCount].sites);
     levelStates[PollutionCount].sites = random2;
+  } else if (stage === -1) {
+    random2 = [];
   } else {
     let random1 = generateRandomPollutions();
     random1 = random1.slice(0, PollutionCount);
@@ -275,7 +277,8 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 
   drawGrid(draw, BLACKLINE);
 
-  visualizePollutions(draw, random2, PollutionCount, OneColor);
+  const drawSiteCount = (stage === -1) ? 0 : PollutionCount;
+  visualizePollutions(draw, random2, drawSiteCount, OneColor);
 
   for (let x = -2; x <= +2; x += 2) {
     for (let y = -2; y <= +2; y += 2) {
@@ -339,13 +342,19 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
 
 function renderTable(randomSites, siteCount, stage, tableContainerId) {
   let entries = [];
-  for (let i = 0; i < siteCount; i++) {
-    let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
-    entries.push({ site: randomSites[i], colorName: colorName });
-  }
+  if (stage === -1) {
+    for (let i = 0; i < siteCount; i++) {
+      entries.push({ site: '-', colorName: '-' });
+    }
+  } else {
+    for (let i = 0; i < siteCount; i++) {
+      let colorName = (stage === 1) ? '?' : (PollutionColors[i][0] || 'NONE');
+      entries.push({ site: randomSites[i], colorName: colorName });
+    }
 
-  // Sort ABC
-  entries.sort((a, b) => a.site.localeCompare(b.site));
+    // Sort ABC
+    entries.sort((a, b) => a.site.localeCompare(b.site));
+  }
 
   const LightColorMap = {
     'Red': '#ffcccc',
@@ -353,7 +362,8 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
     'Green': '#ccffcc',
     'Blue': '#ccccff',
     'Purple': '#e6ccff',
-    'Mystery': '#e6e6e6'
+    'Mystery': '#e6e6e6',
+    '-': 'transparent'
   };
 
   let tableHtml = '<table class="info-table">';
@@ -386,10 +396,10 @@ function globalRandom2() {
 }
 
 function globalClear() {
-  generateMap(0, 0, 'map-explorer', 'table-explorer');
-  generateMap(0, 0, 'map-creator', 'table-creator');
-  generateMap(0, 0, 'map-innovator', 'table-innovator');
-  generateMap(0, 0, 'map-master', 'table-master');
+  generateMap(4, -1, 'map-explorer', 'table-explorer');
+  generateMap(5, -1, 'map-creator', 'table-creator');
+  generateMap(6, -1, 'map-innovator', 'table-innovator');
+  generateMap(7, -1, 'map-master', 'table-master');
 }
 
 window.onload = () => {
