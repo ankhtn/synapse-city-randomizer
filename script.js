@@ -408,6 +408,10 @@ function applyModeState() {
     
     currentGameNumber = 1;
     btnStart.innerText = `Start Game ${currentGameNumber}`;
+    
+    compRoundActive = false;
+    compCountdownFinished = false;
+    timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
@@ -429,6 +433,10 @@ function applyModeState() {
     
     currentGameNumber = 1;
     btnStart.innerText = `Start Game ${currentGameNumber}`;
+    
+    compRoundActive = false;
+    compCountdownFinished = false;
+    timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
     const clock = document.getElementById('countdown-clock');
