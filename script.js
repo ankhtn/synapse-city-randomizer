@@ -523,16 +523,16 @@ function handleRandom2() {
       document.getElementById('btn-start').disabled = false;
       setBoxState('box-random2', 'completed');
       setBoxState('box-slot', 'active');
-      
+
       if (timerInterval) clearInterval(timerInterval);
       timerRunning = false;
       compCountdownFinished = false;
       currentRemainingSeconds = 0;
       currentGameNumber = 1;
-      
+
       const btnStart = document.getElementById('btn-start');
       btnStart.innerText = `Start Game ${currentGameNumber}`;
-      
+
       const clock = document.getElementById('countdown-clock');
       updateClock(120);
       clock.style.color = '#95a5a6';
@@ -705,7 +705,7 @@ function updateClock(seconds) {
   let elapsed = 120 - seconds;
   let percent = (elapsed / 120) * 100;
   percent = Math.min(100, Math.max(0, percent));
-  
+
   const prog = document.getElementById('progress-elapsed');
   if (prog) {
     prog.style.width = `${percent}%`;
