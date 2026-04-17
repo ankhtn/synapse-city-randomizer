@@ -441,7 +441,7 @@ function applyModeState() {
     globalClear();
     btnReset.disabled = false;
     btnRand1.disabled = false;
-    btnRand2.disabled = false;
+    btnRand2.disabled = true;
     btnPrac.disabled = true;
     btnQuar.disabled = true;
     btnStart.disabled = true;
@@ -461,7 +461,7 @@ function applyModeState() {
     setBoxState('box-random1', 'active');
     setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
-    setBoxState('box-random2', 'active');
+    setBoxState('box-random2', 'inactive');
     setBoxState('box-slot', 'inactive');
   }
 }
@@ -499,7 +499,7 @@ function handleReset() {
     }
     compResetRound();
   } else {
-    globalClear();
+    applyModeState();
   }
 }
 
@@ -508,6 +508,9 @@ function handleRandom1() {
     compRandom1();
   } else {
     globalRandom1();
+    document.getElementById('btn-random2').disabled = false;
+    setBoxState('box-random1', 'completed');
+    setBoxState('box-random2', 'active');
   }
 }
 
@@ -515,7 +518,24 @@ function handleRandom2() {
   if (isCompetitionMode) {
     compRandom2();
   } else {
-    globalRandom2();
+    if (globalRandom2()) {
+      document.getElementById('btn-start').disabled = false;
+      setBoxState('box-random2', 'completed');
+      setBoxState('box-slot', 'active');
+      
+      if (timerInterval) clearInterval(timerInterval);
+      timerRunning = false;
+      compCountdownFinished = false;
+      currentRemainingSeconds = 0;
+      currentGameNumber = 1;
+      
+      const btnStart = document.getElementById('btn-start');
+      btnStart.innerText = `Start Game ${currentGameNumber}`;
+      
+      const clock = document.getElementById('countdown-clock');
+      clock.innerText = '2:00';
+      clock.style.color = '#95a5a6';
+    }
   }
 }
 
@@ -532,9 +552,7 @@ function handleBtnQuarantine() {
 }
 
 function handleStartTimer() {
-  if (isCompetitionMode) {
-    compStartTimer();
-  }
+  compStartTimer();
 }
 
 function globalRandom1() {
@@ -547,10 +565,11 @@ function globalRandom1() {
 function globalRandom2() {
   if (!levelStates[6].sites || !levelStates[7].sites || levelStates[6].sites.length === 0) {
     alert("Please generate Random 1 first!");
-    return;
+    return false;
   }
   generateMap(6, 2, 'map-innovator', 'table-innovator');
   generateMap(7, 2, 'map-master', 'table-master');
+  return true;
 }
 
 function globalClear() {
