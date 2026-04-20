@@ -216,13 +216,20 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     while (true) {
       random1 = generateRandomPollutions().slice(0, PollutionCount);
       let hasABC = false, hasBDG = false, hasCFH = false;
+      let hasABD = false, hasACF = false, hasCEG = false, hasBEH = false, hasDGHF = false;
       for (let site of random1) {
         let letter = site[0];
         if (['A', 'B', 'C'].includes(letter)) hasABC = true;
         if (['B', 'D', 'G'].includes(letter)) hasBDG = true;
         if (['C', 'F', 'H'].includes(letter)) hasCFH = true;
+        
+        if (['A', 'B', 'D'].includes(letter)) hasABD = true;
+        if (['A', 'C', 'F'].includes(letter)) hasACF = true;
+        if (['C', 'E', 'G'].includes(letter)) hasCEG = true;
+        if (['B', 'E', 'H'].includes(letter)) hasBEH = true;
+        if (['D', 'G', 'H', 'F'].includes(letter)) hasDGHF = true;
       }
-      if (hasABC && hasBDG && hasCFH) {
+      if (hasABC && hasBDG && hasCFH && hasABD && hasACF && hasCEG && hasBEH && hasDGHF) {
         break;
       }
     }
@@ -508,40 +515,58 @@ function handleReset() {
 }
 
 function handleRandom1() {
-  if (isCompetitionMode) {
-    compRandom1();
-  } else {
-    globalRandom1();
-    document.getElementById('btn-random2').disabled = false;
-    setBoxState('box-random1', 'completed');
-    setBoxState('box-random2', 'active');
-  }
+  document.getElementById('btn-random1').disabled = true;
+  setBoxState('box-random1', 'generating');
+
+  setTimeout(() => {
+    if (isCompetitionMode) {
+      compRandom1();
+    } else {
+      globalRandom1();
+      document.getElementById('btn-random2').disabled = false;
+      setBoxState('box-random1', 'completed');
+      setBoxState('box-random2', 'active');
+    }
+  }, 100);
 }
 
 function handleRandom2() {
-  if (isCompetitionMode) {
-    compRandom2();
-  } else {
-    if (globalRandom2()) {
-      document.getElementById('btn-start').disabled = false;
-      setBoxState('box-random2', 'completed');
-      setBoxState('box-slot', 'active');
-
-      if (timerInterval) clearInterval(timerInterval);
-      timerRunning = false;
-      compCountdownFinished = false;
-      currentRemainingSeconds = 0;
-      currentGameNumber = 1;
-
-      const btnStart = document.getElementById('btn-start');
-      btnStart.innerText = `Start Game ${currentGameNumber}`;
-
-      const clock = document.getElementById('countdown-clock');
-      updateClock(120);
-      clock.style.color = '#95a5a6';
-      document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
-    }
+  if (!isCompetitionMode && (!levelStates[6].sites || !levelStates[7].sites || levelStates[6].sites.length === 0)) {
+    alert("Please generate Random 1 first!");
+    return;
   }
+
+  document.getElementById('btn-random2').disabled = true;
+  setBoxState('box-random2', 'generating');
+
+  setTimeout(() => {
+    if (isCompetitionMode) {
+      compRandom2();
+    } else {
+      if (globalRandom2()) {
+        document.getElementById('btn-start').disabled = false;
+        setBoxState('box-random2', 'completed');
+        setBoxState('box-slot', 'active');
+
+        if (timerInterval) clearInterval(timerInterval);
+        timerRunning = false;
+        compCountdownFinished = false;
+        currentRemainingSeconds = 0;
+        currentGameNumber = 1;
+
+        const btnStart = document.getElementById('btn-start');
+        btnStart.innerText = `Start Game ${currentGameNumber}`;
+
+        const clock = document.getElementById('countdown-clock');
+        updateClock(120);
+        clock.style.color = '#95a5a6';
+        document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
+      } else {
+        document.getElementById('btn-random2').disabled = false;
+        setBoxState('box-random2', 'active');
+      }
+    }
+  }, 100);
 }
 
 function handleBtnPractice() {

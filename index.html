@@ -196,7 +196,8 @@
             padding: 6px 10px;
             margin: 5px auto;
             border-radius: 6px;
-            width: 85%;
+            width: 100%;
+            box-sizing: border-box;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             color: #333;
             transition: background-color 0.3s;
@@ -213,6 +214,10 @@
             user-select: none;
         }
 
+        .comp-box button {
+            width: 80%;
+        }
+
         .state-inactive {
             background-color: #aeb6bf;
             color: #566573;
@@ -225,6 +230,15 @@
         .state-active {
             background-color: #ffffff;
             color: #333;
+        }
+
+        .state-generating {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .state-generating .box-title {
+            color: #856404;
         }
 
         .state-completed {
@@ -342,46 +356,40 @@
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
                 <button id="btn-reset" onclick="handleReset()">New Round</button>
 
-                <div id="group-round"
-                    style="width: 100%; border: 1px dashed #7f8c8d; padding: 10px 0; border-radius: 6px; margin-top: 10px; background: rgba(0,0,0,0.1);">
+                <div class="comp-box state-active" id="box-random1" style="margin-top: 15px;">
+                    <div class="box-title">Random 1</div>
+                    <button id="btn-random1" onclick="handleRandom1()" style="margin-bottom: 0;">Announce</button>
+                </div>
 
-                    <div class="comp-box state-active" id="box-random1">
-                        <div class="box-title">Random 1</div>
-                        <button id="btn-random1" onclick="handleRandom1()" style="margin-bottom: 0;">Announce</button>
+                <div class="comp-box state-inactive" id="box-practice">
+                    <div class="box-title">Coding + Practice</div>
+                    <button id="btn-practice" onclick="handleBtnPractice()" style="margin-bottom: 0;">Done</button>
+                </div>
+
+                <div class="comp-box state-inactive" id="box-quarantine">
+                    <div class="box-title">Quarantine</div>
+                    <button id="btn-quarantine" onclick="handleBtnQuarantine()" style="margin-bottom: 0;">Done</button>
+                </div>
+
+                <div class="comp-box state-inactive" id="box-random2">
+                    <div class="box-title">Random 2</div>
+                    <button id="btn-random2" onclick="handleRandom2()" style="margin-bottom: 0;">Announce</button>
+                </div>
+
+                <div class="comp-box state-inactive" id="box-slot">
+                    <button id="btn-start" onclick="handleStartTimer()">Start Game 1</button>
+
+                    <div id="countdown-clock"
+                        style="font-family: 'Courier New', Courier, monospace; white-space: pre; font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box; cursor: default; user-select: none;">
+                        2:00
                     </div>
 
-                    <div class="comp-box state-inactive" id="box-practice">
-                        <div class="box-title">Coding + Practice</div>
-                        <button id="btn-practice" onclick="handleBtnPractice()" style="margin-bottom: 0;">Done</button>
-                    </div>
-
-                    <div class="comp-box state-inactive" id="box-quarantine">
-                        <div class="box-title">Quarantine</div>
-                        <button id="btn-quarantine" onclick="handleBtnQuarantine()"
-                            style="margin-bottom: 0;">Done</button>
-                    </div>
-
-                    <div class="comp-box state-inactive" id="box-random2">
-                        <div class="box-title">Random 2</div>
-                        <button id="btn-random2" onclick="handleRandom2()" style="margin-bottom: 0;">Announce</button>
-                    </div>
-
-                    <div class="comp-box state-inactive" id="box-slot">
-                        <button id="btn-start" onclick="handleStartTimer()">Start Game 1</button>
-
-                        <div id="countdown-clock"
-                            style="font-family: 'Courier New', Courier, monospace; white-space: pre; font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box; cursor: default; user-select: none;">
-                            2:00
-                        </div>
-
-                        <div id="countdown-progress-bg"
-                            style="width: 100%; height: 10px; background: #95a5a6; border-radius: 6px; margin-top: 6px; overflow: hidden; box-sizing: border-box; display: flex;">
-                            <div id="progress-elapsed"
-                                style="width: 0%; height: 100%; background: #c0392b; transition: width 0.3s ease-out;">
-                            </div>
+                    <div id="countdown-progress-bg"
+                        style="width: 100%; height: 10px; background: #95a5a6; border-radius: 6px; margin-top: 6px; overflow: hidden; box-sizing: border-box; display: flex;">
+                        <div id="progress-elapsed"
+                            style="width: 0%; height: 100%; background: #c0392b; transition: width 0.3s ease-out;">
                         </div>
                     </div>
-
                 </div>
             </div>
 
