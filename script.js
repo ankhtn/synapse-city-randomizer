@@ -193,6 +193,16 @@ let levelStates = {
   7: { sites: null }
 };
 
+function countIntersect(sites, letters) {
+  let count = 0;
+  for (let site of sites) {
+    if (letters.includes(site[0])) {
+      count++;
+    }
+  }
+  return count;
+}
+
 function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
   if (stage === 2) {
     if (!levelStates[PollutionCount].sites) {
@@ -216,23 +226,16 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     let random1;
     while (true) {
       random1 = generateRandomPollutions().slice(0, PollutionCount);
-      let hasABC = false, hasBDG = false, hasCFH = false;
-      let hasABD = false, hasACF = false, hasCEG = false, hasBEH = false, hasDGHF = false;
-      for (let site of random1) {
-        let letter = site[0];
-        if (['A', 'B', 'C'].includes(letter)) hasABC = true;
-        if (['B', 'D', 'G'].includes(letter)) hasBDG = true;
-        if (['C', 'F', 'H'].includes(letter)) hasCFH = true;
-
-        if (['A', 'B', 'D'].includes(letter)) hasABD = true;
-        if (['A', 'C', 'F'].includes(letter)) hasACF = true;
-        if (['C', 'E', 'G'].includes(letter)) hasCEG = true;
-        if (['B', 'E', 'H'].includes(letter)) hasBEH = true;
-        if (['D', 'G', 'H', 'F'].includes(letter)) hasDGHF = true;
-      }
-      if (hasABC && hasBDG && hasCFH && hasABD && hasACF && hasCEG && hasBEH && hasDGHF) {
-        break;
-      }
+      if (countIntersect(random1, 'ABC') < 1) continue;
+      if (countIntersect(random1, 'BDG') < 1) continue;
+      if (countIntersect(random1, 'CFH') < 1) continue;
+      if (countIntersect(random1, 'ABD') < 1) continue;
+      if (countIntersect(random1, 'ACF') < 1) continue;
+      if (countIntersect(random1, 'CEG') < 1) continue;
+      if (countIntersect(random1, 'BEH') < 1) continue;
+      if (countIntersect(random1, 'DGHF') < 1) continue;
+      if (countIntersect(random1, 'ABCDF') < 2) continue;
+      break;
     }
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
     random2 = shuffleArray(random1);
