@@ -31,7 +31,7 @@ const ObjH = 15 - 0.5;
 const ObjWidth = 3;
 const ObjGap = ObjH;
 const BuildingSize = 2 * (ObjD - ObjGap);
-const PolutionRR = Math.hypot(ObjW, ObjH) * 1.5;
+const PolutionRR = Math.hypot(ObjW, ObjH) * 2.2;
 const HP2 = 2 * hPitch;
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
