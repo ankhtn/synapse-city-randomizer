@@ -245,8 +245,18 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     }
   }
 
+  let alignStr = 'xMidYMid meet';
+  if (mapContainerId === 'map-explorer' || mapContainerId === 'map-creator') {
+    alignStr = 'xMinYMid meet';
+  } else if (mapContainerId === 'map-innovator' || mapContainerId === 'map-master') {
+    alignStr = 'xMaxYMid meet';
+  }
+
   var draw0 = SVG().addTo('#' + mapContainerId);
-  var draw = draw0.size('100%', '100%').attr({ viewBox: '0 0 ' + ImageSize + ' ' + ImageSize }).group();
+  var draw = draw0.size('100%', '100%').attr({ 
+    viewBox: '0 0 ' + ImageSize + ' ' + ImageSize,
+    preserveAspectRatio: alignStr
+  }).group();
   draw.translate(ImageSize / 2, ImageSize / 2);
   draw.scale(ImageSize / 1200);
 
