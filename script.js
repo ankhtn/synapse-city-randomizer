@@ -529,10 +529,11 @@ function handleRandom1() {
       document.getElementById('btn-random2').disabled = false;
       document.getElementById('btn-random1').disabled = false;
       setBoxState('box-random1', 'completed');
-      const box2 = document.getElementById('box-random2');
-      if (box2 && !box2.className.includes('completed')) {
-        setBoxState('box-random2', 'active');
-      }
+      setBoxState('box-random2', 'active');
+      
+      // Reset Random 2 and Start Game visual/functional states
+      document.getElementById('btn-start').disabled = true;
+      setBoxState('box-slot', 'inactive');
     }
   }, 100);
 }
