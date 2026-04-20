@@ -733,7 +733,7 @@ function updateClock(seconds) {
   
   const popupClock = document.getElementById('popup-clock');
   if (popupClock) {
-    popupClock.innerText = `${m}:${ss}`;
+    popupClock.innerText = ` ${m}:${ss}`;
   }
 
   let elapsed = 120 - seconds;
