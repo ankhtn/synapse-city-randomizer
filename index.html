@@ -40,7 +40,7 @@
         .main-layout {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 220px 1fr;
+            grid-template-columns: 1fr 135px 220px 135px 1fr;
             gap: 15px;
             padding: 15px;
             box-sizing: border-box;
@@ -259,13 +259,13 @@
         }
 
         .table-col {
-            width: 135px;
-            flex-shrink: 0;
+            flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding: 10px;
+            box-sizing: border-box;
         }
 
         .map-col {
@@ -324,28 +324,25 @@
 <body>
     <div class="main-layout">
 
-        <!-- Left Column -->
+        <!-- Map Column Left -->
         <div class="side-column">
-            <!-- Explorer -->
-            <div class="grid-cell" id="cell-explorer">
-                <div class="cell-body">
-                    <div class="map-col" id="map-explorer"></div>
-                    <div class="table-col">
-                        <h4>Explorer</h4>
-                        <div id="table-explorer"></div>
-                    </div>
-                </div>
+            <div class="grid-cell">
+                <div class="map-col" id="map-explorer"></div>
             </div>
+            <div class="grid-cell">
+                <div class="map-col" id="map-creator"></div>
+            </div>
+        </div>
 
-            <!-- Creator -->
-            <div class="grid-cell" id="cell-creator">
-                <div class="cell-body">
-                    <div class="map-col" id="map-creator"></div>
-                    <div class="table-col">
-                        <h4>Creator</h4>
-                        <div id="table-creator"></div>
-                    </div>
-                </div>
+        <!-- Table Column Left -->
+        <div class="side-column">
+            <div class="grid-cell table-col">
+                <h4 style="margin: 0 0 10px 0;">Explorer</h4>
+                <div id="table-explorer"></div>
+            </div>
+            <div class="grid-cell table-col">
+                <h4 style="margin: 0 0 10px 0;">Creator</h4>
+                <div id="table-creator"></div>
             </div>
         </div>
 
@@ -409,28 +406,25 @@
             </div>
         </div>
 
-        <!-- Right Column -->
+        <!-- Table Column Right -->
         <div class="side-column">
-            <!-- Innovator -->
-            <div class="grid-cell" id="cell-innovator">
-                <div class="cell-body">
-                    <div class="table-col">
-                        <h4>Innovator</h4>
-                        <div id="table-innovator"></div>
-                    </div>
-                    <div class="map-col" id="map-innovator"></div>
-                </div>
+            <div class="grid-cell table-col">
+                <h4 style="margin: 0 0 10px 0;">Innovator</h4>
+                <div id="table-innovator"></div>
             </div>
+            <div class="grid-cell table-col">
+                <h4 style="margin: 0 0 10px 0;">Master</h4>
+                <div id="table-master"></div>
+            </div>
+        </div>
 
-            <!-- Master -->
-            <div class="grid-cell" id="cell-master">
-                <div class="cell-body">
-                    <div class="table-col">
-                        <h4>Master</h4>
-                        <div id="table-master"></div>
-                    </div>
-                    <div class="map-col" id="map-master"></div>
-                </div>
+        <!-- Map Column Right -->
+        <div class="side-column">
+            <div class="grid-cell">
+                <div class="map-col" id="map-innovator"></div>
+            </div>
+            <div class="grid-cell">
+                <div class="map-col" id="map-master"></div>
             </div>
         </div>
 
