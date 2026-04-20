@@ -399,7 +399,7 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
       labelColor = '#e74c3c'; // Red
     }
 
-    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor};">${entry.site}</td><td style="color: ${labelColor}; font-weight: ${entry.colorName === 'Mystery' ? 'bold' : 'normal'};">${displayName}</td></tr>`;
+    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor};">${entry.site}</td><td style="text-align: left; padding-left: 15px; color: ${labelColor}; font-weight: ${entry.colorName === 'Mystery' ? 'bold' : 'normal'};">${displayName}</td></tr>`;
   }
   tableHtml += '</table>';
 
