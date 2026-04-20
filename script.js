@@ -395,7 +395,7 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 
     if (entry.colorName === 'Mystery') {
       bgColor = '#ffffff';
-      displayName = 'Mystery *';
+      displayName = 'Mystery';
       labelColor = '#e74c3c'; // Red
     }
 
@@ -691,17 +691,17 @@ function compRandom2() {
 function compStartTimer() {
   document.getElementById('timer-popup').style.display = 'flex';
   document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
-  
+
   if (timerInterval) clearInterval(timerInterval);
   timerRunning = true;
   compCountdownFinished = false;
 
   currentRemainingSeconds = 120;
-  
+
   const popupClock = document.getElementById('popup-clock');
-  if(popupClock) popupClock.style.color = '#029456';
+  if (popupClock) popupClock.style.color = '#029456';
   document.getElementById('popup-action-btn').innerText = `Skip ½ Time`;
-  
+
   updateClock(currentRemainingSeconds);
 
   timerInterval = setInterval(() => {
@@ -709,7 +709,7 @@ function compStartTimer() {
     if (currentRemainingSeconds <= 0) {
       clearInterval(timerInterval);
       currentRemainingSeconds = 0;
-      if(popupClock) popupClock.style.color = '#e74c3c';
+      if (popupClock) popupClock.style.color = '#e74c3c';
       document.getElementById('popup-action-btn').innerText = `Close`;
       compCountdownFinished = true;
       timerRunning = false;
@@ -727,7 +727,7 @@ function handlePopupAction() {
       clearInterval(timerInterval);
       currentRemainingSeconds = 0;
       const popupClock = document.getElementById('popup-clock');
-      if(popupClock) popupClock.style.color = '#e74c3c';
+      if (popupClock) popupClock.style.color = '#e74c3c';
       document.getElementById('popup-action-btn').innerText = `Close`;
       compCountdownFinished = true;
       timerRunning = false;
@@ -743,7 +743,7 @@ function updateClock(seconds) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
   let ss = s < 10 ? '0' + s : s;
-  
+
   const popupClock = document.getElementById('popup-clock');
   if (popupClock) {
     popupClock.innerText = ` ${m}:${ss}`;
