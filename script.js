@@ -439,7 +439,9 @@ function applyModeState() {
     btnStart.disabled = true;
 
     currentGameNumber = 1;
-    btnStart.innerText = `Start Game ${currentGameNumber}`;
+    btnStart.innerText = `Complete`;
+    const titleEl1 = document.getElementById('box-slot-title');
+    if (titleEl1) titleEl1.innerText = `Game ${currentGameNumber} Setup`;
 
     compRoundActive = false;
     compCountdownFinished = false;
@@ -463,7 +465,9 @@ function applyModeState() {
     btnStart.disabled = true;
 
     currentGameNumber = 1;
-    btnStart.innerText = `Start Game ${currentGameNumber}`;
+    btnStart.innerText = `Complete`;
+    const titleEl2 = document.getElementById('box-slot-title');
+    if (titleEl2) titleEl2.innerText = `Game ${currentGameNumber} Setup`;
 
     compRoundActive = false;
     compCountdownFinished = false;
@@ -631,7 +635,9 @@ function compResetRound() {
   document.getElementById('btn-start').disabled = true;
 
   currentGameNumber = 1;
-  document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
+  document.getElementById('btn-start').innerText = `Complete`;
+  const titleEl = document.getElementById('box-slot-title');
+  if (titleEl) titleEl.innerText = `Game ${currentGameNumber} Setup`;
 
   if (timerInterval) clearInterval(timerInterval);
   const clock = document.getElementById('countdown-clock');
@@ -739,7 +745,7 @@ function handlePopupAction() {
   } else if (action === 'Skip ½ Time') {
     if (timerRunning && !compCountdownFinished) {
       currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
-      updateClock(currentRemainingSeconds);
+      updateClock(currentRemainingSeconds, true);
 
       if (currentRemainingSeconds <= 0) {
         clearInterval(timerInterval);
@@ -761,14 +767,14 @@ function handlePopupAction() {
     const btnStart = document.getElementById('btn-start');
     if (btnStart) {
       btnStart.innerText = `Complete`;
-      btnStart.disabled = true;
+      btnStart.disabled = false;
     }
 
-    setBoxState('box-slot', 'inactive');
+    setBoxState('box-slot', 'active');
   }
 }
 
-function updateClock(seconds) {
+function updateClock(seconds, isSkip = false) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
   let ss = s < 10 ? '0' + s : s;
@@ -788,6 +794,8 @@ function updateClock(seconds) {
   if (ring) {
     if (!timerRunning) {
       ring.style.transition = 'none'; // Tắt hiệu ứng nếu timer đang dừng (để snap mượt)
+    } else if (isSkip) {
+      ring.style.transition = 'stroke-dashoffset 0.2s ease-out'; // Tăng tốc gập CSS khi Skip
     } else {
       ring.style.transition = 'stroke-dashoffset 1s linear';
     }
