@@ -222,7 +222,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
         if (['A', 'B', 'C'].includes(letter)) hasABC = true;
         if (['B', 'D', 'G'].includes(letter)) hasBDG = true;
         if (['C', 'F', 'H'].includes(letter)) hasCFH = true;
-        
+
         if (['A', 'B', 'D'].includes(letter)) hasABD = true;
         if (['A', 'C', 'F'].includes(letter)) hasACF = true;
         if (['C', 'E', 'G'].includes(letter)) hasCEG = true;
@@ -245,18 +245,8 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     }
   }
 
-  let alignStr = 'xMidYMid meet';
-  if (mapContainerId === 'map-explorer' || mapContainerId === 'map-creator') {
-    alignStr = 'xMinYMid meet';
-  } else if (mapContainerId === 'map-innovator' || mapContainerId === 'map-master') {
-    alignStr = 'xMaxYMid meet';
-  }
-
   var draw0 = SVG().addTo('#' + mapContainerId);
-  var draw = draw0.size('100%', '100%').attr({ 
-    viewBox: '0 0 ' + ImageSize + ' ' + ImageSize,
-    preserveAspectRatio: alignStr
-  }).group();
+  var draw = draw0.size('100%', '100%').attr({ viewBox: '0 0 ' + ImageSize + ' ' + ImageSize }).group();
   draw.translate(ImageSize / 2, ImageSize / 2);
   draw.scale(ImageSize / 1200);
 

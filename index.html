@@ -40,7 +40,7 @@
         .main-layout {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 135px 220px 135px 1fr;
+            grid-template-columns: auto 1fr 220px 1fr auto;
             gap: 15px;
             padding: 15px;
             box-sizing: border-box;
@@ -61,6 +61,19 @@
             flex-direction: column;
             padding: 0;
             overflow: hidden;
+        }
+        .grid-cell.map-left {
+            aspect-ratio: 1 / 1;
+            height: 100%;
+            width: auto;
+            justify-self: start;
+        }
+
+        .grid-cell.map-right {
+            aspect-ratio: 1 / 1;
+            height: 100%;
+            width: auto;
+            justify-self: end;
         }
 
         .table-col h4 {
@@ -326,10 +339,10 @@
 
         <!-- Map Column Left -->
         <div class="side-column">
-            <div class="grid-cell">
+            <div class="grid-cell map-left">
                 <div class="map-col" id="map-explorer"></div>
             </div>
-            <div class="grid-cell">
+            <div class="grid-cell map-left">
                 <div class="map-col" id="map-creator"></div>
             </div>
         </div>
@@ -420,10 +433,10 @@
 
         <!-- Map Column Right -->
         <div class="side-column">
-            <div class="grid-cell">
+            <div class="grid-cell map-right">
                 <div class="map-col" id="map-innovator"></div>
             </div>
-            <div class="grid-cell">
+            <div class="grid-cell map-right">
                 <div class="map-col" id="map-master"></div>
             </div>
         </div>
