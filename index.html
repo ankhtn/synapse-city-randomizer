@@ -390,18 +390,10 @@
                 </div>
 
                 <div class="comp-box state-inactive" id="box-slot">
-                    <button id="btn-start" onclick="handleStartTimer()">Start Game 1</button>
-
-                    <div id="countdown-clock"
-                        style="font-family: 'Courier New', Courier, monospace; white-space: pre; font-size: 42px; text-align: center; font-weight: bold; background: #2c3e50; color: #95a5a6; width: 100%; padding: 15px 0; border-radius: 4px; box-sizing: border-box; cursor: default; user-select: none;">
-                        2:00
-                    </div>
-
-                    <div id="countdown-progress-bg"
-                        style="width: 100%; height: 10px; background: #95a5a6; border-radius: 6px; margin-top: 6px; overflow: hidden; box-sizing: border-box; display: flex;">
-                        <div id="progress-elapsed"
-                            style="width: 0%; height: 100%; background: #c0392b; transition: width 0.3s ease-out;">
-                        </div>
+                    <button id="btn-start" onclick="handleStartTimer()" style="margin-bottom: 0;">Start Game 1</button>
+                    <div id="countdown-clock" style="display: none;">2:00</div>
+                    <div id="countdown-progress-bg" style="display: none;">
+                        <div id="progress-elapsed"></div>
                     </div>
                 </div>
             </div>
@@ -444,6 +436,30 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Timer Popup -->
+    <div id="timer-popup"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; justify-content: center; align-items: center; background: rgba(0,0,0,0.85); overflow: hidden;">
+        <div
+            style="width: 600px; height: 600px; background: #ffffff; border-radius: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            <svg width="600" height="600" viewBox="0 0 600 600"
+                style="position: absolute; top: 0; left: 0; pointer-events: none; background-color: transparent;">
+                <circle cx="300" cy="300" r="275" fill="none" stroke="#e74c3c" stroke-width="30" />
+                <circle id="popup-ring" cx="300" cy="300" r="275" fill="none" stroke="#029456" stroke-width="30"
+                    stroke-dasharray="1727.88" stroke-dashoffset="0" transform="rotate(-90 300 300)"
+                    style="transition: stroke-dashoffset 1s linear;" />
+            </svg>
+            <div id="popup-game-label"
+                style="color: #000; font-size: 38px; font-weight: bold; margin-bottom: 10px; z-index: 10; letter-spacing: 2px;">
+                Game 1</div>
+            <div id="popup-clock"
+                style="font-family: 'Courier New', monospace; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin-bottom: 20px; line-height: 1;">
+                2:00</div>
+            <button id="popup-action-btn" onclick="handlePopupAction()"
+                style="width: 250px; font-size: 24px; padding: 15px; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s;">Skip
+                ½ Time</button>
+        </div>
     </div>
 
     <script src="script.js"></script>

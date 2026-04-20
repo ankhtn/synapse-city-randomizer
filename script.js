@@ -438,10 +438,7 @@ function applyModeState() {
     timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
-    const clock = document.getElementById('countdown-clock');
     updateClock(120);
-    clock.style.color = '#95a5a6';
-    document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
 
     setBoxState('box-random1', 'inactive');
     setBoxState('box-practice', 'inactive');
@@ -465,10 +462,7 @@ function applyModeState() {
     timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
-    const clock = document.getElementById('countdown-clock');
     updateClock(120);
-    clock.style.color = '#95a5a6';
-    document.getElementById('countdown-progress-bg').style.background = '#95a5a6';
 
     setBoxState('box-random1', 'active');
     setBoxState('box-practice', 'inactive');
@@ -682,34 +676,19 @@ function compRandom2() {
 }
 
 function compStartTimer() {
-  if (timerRunning && !compCountdownFinished) {
-    currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
-    updateClock(currentRemainingSeconds);
-
-    if (currentRemainingSeconds <= 0) {
-      clearInterval(timerInterval);
-      currentRemainingSeconds = 0;
-      const clock = document.getElementById('countdown-clock');
-      clock.style.color = '#e74c3c';
-      compCountdownFinished = true;
-      timerRunning = false;
-
-      currentGameNumber++;
-      document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
-    }
-    return;
-  }
-
+  document.getElementById('timer-popup').style.display = 'flex';
+  document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
+  
   if (timerInterval) clearInterval(timerInterval);
   timerRunning = true;
   compCountdownFinished = false;
 
-  document.getElementById('btn-start').innerText = `Skip ½ Time`;
-
   currentRemainingSeconds = 120;
-  const clock = document.getElementById('countdown-clock');
-  clock.style.color = '#2ecc71';
-  document.getElementById('countdown-progress-bg').style.background = '#2ecc71';
+  
+  const popupClock = document.getElementById('popup-clock');
+  if(popupClock) popupClock.style.color = '#029456';
+  document.getElementById('popup-action-btn').innerText = `Skip ½ Time`;
+  
   updateClock(currentRemainingSeconds);
 
   timerInterval = setInterval(() => {
@@ -717,31 +696,53 @@ function compStartTimer() {
     if (currentRemainingSeconds <= 0) {
       clearInterval(timerInterval);
       currentRemainingSeconds = 0;
-      clock.style.color = '#e74c3c';
-      document.getElementById('countdown-progress-bg').style.background = '#e74c3c';
+      if(popupClock) popupClock.style.color = '#e74c3c';
+      document.getElementById('popup-action-btn').innerText = `Close`;
       compCountdownFinished = true;
       timerRunning = false;
-
-      currentGameNumber++;
-      document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
     }
     updateClock(currentRemainingSeconds);
   }, 1000);
+}
+
+function handlePopupAction() {
+  if (timerRunning && !compCountdownFinished) {
+    currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
+    updateClock(currentRemainingSeconds);
+
+    if (currentRemainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      currentRemainingSeconds = 0;
+      const popupClock = document.getElementById('popup-clock');
+      if(popupClock) popupClock.style.color = '#e74c3c';
+      document.getElementById('popup-action-btn').innerText = `Close`;
+      compCountdownFinished = true;
+      timerRunning = false;
+    }
+  } else if (compCountdownFinished) {
+    document.getElementById('timer-popup').style.display = 'none';
+    currentGameNumber++;
+    document.getElementById('btn-start').innerText = `Start Game ${currentGameNumber}`;
+  }
 }
 
 function updateClock(seconds) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
   let ss = s < 10 ? '0' + s : s;
-  document.getElementById('countdown-clock').innerText = ` ${m}:${ss}`;
+  
+  const popupClock = document.getElementById('popup-clock');
+  if (popupClock) {
+    popupClock.innerText = `${m}:${ss}`;
+  }
 
   let elapsed = 120 - seconds;
-  let percent = (elapsed / 120) * 100;
-  percent = Math.min(100, Math.max(0, percent));
+  let percent = elapsed / 120; // 0 to 1
+  percent = Math.min(1, Math.max(0, percent));
 
-  const prog = document.getElementById('progress-elapsed');
-  if (prog) {
-    prog.style.width = `${percent}%`;
+  const ring = document.getElementById('popup-ring');
+  if (ring) {
+    ring.style.strokeDashoffset = (percent * 1727.88);
   }
 }
 
