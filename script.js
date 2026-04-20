@@ -519,8 +519,12 @@ function handleRandom1() {
     } else {
       globalRandom1();
       document.getElementById('btn-random2').disabled = false;
+      document.getElementById('btn-random1').disabled = false;
       setBoxState('box-random1', 'completed');
-      setBoxState('box-random2', 'active');
+      const box2 = document.getElementById('box-random2');
+      if (box2 && !box2.className.includes('completed')) {
+        setBoxState('box-random2', 'active');
+      }
     }
   }, 100);
 }
@@ -540,6 +544,7 @@ function handleRandom2() {
     } else {
       if (globalRandom2()) {
         document.getElementById('btn-start').disabled = false;
+        document.getElementById('btn-random2').disabled = false;
         setBoxState('box-random2', 'completed');
         setBoxState('box-slot', 'active');
 

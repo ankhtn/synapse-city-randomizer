@@ -40,7 +40,7 @@
         .main-layout {
             flex: 1;
             display: grid;
-            grid-template-columns: auto 1fr 220px 1fr auto;
+            grid-template-columns: auto 1fr 196px 1fr auto;
             gap: 15px;
             padding: 15px;
             box-sizing: border-box;
@@ -300,8 +300,8 @@
         }
 
         .info-table {
-            width: 60%;
-            max-width: 150px;
+            width: 100%;
+            max-width: 200px;
             margin: 0 auto;
             border-collapse: collapse;
             text-align: center;
@@ -443,7 +443,7 @@
     <div id="timer-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; justify-content: center; align-items: center; background: transparent; overflow: hidden;">
         <div
-            style="width: 600px; height: 600px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            style="width: 600px; height: 600px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5); user-select: none; cursor: default;">
             <svg width="100%" height="100%" viewBox="0 0 600 600"
                 style="position: absolute; top: 0; left: 0; pointer-events: none; background-color: transparent;">
                 <circle cx="300" cy="300" r="275" fill="none" stroke="#e74c3c" stroke-width="30" />
