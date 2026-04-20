@@ -516,8 +516,8 @@ function handleSingleModeToggle() {
 
 function handleReset() {
   if (isCompetitionMode) {
-    if (compRoundActive && !compCountdownFinished) {
-      if (!confirm("This round is still in progress (countdown not finished). Are you sure you want to abandon it and start a New Round?")) {
+    if (compRoundActive) {
+      if (!confirm("A competition round is already in progress. Starting a New Round will clear the current setup and any game/countdown progress. Do you want to continue?")) {
         return;
       }
     }
@@ -780,6 +780,16 @@ function handlePopupAction() {
   }
 }
 
+function getPopupRingCircumference() {
+  const ring = document.getElementById('popup-ring');
+  if (!ring) return 0;
+
+  const radius = parseFloat(ring.getAttribute('r'));
+  if (!Number.isFinite(radius)) return 0;
+
+  return 2 * Math.PI * radius;
+}
+
 function updateClock(seconds, isSkip = false) {
   let m = Math.floor(seconds / 60);
   let s = seconds % 60;
@@ -798,6 +808,9 @@ function updateClock(seconds, isSkip = false) {
 
   const ring = document.getElementById('popup-ring');
   if (ring) {
+    const circumference = getPopupRingCircumference();
+    ring.style.strokeDasharray = `${circumference}`;
+
     if (!timerRunning) {
       ring.style.transition = 'none'; // Tắt hiệu ứng nếu timer đang dừng (để snap mượt)
     } else if (isSkip) {
@@ -805,7 +818,7 @@ function updateClock(seconds, isSkip = false) {
     } else {
       ring.style.transition = 'stroke-dashoffset 1s linear';
     }
-    ring.style.strokeDashoffset = -(percent * 1727.88);
+    ring.style.strokeDashoffset = -(percent * circumference);
   }
 }
 
