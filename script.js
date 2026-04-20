@@ -736,13 +736,21 @@ function updateClock(seconds) {
     popupClock.innerText = ` ${m}:${ss}`;
   }
 
-  let elapsed = 120 - seconds;
+  // Tiên lượng trước 1 giây để hiệu ứng CSS mượt 1s (linear) luôn về đích cùng lúc với JS
+  let targetSeconds = timerRunning ? Math.max(0, seconds - 1) : seconds;
+
+  let elapsed = 120 - targetSeconds;
   let percent = elapsed / 120; // 0 to 1
   percent = Math.min(1, Math.max(0, percent));
 
   const ring = document.getElementById('popup-ring');
   if (ring) {
-    ring.style.strokeDashoffset = (percent * 1727.88);
+    if (!timerRunning) {
+      ring.style.transition = 'none'; // Tắt hiệu ứng nếu timer đang dừng (để snap mượt)
+    } else {
+      ring.style.transition = 'stroke-dashoffset 1s linear';
+    }
+    ring.style.strokeDashoffset = -(percent * 1727.88);
   }
 }
 

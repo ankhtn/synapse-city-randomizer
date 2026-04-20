@@ -443,7 +443,7 @@
     <div id="timer-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; justify-content: center; align-items: center; background: transparent; overflow: hidden;">
         <div
-            style="width: 720px; height: 720px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            style="width: 600px; height: 600px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
             <svg width="100%" height="100%" viewBox="0 0 600 600"
                 style="position: absolute; top: 0; left: 0; pointer-events: none; background-color: transparent;">
                 <circle cx="300" cy="300" r="275" fill="none" stroke="#e74c3c" stroke-width="30" />
@@ -452,13 +452,13 @@
                     style="transition: stroke-dashoffset 1s linear;" />
             </svg>
             <div id="popup-game-label"
-                style="color: #000; font-size: 46px; font-weight: bold; margin-bottom: 12px; z-index: 10; letter-spacing: 2px;">
+                style="position: absolute; top: 16%; left: 50%; transform: translateX(-50%); color: #000; font-size: 38px; font-weight: bold; z-index: 10; letter-spacing: 2px; margin: 0;">
                 Game 1</div>
             <div id="popup-clock"
-                style="font-family: 'Courier New', monospace; white-space: pre; font-size: 156px; font-weight: bold; color: #029456; z-index: 10; margin-bottom: 24px; line-height: 1;">
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
                 2:00</div>
             <button id="popup-action-btn" onclick="handlePopupAction()"
-                style="width: 300px; font-size: 29px; padding: 18px; border-radius: 14px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s;">Skip
+                style="position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%); width: 210px; font-size: 21px; padding: 12px; border-radius: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s; margin: 0;">Skip
                 ½ Time</button>
         </div>
     </div>
