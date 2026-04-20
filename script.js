@@ -14,7 +14,7 @@ const PollutionColors = [
   ['Blue', '#11F'],
   ['Purple', '#71F'],
   ['Yellow', '#EE0'],    // yellow 2
-  ['Mystery', '#222'],
+  ['Mystery', '#FFF'],
   ['', 'none'],
 ];
 
@@ -391,7 +391,15 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
     let bgColor = LightColorMap[entry.colorName] || 'transparent';
     let siteColor = entry.site === '?' ? '#aeb6bf' : '#333';
     let labelColor = entry.colorName === '?' ? '#aeb6bf' : '#333';
-    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor};">${entry.site}</td><td style="color: ${labelColor};">${entry.colorName}</td></tr>`;
+    let displayName = entry.colorName;
+
+    if (entry.colorName === 'Mystery') {
+      bgColor = '#ffffff';
+      displayName = 'Mystery *';
+      labelColor = '#e74c3c'; // Red
+    }
+
+    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor};">${entry.site}</td><td style="color: ${labelColor}; font-weight: ${entry.colorName === 'Mystery' ? 'bold' : 'normal'};">${displayName}</td></tr>`;
   }
   tableHtml += '</table>';
 
