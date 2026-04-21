@@ -837,3 +837,18 @@ function toggleFullScreen() {
 window.onload = () => {
   applyModeState();
 };
+
+document.addEventListener("fullscreenchange", () => {
+  const btn = document.getElementById("btn-fullscreen");
+  if (btn) {
+    if (document.fullscreenElement) {
+      btn.innerText = "🗗";
+    } else {
+      btn.innerText = "⛶";
+    }
+  }
+});
+
+// Dummy function to keep the syntax valid since we replaced the closing brace
+function _dummy() {
+};
