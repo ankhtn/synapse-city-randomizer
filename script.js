@@ -838,6 +838,7 @@ function updateClock(seconds, isSkip = false) {
 
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
+    syncFullscreenMapSize();
     document.documentElement.requestFullscreen().catch(err => {
       console.log(`Error attempting to enable fullscreen: ${err.message}`);
     });
@@ -845,6 +846,15 @@ function toggleFullScreen() {
     if (document.exitFullscreen) {
       document.exitFullscreen();
     }
+  }
+}
+
+function syncFullscreenMapSize() {
+  const mapCells = document.querySelectorAll('.grid-cell.map-left, .grid-cell.map-right');
+  const maxMapWidth = Math.max(...Array.from(mapCells, cell => cell.getBoundingClientRect().width), 0);
+
+  if (maxMapWidth > 0) {
+    document.body.style.setProperty('--fullscreen-map-max-size', `${Math.round(maxMapWidth)}px`);
   }
 }
 
