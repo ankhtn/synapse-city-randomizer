@@ -404,8 +404,9 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 
     // Site column always center, color column changes based on "?" state
     let colorTextAlign = displayName === '?' ? 'center' : 'left';
+    let paddingLeft = displayName === '?' ? '0' : '15px';
 
-    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor}; text-align: center; font-weight: bold;">${entry.site}</td><td style="text-align: ${colorTextAlign}; padding-left: 15px; color: ${labelColor}; font-weight: bold;">${displayName}</td></tr>`;
+    tableHtml += `<tr style="background-color: ${bgColor};"><td style="color: ${siteColor}; text-align: center; font-weight: bold;">${entry.site}</td><td style="text-align: ${colorTextAlign}; padding-left: ${paddingLeft}; color: ${labelColor}; font-weight: bold;">${displayName}</td></tr>`;
   }
   tableHtml += '</table>';
 
