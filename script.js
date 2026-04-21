@@ -514,10 +514,23 @@ function handleSingleModeToggle() {
   applyModeState();
 }
 
+function handleConfirmYes() {
+  const popup = document.getElementById('confirm-popup');
+  if (popup) popup.style.display = 'none';
+  compResetRound();
+}
+
+function handleConfirmNo() {
+  const popup = document.getElementById('confirm-popup');
+  if (popup) popup.style.display = 'none';
+}
+
 function handleReset() {
   if (isCompetitionMode) {
     if (compRoundActive) {
-      if (!confirm("A competition round is already in progress. Starting a New Round will clear the current setup and any game/countdown progress. Do you want to continue?")) {
+      const popup = document.getElementById('confirm-popup');
+      if (popup) {
+        popup.style.display = 'flex';
         return;
       }
     }
@@ -848,7 +861,3 @@ document.addEventListener("fullscreenchange", () => {
     document.body.classList.remove("is-fullscreen");
   }
 });
-
-// Dummy function to keep the syntax valid since we replaced the closing brace
-function _dummy() {
-};
