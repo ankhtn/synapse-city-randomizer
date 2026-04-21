@@ -840,12 +840,12 @@ window.onload = () => {
 
 document.addEventListener("fullscreenchange", () => {
   const btn = document.getElementById("btn-fullscreen");
-  if (btn) {
-    if (document.fullscreenElement) {
-      btn.innerText = "🗗";
-    } else {
-      btn.innerText = "⛶";
-    }
+  if (document.fullscreenElement) {
+    if (btn) btn.innerText = "🗗";
+    document.body.classList.add("is-fullscreen");
+  } else {
+    if (btn) btn.innerText = "⛶";
+    document.body.classList.remove("is-fullscreen");
   }
 });
 
