@@ -223,18 +223,32 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   } else if (stage === -1) {
     random2 = [];
   } else {
+    const IntersectRules = [
+      [1, 'ABC'],
+      [1, 'BDG'],
+      [1, 'CFH'],
+      [1, 'ABD'],
+      [1, 'ACF'],
+      [1, 'CEG'],
+      [1, 'BEH'],
+      [1, 'GEH'],
+      [1, 'DGHF'],
+      [2, 'ABCDF']
+    ];
+
     let random1;
     while (true) {
       random1 = generateRandomPollutions().slice(0, PollutionCount);
-      if (countIntersect(random1, 'ABC') < 1) continue;
-      if (countIntersect(random1, 'BDG') < 1) continue;
-      if (countIntersect(random1, 'CFH') < 1) continue;
-      if (countIntersect(random1, 'ABD') < 1) continue;
-      if (countIntersect(random1, 'ACF') < 1) continue;
-      if (countIntersect(random1, 'CEG') < 1) continue;
-      if (countIntersect(random1, 'BEH') < 1) continue;
-      if (countIntersect(random1, 'DGHF') < 1) continue;
-      if (countIntersect(random1, 'ABCDF') < 2) continue;
+      
+      let valid = true;
+      for (let rule of IntersectRules) {
+        if (countIntersect(random1, rule[1]) < rule[0]) {
+          valid = false;
+          break;
+        }
+      }
+      if (!valid) continue;
+      
       break;
     }
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
