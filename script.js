@@ -422,6 +422,13 @@ let compCountdownFinished = false;
 let timerRunning = false;
 let currentGameNumber = 1;
 let currentRemainingSeconds = 0;
+let currentRoundNumber = 1;
+let pendingRoundDelta = 1;
+
+function updateRoundLabel() {
+  const lbl = document.getElementById('round-label');
+  if (lbl) lbl.innerText = `Round ${currentRoundNumber}`;
+}
 
 function setBoxState(boxId, stateClass) {
   const box = document.getElementById(boxId);
@@ -518,7 +525,7 @@ function handleSingleModeToggle() {
 function handleConfirmYes() {
   const popup = document.getElementById('confirm-popup');
   if (popup) popup.style.display = 'none';
-  compResetRound();
+  executeReset();
 }
 
 function handleConfirmNo() {
@@ -527,6 +534,16 @@ function handleConfirmNo() {
 }
 
 function handleReset() {
+  pendingRoundDelta = 1;
+  promptReset();
+}
+
+function handlePrevRound() {
+  pendingRoundDelta = -1;
+  promptReset();
+}
+
+function promptReset() {
   if (isCompetitionMode) {
     if (compRoundActive) {
       const popup = document.getElementById('confirm-popup');
@@ -535,6 +552,18 @@ function handleReset() {
         return;
       }
     }
+    executeReset();
+  } else {
+    executeReset();
+  }
+}
+
+function executeReset() {
+  currentRoundNumber += pendingRoundDelta;
+  if (currentRoundNumber < 1) currentRoundNumber = 1;
+  updateRoundLabel();
+  
+  if (isCompetitionMode) {
     compResetRound();
   } else {
     applyModeState();

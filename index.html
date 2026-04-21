@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synapse City Randomizer</title>
+    <title>Synapse City Randomizer and Flow Control</title>
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.2.5/dist/svg.min.js"></script>
     <style>
         body {
@@ -386,7 +386,14 @@
             <h1>Synapse City</h1>
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
-                <button id="btn-reset" onclick="handleReset()">New Round</button>
+                <div id="round-label"
+                    style="font-weight: bold; margin-bottom: 5px; font-size: 16px; user-select: none;">Round 1</div>
+                <div style="display: flex; width: 100%; gap: 5px; margin-bottom: 8px;">
+                    <button id="btn-prev-round" onclick="handlePrevRound()"
+                        style="width: auto; padding: 8px 12px; margin-bottom: 0; font-size: 14px;">◀</button>
+                    <button id="btn-reset" onclick="handleReset()" style="flex: 1; margin-bottom: 0;">New Round
+                        ▶</button>
+                </div>
 
                 <div class="comp-box state-active" id="box-random1" style="margin-top: 10px;">
                     <div class="box-title">Random 1</div>
