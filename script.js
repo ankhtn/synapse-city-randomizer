@@ -455,7 +455,7 @@ function applyModeState() {
     currentGameNumber = 1;
     btnStart.innerText = `Complete`;
     const titleEl1 = document.getElementById('box-slot-title');
-    if (titleEl1) titleEl1.innerText = `Game ${currentGameNumber} Setup`;
+    if (titleEl1) titleEl1.innerText = `Setup Field Track`;
 
     compRoundActive = false;
     compCountdownFinished = false;
@@ -481,7 +481,7 @@ function applyModeState() {
     currentGameNumber = 1;
     btnStart.innerText = `Complete`;
     const titleEl2 = document.getElementById('box-slot-title');
-    if (titleEl2) titleEl2.innerText = `Game ${currentGameNumber} Setup`;
+    if (titleEl2) titleEl2.innerText = `Setup Field Track`;
 
     compRoundActive = false;
     compCountdownFinished = false;
@@ -547,7 +547,12 @@ function promptReset() {
   if (isCompetitionMode) {
     if (compRoundActive) {
       const popup = document.getElementById('confirm-popup');
+      const textEl = document.getElementById('confirm-popup-text');
       if (popup) {
+        if (textEl) {
+           let actionName = pendingRoundDelta === 1 ? "a New Round" : "the Previous Round";
+           textEl.innerHTML = `A competition round is already in progress. Going to <b>${actionName}</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
+        }
         popup.style.display = 'flex';
         return;
       }
@@ -618,7 +623,7 @@ function handleRandom2() {
         const btnStart = document.getElementById('btn-start');
         btnStart.innerText = `Complete`;
         const titleEl = document.getElementById('box-slot-title');
-        if (titleEl) titleEl.innerText = `Game ${currentGameNumber} Setup`;
+        if (titleEl) titleEl.innerText = `Setup Field Track`;
       } else {
         document.getElementById('btn-random2').disabled = false;
         setBoxState('box-random2', 'active');
@@ -686,7 +691,7 @@ function compResetRound() {
   currentGameNumber = 1;
   document.getElementById('btn-start').innerText = `Complete`;
   const titleEl = document.getElementById('box-slot-title');
-  if (titleEl) titleEl.innerText = `Game ${currentGameNumber} Setup`;
+  if (titleEl) titleEl.innerText = `Setup Field Track`;
 
   if (timerInterval) clearInterval(timerInterval);
   const clock = document.getElementById('countdown-clock');
@@ -811,7 +816,7 @@ function handlePopupAction() {
     currentGameNumber++;
 
     const titleEl = document.getElementById('box-slot-title');
-    if (titleEl) titleEl.innerText = `Game ${currentGameNumber} Setup`;
+    if (titleEl) titleEl.innerText = `Setup Field Track`;
 
     const btnStart = document.getElementById('btn-start');
     if (btnStart) {
