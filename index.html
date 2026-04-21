@@ -108,10 +108,10 @@
             align-items: center;
             gap: 10px;
             margin-top: 10px;
-            background: #34495e;
+            background: transparent;
             padding: 15px;
             border-radius: 5px;
-            color: #ecf0f1;
+            color: #333;
             font-size: 14px;
             font-weight: bold;
         }
@@ -169,11 +169,11 @@
         }
 
         .toggle-labels .active {
-            color: #ffffff;
+            color: #333;
         }
 
         .toggle-labels .inactive {
-            color: #7f8c8d;
+            color: #999;
         }
 
         input:focus+.slider {
@@ -362,6 +362,8 @@
 
         <!-- Center Column -->
         <div class="center-panel">
+            <button id="btn-fullscreen" onclick="toggleFullScreen()"
+                style="background-color: #34495e; margin-bottom: 10px; font-size: 12px; padding: 6px 10px; width: auto; align-self: center;">⛶</button>
             <h1>Synapse City</h1>
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
