@@ -1038,6 +1038,15 @@ function updateClock(seconds, isSkip = false) {
     }
     ring.style.strokeDashoffset = -(percent * circumference);
   }
+
+  const actionBtn = document.getElementById('popup-action-btn');
+  if (actionBtn && timerRunning) {
+    if (seconds <= 5 && seconds > 0) {
+      actionBtn.innerText = seconds;
+    } else if (seconds > 5) {
+      actionBtn.innerText = 'GO';
+    }
+  }
 }
 
 function toggleFullScreen() {
