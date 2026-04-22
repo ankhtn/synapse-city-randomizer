@@ -287,22 +287,22 @@
         }
 
         .btn-team.team-active {
-            background-color: #dbeafe !important;
-            color: #1e40af !important;
+            background-color: #198754 !important;
+            color: white !important;
             opacity: 1 !important;
-            cursor: default !important;
+            cursor: pointer !important;
         }
 
         .btn-team.team-completed {
-            background-color: #dbeafe !important;
-            color: #1e40af !important;
+            background-color: #d4edda !important;
+            color: #155724 !important;
             opacity: 1 !important;
             cursor: default !important;
         }
 
         .btn-team.team-disabled {
-            background-color: #fff3cd !important;
-            color: #856404 !important;
+            background-color: #e9ecef !important;
+            color: #6c757d !important;
             opacity: 1 !important;
             cursor: default !important;
         }
