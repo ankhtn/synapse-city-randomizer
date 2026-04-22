@@ -571,13 +571,13 @@ function applyModeState() {
 
 function setMode(isComp) {
   const toggle = document.getElementById('mode-toggle');
-  toggle.checked = isComp;
+  toggle.checked = !isComp;
   handleSingleModeToggle();
 }
 
 function handleSingleModeToggle() {
   const toggle = document.getElementById('mode-toggle');
-  isCompetitionMode = toggle.checked;
+  isCompetitionMode = !toggle.checked;
 
   const labelFree = document.getElementById('label-free');
   const labelComp = document.getElementById('label-comp');
@@ -1060,7 +1060,7 @@ function syncFullscreenMapSize() {
 }
 
 window.onload = () => {
-  applyModeState();
+  handleSingleModeToggle();
 };
 
 document.addEventListener("fullscreenchange", () => {
