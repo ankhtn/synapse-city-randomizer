@@ -438,6 +438,7 @@ let currentGameNumber = 1;
 let currentRemainingSeconds = 0;
 let currentRoundNumber = 1;
 let pendingRoundDelta = 1;
+let usedTeams = [];
 
 function updateRoundLabel() {
   const lbl = document.getElementById('round-label');
@@ -482,6 +483,7 @@ function applyModeState() {
     setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
     setBoxState('box-random2', 'inactive');
+    setBoxState('box-select-team', 'inactive');
     setBoxState('box-slot', 'inactive');
   } else {
     globalClear();
@@ -508,7 +510,16 @@ function applyModeState() {
     setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
     setBoxState('box-random2', 'inactive');
+    setBoxState('box-select-team', 'inactive');
     setBoxState('box-slot', 'inactive');
+  }
+
+  usedTeams = [];
+  const teamTitle = document.getElementById('box-team-title');
+  if (teamTitle) teamTitle.innerText = 'Select Team';
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.getElementById(`btn-team-${i}`);
+    if (btn) btn.disabled = true;
   }
 }
 
@@ -578,7 +589,13 @@ function promptReset() {
 }
 
 function executeReset() {
-  currentRoundNumber += pendingRoundDelta;
+  if (pendingRoundDelta > 0) {
+    if (!isCompetitionMode || compCountdownFinished) {
+      currentRoundNumber += pendingRoundDelta;
+    }
+  } else {
+    currentRoundNumber += pendingRoundDelta;
+  }
   if (currentRoundNumber < 1) currentRoundNumber = 1;
   updateRoundLabel();
 
@@ -717,7 +734,16 @@ function compResetRound() {
   setBoxState('box-practice', 'inactive');
   setBoxState('box-quarantine', 'inactive');
   setBoxState('box-random2', 'inactive');
+  setBoxState('box-select-team', 'inactive');
   setBoxState('box-slot', 'inactive');
+
+  usedTeams = [];
+  const teamTitle = document.getElementById('box-team-title');
+  if (teamTitle) teamTitle.innerText = 'Select Team';
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.getElementById(`btn-team-${i}`);
+    if (btn) btn.disabled = true;
+  }
 
   compRoundActive = false;
   compCountdownFinished = false;
@@ -753,9 +779,32 @@ function compRandom2() {
   globalRandom2();
   document.getElementById('btn-random2').disabled = true;
   document.getElementById('btn-quarantine').disabled = true;
-  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-start').disabled = true;
 
   setBoxState('box-random2', 'completed');
+  setBoxState('box-select-team', 'active');
+  const teamTitle = document.getElementById('box-team-title');
+  if (teamTitle) teamTitle.innerText = 'Select Team';
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.getElementById(`btn-team-${i}`);
+    if (btn) btn.disabled = usedTeams.includes(i);
+  }
+}
+
+function handleSelectTeam(teamId) {
+  usedTeams.push(teamId);
+  
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.getElementById(`btn-team-${i}`);
+    if (btn) btn.disabled = true;
+  }
+  
+  const teamTitle = document.getElementById('box-team-title');
+  if (teamTitle) teamTitle.innerText = `Team ${teamId}`;
+  
+  setBoxState('box-select-team', 'selected');
+  
+  document.getElementById('btn-start').disabled = false;
   setBoxState('box-slot', 'active');
 }
 
@@ -832,13 +881,29 @@ function handlePopupAction() {
     const titleEl = document.getElementById('box-slot-title');
     if (titleEl) titleEl.innerText = `Setup Field Track`;
 
-    const btnStart = document.getElementById('btn-start');
-    if (btnStart) {
-      btnStart.innerText = `Complete`;
-      btnStart.disabled = false;
-    }
+    if (isCompetitionMode) {
+      const btnStart = document.getElementById('btn-start');
+      if (btnStart) {
+        btnStart.innerText = `Complete`;
+        btnStart.disabled = true;
+      }
+      setBoxState('box-slot', 'inactive');
 
-    setBoxState('box-slot', 'active');
+      setBoxState('box-select-team', 'active');
+      const teamTitle = document.getElementById('box-team-title');
+      if (teamTitle) teamTitle.innerText = 'Select Team';
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`btn-team-${i}`);
+        if (btn) btn.disabled = usedTeams.includes(i);
+      }
+    } else {
+      const btnStart = document.getElementById('btn-start');
+      if (btnStart) {
+        btnStart.innerText = `Complete`;
+        btnStart.disabled = false;
+      }
+      setBoxState('box-slot', 'active');
+    }
   }
 }
 

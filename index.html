@@ -282,6 +282,15 @@
             color: #155724;
         }
 
+        .state-selected {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .state-selected .box-title {
+            color: #1e40af;
+        }
+
         .cell-body {
             display: flex;
             flex: 1;
@@ -417,6 +426,16 @@
                     <button id="btn-random2" onclick="handleRandom2()" style="margin-bottom: 0;">Announce</button>
                 </div>
 
+                <div class="comp-box state-inactive" id="box-select-team">
+                    <div class="box-title" id="box-team-title">Select Team</div>
+                    <div style="display: flex; gap: 5px; width: 100%; justify-content: center;">
+                        <button id="btn-team-1" onclick="handleSelectTeam(1)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>1</button>
+                        <button id="btn-team-2" onclick="handleSelectTeam(2)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>2</button>
+                        <button id="btn-team-3" onclick="handleSelectTeam(3)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>3</button>
+                        <button id="btn-team-4" onclick="handleSelectTeam(4)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>4</button>
+                    </div>
+                </div>
+
                 <div class="comp-box state-inactive" id="box-slot">
                     <div class="box-title" id="box-slot-title">Setup Field Track</div>
                     <button id="btn-start" onclick="handleStartTimer()" style="margin-bottom: 0;">Complete</button>
@@ -501,8 +520,7 @@
                 want to continue?</p>
             <div style="display: flex; justify-content: center; gap: 15px;">
                 <button onclick="handleConfirmYes()"
-                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 14px;">Yes, Start New
-                    Round</button>
+                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 14px;">Yes, Reset this Round</button>
                 <button onclick="handleConfirmNo()"
                     style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 14px;">Cancel</button>
             </div>
