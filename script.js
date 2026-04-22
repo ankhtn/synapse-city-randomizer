@@ -871,7 +871,7 @@ function compStartTimer() {
   btn.style.color = 'white';
 
   const skipBtn = document.getElementById('popup-skip-btn');
-  if (skipBtn) skipBtn.style.display = 'none';
+  if (skipBtn) skipBtn.disabled = true;
 
   updateClock(currentRemainingSeconds);
 }
@@ -895,8 +895,8 @@ function handlePopupAction() {
         btn.innerText = count;
       } else if (count === 0) {
         btn.innerText = 'GO';
-        btn.style.backgroundColor = '#dbeafe';
-        btn.style.color = '#333';
+        btn.style.backgroundColor = '#d4edda';
+        btn.style.color = '#6c757d';
 
         timerRunning = true;
         const popupClock = document.getElementById('popup-clock');
@@ -918,7 +918,7 @@ function handlePopupAction() {
             btn.style.backgroundColor = '#007bff';
             btn.style.color = 'white';
             const skipBtn = document.getElementById('popup-skip-btn');
-            if (skipBtn) skipBtn.style.display = 'none';
+            if (skipBtn) skipBtn.disabled = true;
             compCountdownFinished = true;
             timerRunning = false;
           }
@@ -928,7 +928,7 @@ function handlePopupAction() {
         clearInterval(preTimerInterval);
         if (timerRunning) {
           const skipBtn = document.getElementById('popup-skip-btn');
-          if (skipBtn) skipBtn.style.display = 'flex';
+          if (skipBtn) skipBtn.disabled = false;
         }
       }
     }, 1000);
@@ -990,7 +990,7 @@ function handleSkipAction() {
       }
 
       const skipBtn = document.getElementById('popup-skip-btn');
-      if (skipBtn) skipBtn.style.display = 'none';
+      if (skipBtn) skipBtn.disabled = true;
 
       compCountdownFinished = true;
       timerRunning = false;

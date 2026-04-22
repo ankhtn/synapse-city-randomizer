@@ -307,6 +307,12 @@
             cursor: default !important;
         }
 
+        #popup-skip-btn:disabled {
+            background-color: #e9ecef !important;
+            color: #6c757d !important;
+            cursor: default !important;
+        }
+
         .btn-team.team-enabled {
             background-color: #007bff !important;
             color: white !important;
