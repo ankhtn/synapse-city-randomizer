@@ -890,7 +890,7 @@ function handlePopupAction() {
     btn.disabled = true;
     btn.style.cursor = 'default';
     btn.style.backgroundColor = '#ffcccc';
-    btn.style.color = '#c0392b';
+    btn.style.color = '#333';
     let count = 3;
     btn.innerText = count;
 
@@ -902,7 +902,7 @@ function handlePopupAction() {
       } else if (count === 0) {
         btn.innerText = 'GO';
         btn.style.backgroundColor = '#dbeafe';
-        btn.style.color = '#1e40af';
+        btn.style.color = '#333';
 
         timerRunning = true;
         const popupClock = document.getElementById('popup-clock');
