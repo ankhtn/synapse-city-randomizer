@@ -1,4 +1,4 @@
-﻿        body {
+        body {
             margin: 0;
             display: flex;
             height: 100vh;
@@ -230,13 +230,15 @@
             width: 80%;
         }
 
+        #box-random1,
         #box-select-team {
-            margin-top: 15px;
+            margin-top: 25px;
             transition: margin-top 0.3s ease;
         }
 
+        body.is-fullscreen #box-random1,
         body.is-fullscreen #box-select-team {
-            margin-top: 90px;
+            margin-top: 40px;
         }
 
         #box-slot {

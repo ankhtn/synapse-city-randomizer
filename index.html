@@ -45,13 +45,20 @@
 
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
-                <div style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px;">
-                    <button id="btn-reset" onclick="handleReset()" style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;" data-tippy-content="Reset Round 1">↺</button>
-                    <div id="round-label" style="font-weight: bold; font-size: 18px; user-select: none; flex: 1; text-align: center;">Round 1</div>
-                    <button id="btn-next-round" onclick="handleNextRound()" style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;" data-tippy-content="Begin Round 2" disabled>▶</button>
+                <div
+                    style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px;">
+                    <button id="btn-reset" onclick="handleReset()"
+                        style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;"
+                        data-tippy-content="Reset Round 1">↺</button>
+                    <div id="round-label"
+                        style="font-weight: bold; font-size: 18px; user-select: none; flex: 1; text-align: center;">
+                        Round 1</div>
+                    <button id="btn-next-round" onclick="handleNextRound()"
+                        style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;"
+                        data-tippy-content="Begin Round 2" disabled>▶</button>
                 </div>
 
-                <div class="comp-box state-active" id="box-random1" style="margin-top: 10px;">
+                <div class="comp-box state-active" id="box-random1">
                     <div class="box-title">Random 1</div>
                     <button id="btn-random1" onclick="handleRandom1()" style="margin-bottom: 0;">Announce</button>
                 </div>
