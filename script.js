@@ -431,6 +431,8 @@ function renderTable(randomSites, siteCount, stage, tableContainerId) {
 }
 
 let isCompetitionMode = false;
+let timerInterval = null;
+let preTimerInterval = null;
 let compRoundActive = false;
 let compCountdownFinished = false;
 let timerRunning = false;
@@ -746,8 +748,6 @@ function globalClear() {
   generateMap(7, -1, 'map-master', 'table-master');
 }
 
-let timerInterval = null;
-
 function compResetRound() {
   globalClear();
 
@@ -849,6 +849,7 @@ function compStartTimer() {
   document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
 
   if (timerInterval) clearInterval(timerInterval);
+  if (preTimerInterval) clearInterval(preTimerInterval);
   timerRunning = false;
   compCountdownFinished = false;
 
@@ -862,7 +863,12 @@ function compStartTimer() {
     ring.style.stroke = '#95a5a6';
   }
 
-  document.getElementById('popup-action-btn').innerText = `Start`;
+  const btn = document.getElementById('popup-action-btn');
+  btn.innerText = `Start`;
+  btn.disabled = false;
+  btn.style.cursor = 'pointer';
+  btn.style.backgroundColor = '#007bff';
+  btn.style.color = 'white';
 
   updateClock(currentRemainingSeconds);
 }
@@ -872,30 +878,60 @@ function handlePopupAction() {
   const action = btn.innerText.trim();
 
   if (action === 'Start') {
-    timerRunning = true;
+    btn.disabled = true;
+    btn.style.cursor = 'default';
+    btn.style.backgroundColor = '#ffcccc';
+    btn.style.color = '#c0392b';
+    let count = 3;
+    btn.innerText = count;
 
-    const popupClock = document.getElementById('popup-clock');
-    if (popupClock) popupClock.style.color = '#029456';
-    const ring = document.getElementById('popup-ring');
-    if (ring) ring.style.stroke = '#029456';
+    if (preTimerInterval) clearInterval(preTimerInterval);
+    preTimerInterval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        btn.innerText = count;
+      } else if (count === 0) {
+        btn.innerText = 'GO';
+        btn.style.backgroundColor = '#dbeafe';
+        btn.style.color = '#1e40af';
+        
+        timerRunning = true;
+        const popupClock = document.getElementById('popup-clock');
+        if (popupClock) popupClock.style.color = '#029456';
+        const ring = document.getElementById('popup-ring');
+        if (ring) ring.style.stroke = '#029456';
+        updateClock(currentRemainingSeconds);
 
-    btn.innerText = 'Skip ½ Time';
-    updateClock(currentRemainingSeconds);
-
-    timerInterval = setInterval(() => {
-      currentRemainingSeconds--;
-      if (currentRemainingSeconds <= 0) {
-        clearInterval(timerInterval);
-        currentRemainingSeconds = 0;
-        if (popupClock) popupClock.style.color = '#e74c3c';
-        btn.innerText = `Complete`;
-        compCountdownFinished = true;
-        timerRunning = false;
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          currentRemainingSeconds--;
+          if (currentRemainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            currentRemainingSeconds = 0;
+            if (popupClock) popupClock.style.color = '#e74c3c';
+            btn.innerText = `Complete`;
+            btn.disabled = false;
+            btn.style.cursor = 'pointer';
+            btn.style.backgroundColor = '#007bff';
+            btn.style.color = 'white';
+            compCountdownFinished = true;
+            timerRunning = false;
+          }
+          updateClock(currentRemainingSeconds);
+        }, 1000);
+      } else if (count === -3) {
+        clearInterval(preTimerInterval);
+        if (timerRunning) {
+          btn.disabled = false;
+          btn.style.cursor = 'pointer';
+          btn.style.backgroundColor = '#007bff';
+          btn.style.color = 'white';
+          btn.innerText = 'Skip ½ time ⏭';
+        }
       }
-      updateClock(currentRemainingSeconds);
     }, 1000);
 
-  } else if (action === 'Skip ½ Time') {
+  } else if (action === 'Skip ½ time ⏭') {
     if (timerRunning && !compCountdownFinished) {
       currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
       updateClock(currentRemainingSeconds, true);
@@ -906,6 +942,10 @@ function handlePopupAction() {
         const popupClock = document.getElementById('popup-clock');
         if (popupClock) popupClock.style.color = '#e74c3c';
         btn.innerText = `Complete`;
+        btn.disabled = false;
+        btn.style.cursor = 'pointer';
+        btn.style.backgroundColor = '#007bff';
+        btn.style.color = 'white';
         compCountdownFinished = true;
         timerRunning = false;
       }
