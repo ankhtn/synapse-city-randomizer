@@ -935,12 +935,12 @@ function handlePopupAction() {
           btn.style.cursor = 'pointer';
           btn.style.backgroundColor = '#007bff';
           btn.style.color = 'white';
-          btn.innerText = 'Skip ½ time ⏭';
+          btn.innerHTML = 'Skip ½ time &nbsp;⏭';
         }
       }
     }, 1000);
 
-  } else if (action === 'Skip ½ time ⏭') {
+  } else if (action.includes('Skip ½ time')) {
     if (timerRunning && !compCountdownFinished) {
       currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
       updateClock(currentRemainingSeconds, true);
