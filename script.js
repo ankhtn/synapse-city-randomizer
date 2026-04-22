@@ -229,8 +229,8 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
       [1, 'CFH'],
       [1, 'ABD'],
       [1, 'ACF'],
-      [1, 'CEG'],
-      [1, 'BEH'],
+      //[1, 'CEG'],
+      //[1, 'BEH'],
       [1, 'GEH'],
       [1, 'DGHF'],
       [2, 'ABCDF']
@@ -239,7 +239,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     let random1;
     while (true) {
       random1 = generateRandomPollutions().slice(0, PollutionCount);
-      
+
       let valid = true;
       for (let rule of IntersectRules) {
         if (countIntersect(random1, rule[1]) < rule[0]) {
@@ -248,7 +248,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
         }
       }
       if (!valid) continue;
-      
+
       break;
     }
     console.log('Pollutions Level ' + PollutionCount + ':', random1);
@@ -564,8 +564,8 @@ function promptReset() {
       const textEl = document.getElementById('confirm-popup-text');
       if (popup) {
         if (textEl) {
-           let actionName = pendingRoundDelta === 1 ? "a New Round" : "the Previous Round";
-           textEl.innerHTML = `A competition round is already in progress. Going to <b>${actionName}</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
+          let actionName = pendingRoundDelta === 1 ? "a New Round" : "the Previous Round";
+          textEl.innerHTML = `A competition round is already in progress. Going to <b>${actionName}</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
         }
         popup.style.display = 'flex';
         return;
@@ -581,7 +581,7 @@ function executeReset() {
   currentRoundNumber += pendingRoundDelta;
   if (currentRoundNumber < 1) currentRoundNumber = 1;
   updateRoundLabel();
-  
+
   if (isCompetitionMode) {
     compResetRound();
   } else {
