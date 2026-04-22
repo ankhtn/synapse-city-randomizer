@@ -870,7 +870,7 @@ function compStartTimer() {
   }
 
   const btn = document.getElementById('popup-action-btn');
-  btn.innerText = `3 2 1 GO`;
+  btn.innerHTML = `3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO`;
   btn.disabled = false;
   btn.style.cursor = 'pointer';
   btn.style.backgroundColor = '#007bff';
@@ -883,7 +883,7 @@ function handlePopupAction() {
   const btn = document.getElementById('popup-action-btn');
   const action = btn.innerText.trim();
 
-  if (action === '3 2 1 GO' || action === 'Start') {
+  if ((action.includes('3') && action.includes('GO')) || action === 'Start') {
     btn.disabled = true;
     btn.style.cursor = 'default';
     btn.style.backgroundColor = '#ffcccc';
