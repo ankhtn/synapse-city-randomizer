@@ -484,10 +484,10 @@ function updateRoundLabel() {
   if (lbl) lbl.innerText = `Round ${currentRoundNumber}`;
   
   const btnReset = document.getElementById('btn-reset');
-  if (btnReset) btnReset.title = `Reset Round ${currentRoundNumber}`;
+  if (btnReset && btnReset._tippy) btnReset._tippy.setContent(`Reset Round ${currentRoundNumber}`);
   
   const btnNext = document.getElementById('btn-next-round');
-  if (btnNext) btnNext.title = `Begin Round ${currentRoundNumber + 1}`;
+  if (btnNext && btnNext._tippy) btnNext._tippy.setContent(`Begin Round ${currentRoundNumber + 1}`);
 }
 
 function setBoxState(boxId, stateClass) {
@@ -506,7 +506,7 @@ function applyModeState() {
   if (isCompetitionMode) {
     globalClear();
     btnReset.disabled = false;
-    btnRand1.disabled = true;
+    btnRand1.disabled = false;
     btnRand2.disabled = true;
     btnPrac.disabled = true;
     btnQuar.disabled = true;
@@ -524,7 +524,7 @@ function applyModeState() {
     if (timerInterval) clearInterval(timerInterval);
     updateClock(120);
 
-    setBoxState('box-random1', 'inactive');
+    setBoxState('box-random1', 'active');
     setBoxState('box-practice', 'inactive');
     setBoxState('box-quarantine', 'inactive');
     setBoxState('box-random2', 'inactive');
@@ -976,7 +976,7 @@ function handleSkipAction() {
       currentRemainingSeconds = 0;
       const popupClock = document.getElementById('popup-clock');
       if (popupClock) popupClock.style.color = '#e74c3c';
-      
+
       const btn = document.getElementById('popup-action-btn');
       if (btn) {
         btn.innerText = `Complete`;
@@ -985,10 +985,10 @@ function handleSkipAction() {
         btn.style.backgroundColor = '#007bff';
         btn.style.color = 'white';
       }
-      
+
       const skipBtn = document.getElementById('popup-skip-btn');
       if (skipBtn) skipBtn.style.display = 'none';
-      
+
       compCountdownFinished = true;
       timerRunning = false;
     }
@@ -1060,6 +1060,13 @@ function syncFullscreenMapSize() {
 }
 
 window.onload = () => {
+  tippy('[data-tippy-content]', {
+    onShow(instance) {
+      if (instance.reference.disabled) {
+        return false;
+      }
+    }
+  });
   handleSingleModeToggle();
 };
 

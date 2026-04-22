@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synapse City Randomizer and Flow Control</title>
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.2.5/dist/svg.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <style>
         body {
             margin: 0;
@@ -433,9 +435,9 @@
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
                 <div style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px;">
-                    <button id="btn-reset" onclick="handleReset()" style="width: auto; padding: 6px 12px; margin-bottom: 0; font-size: 16px; background-color: #e74c3c;" title="Reset Round 1">↺</button>
+                    <button id="btn-reset" onclick="handleReset()" style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;" data-tippy-content="Reset Round 1">↺</button>
                     <div id="round-label" style="font-weight: bold; font-size: 18px; user-select: none; flex: 1; text-align: center;">Round 1</div>
-                    <button id="btn-next-round" onclick="handleNextRound()" style="width: auto; padding: 6px 12px; margin-bottom: 0; font-size: 16px; background-color: #2ecc71;" title="Begin Round 2" disabled>▶</button>
+                    <button id="btn-next-round" onclick="handleNextRound()" style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;" data-tippy-content="Begin Round 2" disabled>▶</button>
                 </div>
 
                 <div class="comp-box state-active" id="box-random1" style="margin-top: 10px;">
@@ -543,7 +545,7 @@
                 2:00</div>
             <button id="popup-action-btn" onclick="handlePopupAction()"
                 style="position: absolute; bottom: 26%; left: 50%; transform: translateX(-50%); width: 280px; font-size: 28px; padding: 16px 20px; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s, color 0.3s; margin: 0;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
-            <button id="popup-skip-btn" onclick="handleSkipAction()" title="Skip 1/2 remaining time"
+            <button id="popup-skip-btn" onclick="handleSkipAction()" data-tippy-content="Skip 1/2 remaining time"
                 style="display: none; position: absolute; bottom: 17%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; transition: background 0.3s; margin: 0; align-items: center; justify-content: center;">⏭</button>
         </div>
     </div>
