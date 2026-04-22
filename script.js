@@ -446,14 +446,14 @@ let anyTeamCompleted = false;
 
 function updateTeamButtonsUI() {
   const boxSelectTeam = document.getElementById('box-select-team');
-  const isBoxActive = boxSelectTeam && (boxSelectTeam.classList.contains('state-active') || boxSelectTeam.classList.contains('state-selected'));
-  
+  const isBoxActive = boxSelectTeam && boxSelectTeam.classList.contains('state-active');
+
   for (let i = 1; i <= 4; i++) {
     const btn = document.getElementById(`btn-team-${i}`);
     if (!btn) continue;
-    
-    btn.classList.remove('team-active', 'team-completed', 'team-unselected');
-    
+
+    btn.classList.remove('team-active', 'team-completed', 'team-enabled', 'team-disabled');
+
     if (completedTeams.includes(i)) {
       btn.classList.add('team-completed');
       btn.disabled = true;
@@ -461,8 +461,13 @@ function updateTeamButtonsUI() {
       btn.classList.add('team-active');
       btn.disabled = true;
     } else {
-      btn.classList.add('team-unselected');
-      btn.disabled = !isBoxActive || (activeTeam !== null);
+      let isBtnDisabled = !isBoxActive || (activeTeam !== null);
+      btn.disabled = isBtnDisabled;
+      if (isBtnDisabled) {
+        btn.classList.add('team-disabled');
+      } else {
+        btn.classList.add('team-enabled');
+      }
     }
   }
 }
@@ -834,19 +839,23 @@ function compRandom2() {
 function handleSelectTeam(teamId) {
   activeTeam = teamId;
   updateTeamButtonsUI();
-  
+
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = `Team ${teamId}`;
-  
-  setBoxState('box-select-team', 'selected');
-  
+
+  setBoxState('box-select-team', 'completed');
+
   document.getElementById('btn-start').disabled = false;
   setBoxState('box-slot', 'active');
 }
 
 function compStartTimer() {
   document.getElementById('timer-popup').style.display = 'flex';
-  document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
+  if (isCompetitionMode && activeTeam !== null) {
+    document.getElementById('popup-game-label').innerText = `Team ${activeTeam}`;
+  } else {
+    document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
+  }
 
   if (timerInterval) clearInterval(timerInterval);
   if (preTimerInterval) clearInterval(preTimerInterval);
@@ -864,7 +873,7 @@ function compStartTimer() {
   }
 
   const btn = document.getElementById('popup-action-btn');
-  btn.innerText = `Start`;
+  btn.innerText = `3 2 1 GO`;
   btn.disabled = false;
   btn.style.cursor = 'pointer';
   btn.style.backgroundColor = '#007bff';
@@ -877,7 +886,7 @@ function handlePopupAction() {
   const btn = document.getElementById('popup-action-btn');
   const action = btn.innerText.trim();
 
-  if (action === 'Start') {
+  if (action === '3 2 1 GO' || action === 'Start') {
     btn.disabled = true;
     btn.style.cursor = 'default';
     btn.style.backgroundColor = '#ffcccc';
@@ -894,7 +903,7 @@ function handlePopupAction() {
         btn.innerText = 'GO';
         btn.style.backgroundColor = '#dbeafe';
         btn.style.color = '#1e40af';
-        
+
         timerRunning = true;
         const popupClock = document.getElementById('popup-clock');
         if (popupClock) popupClock.style.color = '#029456';

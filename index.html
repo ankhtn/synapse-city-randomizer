@@ -293,21 +293,31 @@
         }
 
         .btn-team.team-active {
-            background-color: #ffffff !important;
-            color: #333 !important;
-            opacity: 1 !important;
-        }
-        .btn-team.team-completed {
             background-color: #dbeafe !important;
             color: #1e40af !important;
             opacity: 1 !important;
+            cursor: default !important;
         }
-        .btn-team.team-unselected {
-            background-color: #7f8c8d !important;
+        .btn-team.team-completed {
+            background-color: #d4edda !important;
+            color: #155724 !important;
+            opacity: 1 !important;
+            cursor: default !important;
+        }
+        .btn-team.team-disabled {
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+            opacity: 1 !important;
+            cursor: default !important;
+        }
+        .btn-team.team-enabled {
+            background-color: #007bff !important;
             color: white !important;
+            opacity: 1 !important;
+            cursor: pointer !important;
         }
-        .btn-team.team-unselected:not(:disabled):hover {
-            background-color: #6c7a7d !important;
+        .btn-team.team-enabled:hover {
+            background-color: #0056b3 !important;
         }
 
         .cell-body {
@@ -448,10 +458,10 @@
                 <div class="comp-box state-inactive" id="box-select-team">
                     <div class="box-title" id="box-team-title">Select Team</div>
                     <div style="display: flex; gap: 5px; width: 100%; justify-content: center;">
-                        <button class="btn-team team-unselected" id="btn-team-1" onclick="handleSelectTeam(1)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>1</button>
-                        <button class="btn-team team-unselected" id="btn-team-2" onclick="handleSelectTeam(2)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>2</button>
-                        <button class="btn-team team-unselected" id="btn-team-3" onclick="handleSelectTeam(3)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>3</button>
-                        <button class="btn-team team-unselected" id="btn-team-4" onclick="handleSelectTeam(4)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>4</button>
+                        <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>1</button>
+                        <button class="btn-team team-disabled" id="btn-team-2" onclick="handleSelectTeam(2)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>2</button>
+                        <button class="btn-team team-disabled" id="btn-team-3" onclick="handleSelectTeam(3)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>3</button>
+                        <button class="btn-team team-disabled" id="btn-team-4" onclick="handleSelectTeam(4)" style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>4</button>
                     </div>
                 </div>
 
