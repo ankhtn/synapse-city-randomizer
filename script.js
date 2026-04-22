@@ -470,22 +470,24 @@ function updateTeamButtonsUI() {
 }
 
 function updateResetButtonLabel() {
-  const btn = document.getElementById('btn-reset');
-  if (!btn) return;
+  const btnNext = document.getElementById('btn-next-round');
+  if (!btnNext) return;
   if (isCompetitionMode) {
-    if (!anyTeamCompleted) {
-      btn.innerText = 'Reset Round';
-    } else {
-      btn.innerText = 'Next Round ▶';
-    }
+    btnNext.disabled = !anyTeamCompleted;
   } else {
-    btn.innerText = 'New Round ▶';
+    btnNext.disabled = false;
   }
 }
 
 function updateRoundLabel() {
   const lbl = document.getElementById('round-label');
   if (lbl) lbl.innerText = `Round ${currentRoundNumber}`;
+  
+  const btnReset = document.getElementById('btn-reset');
+  if (btnReset) btnReset.title = `Reset Round ${currentRoundNumber}`;
+  
+  const btnNext = document.getElementById('btn-next-round');
+  if (btnNext) btnNext.title = `Begin Round ${currentRoundNumber + 1}`;
 }
 
 function setBoxState(boxId, stateClass) {
@@ -604,45 +606,34 @@ function handleConfirmNo() {
 }
 
 function handleReset() {
-  pendingRoundDelta = 1;
+  pendingRoundDelta = 0;
   promptReset();
 }
 
-function handlePrevRound() {
-  pendingRoundDelta = -1;
+function handleNextRound() {
+  pendingRoundDelta = 1;
   promptReset();
 }
 
 function promptReset() {
   if (isCompetitionMode) {
-    if (compRoundActive && !anyTeamCompleted) {
+    if (pendingRoundDelta === 0 && compRoundActive) {
       const popup = document.getElementById('confirm-popup');
       const textEl = document.getElementById('confirm-popup-text');
       if (popup) {
         if (textEl) {
-          let actionName = pendingRoundDelta === 1 ? "Reset Round" : "the Previous Round";
-          textEl.innerHTML = `A competition round is already in progress. Going to <b>${actionName}</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
+          textEl.innerHTML = `A competition round is already in progress. <b>Resetting</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
         }
         popup.style.display = 'flex';
         return;
       }
     }
-    executeReset();
-  } else {
-    executeReset();
   }
+  executeReset();
 }
 
 function executeReset() {
-  if (pendingRoundDelta > 0) {
-    if (!isCompetitionMode || anyTeamCompleted) {
-      currentRoundNumber += pendingRoundDelta;
-    } else {
-      currentRoundNumber = 1;
-    }
-  } else {
-    currentRoundNumber += pendingRoundDelta;
-  }
+  currentRoundNumber += pendingRoundDelta;
   if (currentRoundNumber < 1) currentRoundNumber = 1;
   updateRoundLabel();
 
@@ -876,6 +867,9 @@ function compStartTimer() {
   btn.style.backgroundColor = '#007bff';
   btn.style.color = 'white';
 
+  const skipBtn = document.getElementById('popup-skip-btn');
+  if (skipBtn) skipBtn.style.display = 'none';
+
   updateClock(currentRemainingSeconds);
 }
 
@@ -920,6 +914,8 @@ function handlePopupAction() {
             btn.style.cursor = 'pointer';
             btn.style.backgroundColor = '#007bff';
             btn.style.color = 'white';
+            const skipBtn = document.getElementById('popup-skip-btn');
+            if (skipBtn) skipBtn.style.display = 'none';
             compCountdownFinished = true;
             timerRunning = false;
           }
@@ -928,34 +924,12 @@ function handlePopupAction() {
       } else if (count === -3) {
         clearInterval(preTimerInterval);
         if (timerRunning) {
-          btn.disabled = false;
-          btn.style.cursor = 'pointer';
-          btn.style.backgroundColor = '#007bff';
-          btn.style.color = 'white';
-          btn.innerHTML = 'Skip ½ time &nbsp;⏭';
+          const skipBtn = document.getElementById('popup-skip-btn');
+          if (skipBtn) skipBtn.style.display = 'flex';
         }
       }
     }, 1000);
 
-  } else if (action.includes('Skip ½ time')) {
-    if (timerRunning && !compCountdownFinished) {
-      currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
-      updateClock(currentRemainingSeconds, true);
-
-      if (currentRemainingSeconds <= 0) {
-        clearInterval(timerInterval);
-        currentRemainingSeconds = 0;
-        const popupClock = document.getElementById('popup-clock');
-        if (popupClock) popupClock.style.color = '#e74c3c';
-        btn.innerText = `Complete`;
-        btn.disabled = false;
-        btn.style.cursor = 'pointer';
-        btn.style.backgroundColor = '#007bff';
-        btn.style.color = 'white';
-        compCountdownFinished = true;
-        timerRunning = false;
-      }
-    }
   } else if (action === 'Complete') {
     document.getElementById('timer-popup').style.display = 'none';
     currentGameNumber++;
@@ -988,6 +962,35 @@ function handlePopupAction() {
         btnStart.disabled = false;
       }
       setBoxState('box-slot', 'active');
+    }
+  }
+}
+
+function handleSkipAction() {
+  if (timerRunning && !compCountdownFinished) {
+    currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
+    updateClock(currentRemainingSeconds, true);
+
+    if (currentRemainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      currentRemainingSeconds = 0;
+      const popupClock = document.getElementById('popup-clock');
+      if (popupClock) popupClock.style.color = '#e74c3c';
+      
+      const btn = document.getElementById('popup-action-btn');
+      if (btn) {
+        btn.innerText = `Complete`;
+        btn.disabled = false;
+        btn.style.cursor = 'pointer';
+        btn.style.backgroundColor = '#007bff';
+        btn.style.color = 'white';
+      }
+      
+      const skipBtn = document.getElementById('popup-skip-btn');
+      if (skipBtn) skipBtn.style.display = 'none';
+      
+      compCountdownFinished = true;
+      timerRunning = false;
     }
   }
 }

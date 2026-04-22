@@ -429,14 +429,13 @@
                 style="background-color: #34495e; margin-bottom: 6px; font-size: 12px; padding: 5px 10px; width: auto; align-self: center;">⛶</button>
             <h1>Synapse City</h1>
 
+
+
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
-                <div id="round-label"
-                    style="font-weight: bold; margin-bottom: 5px; font-size: 16px; user-select: none;">Round 1</div>
-                <div style="display: flex; width: 100%; gap: 5px; margin-bottom: 8px;">
-                    <button id="btn-prev-round" onclick="handlePrevRound()"
-                        style="width: auto; padding: 8px 12px; margin-bottom: 0; font-size: 14px;">◀</button>
-                    <button id="btn-reset" onclick="handleReset()" style="flex: 1; margin-bottom: 0;">New Round
-                        ▶</button>
+                <div style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px;">
+                    <button id="btn-reset" onclick="handleReset()" style="width: auto; padding: 6px 12px; margin-bottom: 0; font-size: 16px; background-color: #e74c3c;" title="Reset Round 1">↺</button>
+                    <div id="round-label" style="font-weight: bold; font-size: 18px; user-select: none; flex: 1; text-align: center;">Round 1</div>
+                    <button id="btn-next-round" onclick="handleNextRound()" style="width: auto; padding: 6px 12px; margin-bottom: 0; font-size: 16px; background-color: #2ecc71;" title="Begin Round 2" disabled>▶</button>
                 </div>
 
                 <div class="comp-box state-active" id="box-random1" style="margin-top: 10px;">
@@ -543,8 +542,9 @@
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
                 2:00</div>
             <button id="popup-action-btn" onclick="handlePopupAction()"
-                style="position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); width: 280px; font-size: 28px; padding: 16px 20px; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s, color 0.3s; margin: 0;">Skip
-                ½ time &nbsp;⏭</button>
+                style="position: absolute; bottom: 26%; left: 50%; transform: translateX(-50%); width: 280px; font-size: 28px; padding: 16px 20px; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s, color 0.3s; margin: 0;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
+            <button id="popup-skip-btn" onclick="handleSkipAction()" title="Skip 1/2 remaining time"
+                style="display: none; position: absolute; bottom: 17%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; transition: background 0.3s; margin: 0; align-items: center; justify-content: center;">⏭</button>
         </div>
     </div>
 
@@ -555,11 +555,13 @@
             style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; max-width: 400px; font-family: Arial, sans-serif;">
             <p id="confirm-popup-text" style="font-size: 16px; margin-top: 0; margin-bottom: 20px; color: #333;">A
                 competition round is already
-                in progress. Starting a New Round will clear the current setup and any countdown progress.<br><br>Do you
+                in progress. Starting a New Round will clear the current setup and any countdown progress.<br><br>Do
+                you
                 want to continue?</p>
             <div style="display: flex; justify-content: center; gap: 15px;">
                 <button onclick="handleConfirmYes()"
-                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 14px;">Yes, Reset this
+                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 14px;">Yes, Reset
+                    this
                     Round</button>
                 <button onclick="handleConfirmNo()"
                     style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 14px;">Cancel</button>
