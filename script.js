@@ -457,9 +457,6 @@ function updateTeamButtonsUI() {
     if (completedTeams.includes(i)) {
       btn.classList.add('team-completed');
       btn.disabled = true;
-    } else if (activeTeam === i) {
-      btn.classList.add('team-active');
-      btn.disabled = true;
     } else {
       let isBtnDisabled = !isBoxActive;
       btn.disabled = isBtnDisabled;
