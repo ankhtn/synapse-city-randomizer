@@ -446,7 +446,7 @@ let anyTeamCompleted = false;
 
 function updateTeamButtonsUI() {
   const boxSelectTeam = document.getElementById('box-select-team');
-  const isBoxActive = boxSelectTeam && boxSelectTeam.classList.contains('state-active');
+  const isBoxActive = boxSelectTeam && (boxSelectTeam.classList.contains('state-active') || boxSelectTeam.classList.contains('state-completed'));
 
   for (let i = 1; i <= 4; i++) {
     const btn = document.getElementById(`btn-team-${i}`);
@@ -461,7 +461,7 @@ function updateTeamButtonsUI() {
       btn.classList.add('team-active');
       btn.disabled = true;
     } else {
-      let isBtnDisabled = !isBoxActive || (activeTeam !== null);
+      let isBtnDisabled = !isBoxActive;
       btn.disabled = isBtnDisabled;
       if (isBtnDisabled) {
         btn.classList.add('team-disabled');
