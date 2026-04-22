@@ -105,6 +105,12 @@
 
             <div style="flex-grow: 1;"></div>
 
+            <div id="small-realtime-clock" onclick="openRealtimePopup()"
+                style="font-size: 22px; font-weight: bold; text-align: center; cursor: pointer; color: #2c3e50; padding: 10px; margin-bottom: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box;"
+                data-tippy-content="Open Fullscreen Clock">
+                00:00:00
+            </div>
+
             <div class="toggle-container">
                 <label class="switch" style="margin-bottom: 5px;">
                     <input type="checkbox" id="mode-toggle" onchange="handleSingleModeToggle()" checked>
@@ -185,6 +191,22 @@
                     Round</button>
                 <button onclick="handleConfirmNo()"
                     style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 14px;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Realtime Clock Popup -->
+    <div id="realtime-popup"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent;">
+        <div
+            style="background: white; padding: 40px 60px; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); text-align: center; position: relative;">
+            <button onclick="closeRealtimePopup()"
+                style="position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; background: #e74c3c; color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">✖</button>
+            <div style="font-size: 24px; color: #7f8c8d; margin-bottom: 10px; font-weight: bold; letter-spacing: 2px;">
+                LOCAL TIME</div>
+            <div id="large-realtime-clock"
+                style="font-family: 'Courier New', monospace; font-size: 140px; font-weight: bold; color: #2c3e50; line-height: 1; margin: 0;">
+                00:00:00
             </div>
         </div>
     </div>

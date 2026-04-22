@@ -1,4 +1,33 @@
 const ImageSize = 600 * 1;
+
+let audioCtx = null;
+function playBeep(frequency = 880, duration = 100, times = 1) {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  for (let i = 0; i < times; i++) {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    const startTime = audioCtx.currentTime + i * 0.12; // 120ms interval between beeps
+    oscillator.start(startTime);
+    gainNode.gain.setValueAtTime(1, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration / 1000);
+    
+    oscillator.stop(startTime + duration / 1000);
+  }
+}
+
 const WhiteWashout = 0.0;
 const BACKGROUND = '#888';
 const BUILDING = '#8EE';
@@ -887,14 +916,17 @@ function handlePopupAction() {
     btn.style.color = '#333';
     let count = 3;
     btn.innerText = count;
+    playBeep();
 
     if (preTimerInterval) clearInterval(preTimerInterval);
     preTimerInterval = setInterval(() => {
       count--;
       if (count > 0) {
         btn.innerText = count;
+        playBeep();
       } else if (count === 0) {
         btn.innerText = 'GO';
+        playBeep(880, 150, 2);
         btn.style.backgroundColor = '#d4edda';
         btn.style.color = '#6c757d';
 
@@ -913,6 +945,7 @@ function handlePopupAction() {
             currentRemainingSeconds = 0;
             if (popupClock) popupClock.style.color = '#e74c3c';
             btn.innerText = `Complete`;
+            playBeep(880, 150, 2);
             btn.disabled = false;
             btn.style.cursor = 'pointer';
             btn.style.backgroundColor = '#007bff';
@@ -1042,7 +1075,10 @@ function updateClock(seconds, isSkip = false) {
   const actionBtn = document.getElementById('popup-action-btn');
   if (actionBtn && timerRunning) {
     if (seconds <= 5 && seconds > 0) {
-      actionBtn.innerText = seconds;
+      if (actionBtn.innerText !== String(seconds)) {
+        actionBtn.innerText = seconds;
+        playBeep();
+      }
     } else if (seconds > 5) {
       actionBtn.innerText = 'GO';
     }
@@ -1071,6 +1107,30 @@ function syncFullscreenMapSize() {
   }
 }
 
+function updateRealtimeClocks() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const timeStr = `${h}:${m}:${s}`;
+  
+  const smallClock = document.getElementById('small-realtime-clock');
+  if (smallClock) smallClock.innerText = timeStr;
+  
+  const largeClock = document.getElementById('large-realtime-clock');
+  if (largeClock) largeClock.innerText = timeStr;
+}
+
+function openRealtimePopup() {
+  const popup = document.getElementById('realtime-popup');
+  if (popup) popup.style.display = 'flex';
+}
+
+function closeRealtimePopup() {
+  const popup = document.getElementById('realtime-popup');
+  if (popup) popup.style.display = 'none';
+}
+
 window.onload = () => {
   tippy('[data-tippy-content]', {
     onShow(instance) {
@@ -1080,6 +1140,8 @@ window.onload = () => {
     }
   });
   handleSingleModeToggle();
+  updateRealtimeClocks();
+  setInterval(updateRealtimeClocks, 1000);
 };
 
 document.addEventListener("fullscreenchange", () => {
