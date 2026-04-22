@@ -438,7 +438,46 @@ let currentGameNumber = 1;
 let currentRemainingSeconds = 0;
 let currentRoundNumber = 1;
 let pendingRoundDelta = 1;
-let usedTeams = [];
+let completedTeams = [];
+let activeTeam = null;
+let anyTeamCompleted = false;
+
+function updateTeamButtonsUI() {
+  const boxSelectTeam = document.getElementById('box-select-team');
+  const isBoxActive = boxSelectTeam && (boxSelectTeam.classList.contains('state-active') || boxSelectTeam.classList.contains('state-selected'));
+  
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.getElementById(`btn-team-${i}`);
+    if (!btn) continue;
+    
+    btn.classList.remove('team-active', 'team-completed', 'team-unselected');
+    
+    if (completedTeams.includes(i)) {
+      btn.classList.add('team-completed');
+      btn.disabled = true;
+    } else if (activeTeam === i) {
+      btn.classList.add('team-active');
+      btn.disabled = true;
+    } else {
+      btn.classList.add('team-unselected');
+      btn.disabled = !isBoxActive || (activeTeam !== null);
+    }
+  }
+}
+
+function updateResetButtonLabel() {
+  const btn = document.getElementById('btn-reset');
+  if (!btn) return;
+  if (isCompetitionMode) {
+    if (!anyTeamCompleted) {
+      btn.innerText = 'Reset Round';
+    } else {
+      btn.innerText = 'Next Round ▶';
+    }
+  } else {
+    btn.innerText = 'New Round ▶';
+  }
+}
 
 function updateRoundLabel() {
   const lbl = document.getElementById('round-label');
@@ -514,13 +553,13 @@ function applyModeState() {
     setBoxState('box-slot', 'inactive');
   }
 
-  usedTeams = [];
+  completedTeams = [];
+  activeTeam = null;
+  anyTeamCompleted = false;
+  updateResetButtonLabel();
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = 'Select Team';
-  for (let i = 1; i <= 4; i++) {
-    const btn = document.getElementById(`btn-team-${i}`);
-    if (btn) btn.disabled = true;
-  }
+  updateTeamButtonsUI();
 }
 
 function setMode(isComp) {
@@ -572,12 +611,12 @@ function handlePrevRound() {
 
 function promptReset() {
   if (isCompetitionMode) {
-    if (compRoundActive) {
+    if (compRoundActive && !anyTeamCompleted) {
       const popup = document.getElementById('confirm-popup');
       const textEl = document.getElementById('confirm-popup-text');
       if (popup) {
         if (textEl) {
-          let actionName = pendingRoundDelta === 1 ? "a New Round" : "the Previous Round";
+          let actionName = pendingRoundDelta === 1 ? "Reset Round" : "the Previous Round";
           textEl.innerHTML = `A competition round is already in progress. Going to <b>${actionName}</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
         }
         popup.style.display = 'flex';
@@ -592,8 +631,10 @@ function promptReset() {
 
 function executeReset() {
   if (pendingRoundDelta > 0) {
-    if (!isCompetitionMode || compCountdownFinished) {
+    if (!isCompetitionMode || anyTeamCompleted) {
       currentRoundNumber += pendingRoundDelta;
+    } else {
+      currentRoundNumber = 1;
     }
   } else {
     currentRoundNumber += pendingRoundDelta;
@@ -739,13 +780,13 @@ function compResetRound() {
   setBoxState('box-select-team', 'inactive');
   setBoxState('box-slot', 'inactive');
 
-  usedTeams = [];
+  completedTeams = [];
+  activeTeam = null;
+  anyTeamCompleted = false;
+  updateResetButtonLabel();
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = 'Select Team';
-  for (let i = 1; i <= 4; i++) {
-    const btn = document.getElementById(`btn-team-${i}`);
-    if (btn) btn.disabled = true;
-  }
+  updateTeamButtonsUI();
 
   compRoundActive = false;
   compCountdownFinished = false;
@@ -787,19 +828,12 @@ function compRandom2() {
   setBoxState('box-select-team', 'active');
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = 'Select Team';
-  for (let i = 1; i <= 4; i++) {
-    const btn = document.getElementById(`btn-team-${i}`);
-    if (btn) btn.disabled = usedTeams.includes(i);
-  }
+  updateTeamButtonsUI();
 }
 
 function handleSelectTeam(teamId) {
-  usedTeams.push(teamId);
-  
-  for (let i = 1; i <= 4; i++) {
-    const btn = document.getElementById(`btn-team-${i}`);
-    if (btn) btn.disabled = true;
-  }
+  activeTeam = teamId;
+  updateTeamButtonsUI();
   
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = `Team ${teamId}`;
@@ -880,6 +914,12 @@ function handlePopupAction() {
     document.getElementById('timer-popup').style.display = 'none';
     currentGameNumber++;
 
+    anyTeamCompleted = true;
+    updateResetButtonLabel();
+
+    completedTeams.push(activeTeam);
+    activeTeam = null;
+
     const titleEl = document.getElementById('box-slot-title');
     if (titleEl) titleEl.innerText = `Setup Field Track`;
 
@@ -894,10 +934,7 @@ function handlePopupAction() {
       setBoxState('box-select-team', 'active');
       const teamTitle = document.getElementById('box-team-title');
       if (teamTitle) teamTitle.innerText = 'Select Team';
-      for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById(`btn-team-${i}`);
-        if (btn) btn.disabled = usedTeams.includes(i);
-      }
+      updateTeamButtonsUI();
     } else {
       const btnStart = document.getElementById('btn-start');
       if (btnStart) {
