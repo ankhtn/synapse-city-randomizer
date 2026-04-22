@@ -544,6 +544,8 @@ function handleSingleModeToggle() {
     labelComp.className = 'inactive';
   }
 
+  currentRoundNumber = 1;
+  updateRoundLabel();
   applyModeState();
 }
 
