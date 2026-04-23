@@ -1135,21 +1135,29 @@ function updateRealtimeClocks() {
   if (largeClock) largeClock.innerText = timeStr;
 }
 
+let isRealtimePopupPinned = false;
+
 function toggleRealtimePopup() {
   const popup = document.getElementById('realtime-popup');
-  if (popup) {
-    popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
+  if (!popup) return;
+  
+  if (isRealtimePopupPinned) {
+    isRealtimePopupPinned = false;
+    popup.style.display = 'none';
+  } else {
+    isRealtimePopupPinned = true;
+    popup.style.display = 'flex';
   }
 }
 
 function openRealtimePopup() {
   const popup = document.getElementById('realtime-popup');
-  if (popup) popup.style.display = 'flex';
+  if (popup && !isRealtimePopupPinned) popup.style.display = 'flex';
 }
 
 function closeRealtimePopup() {
   const popup = document.getElementById('realtime-popup');
-  if (popup) popup.style.display = 'none';
+  if (popup && !isRealtimePopupPinned) popup.style.display = 'none';
 }
 
 window.onload = () => {
