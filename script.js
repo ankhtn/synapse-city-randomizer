@@ -1121,6 +1121,13 @@ function updateRealtimeClocks() {
   if (largeClock) largeClock.innerText = timeStr;
 }
 
+function toggleRealtimePopup() {
+  const popup = document.getElementById('realtime-popup');
+  if (popup) {
+    popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
+  }
+}
+
 function openRealtimePopup() {
   const popup = document.getElementById('realtime-popup');
   if (popup) popup.style.display = 'flex';

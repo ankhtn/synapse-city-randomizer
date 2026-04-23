@@ -105,23 +105,19 @@
 
             <div style="flex-grow: 1;"></div>
 
-            <div id="small-realtime-clock" onclick="openRealtimePopup()"
-                style="font-size: 22px; font-weight: bold; text-align: center; cursor: pointer; color: #2c3e50; padding: 10px; margin-bottom: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box;"
-                data-tippy-content="Open Fullscreen Clock">
+            <div id="small-realtime-clock" onmouseenter="openRealtimePopup()" onmouseleave="closeRealtimePopup()"
+                onclick="toggleRealtimePopup()">
                 00:00:00
             </div>
 
             <div class="toggle-container">
-                <label class="switch" style="margin-bottom: 5px;">
+                <span id="label-comp" class="inactive" onclick="setMode(true)"
+                    style="cursor: pointer; white-space: nowrap;">Competition</span>
+                <label class="switch" style="margin-bottom: 0;">
                     <input type="checkbox" id="mode-toggle" onchange="handleSingleModeToggle()" checked>
                     <span class="slider round"></span>
                 </label>
-                <div style="display: flex; justify-content: space-between; width: 115%;">
-                    <span id="label-comp" class="inactive" onclick="setMode(true)"
-                        style="cursor: pointer;">Competition</span>
-                    <span id="label-free" class="active" onclick="setMode(false)" style="cursor: pointer;">Free
-                        Play</span>
-                </div>
+                <span id="label-free" class="active" onclick="setMode(false)" style="cursor: pointer; white-space: nowrap;">Free Play</span>
             </div>
         </div>
 
@@ -170,7 +166,8 @@
             <button id="popup-action-btn" onclick="handlePopupAction()"
                 style="position: absolute; bottom: 26%; left: 50%; transform: translateX(-50%); width: 280px; font-size: 28px; padding: 16px 20px; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: bold; transition: background 0.3s, color 0.3s; margin: 0;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
             <button id="popup-skip-btn" onclick="handleSkipAction()" data-tippy-content="Skip 1/2 remaining time"
-                style="display: flex; position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: white; color: #007bff; border: none; cursor: pointer; z-index: 10; transition: background 0.3s, opacity 0.3s; margin: 0; align-items: center; justify-content: center;" disabled>⏭</button>
+                style="display: flex; position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: white; color: #007bff; border: none; cursor: pointer; z-index: 10; transition: background 0.3s, opacity 0.3s; margin: 0; align-items: center; justify-content: center;"
+                disabled>⏭</button>
         </div>
     </div>
 
@@ -197,15 +194,11 @@
 
     <!-- Realtime Clock Popup -->
     <div id="realtime-popup"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent;">
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent; pointer-events: none;">
         <div
-            style="background: white; padding: 40px 60px; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); text-align: center; position: relative;">
-            <button onclick="closeRealtimePopup()"
-                style="position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; background: #e74c3c; color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">✖</button>
-            <div style="font-size: 24px; color: #7f8c8d; margin-bottom: 10px; font-weight: bold; letter-spacing: 2px;">
-                LOCAL TIME</div>
+            style="background: white; padding: 20px 40px; border-radius: 12px; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto;">
             <div id="large-realtime-clock"
-                style="font-family: 'Courier New', monospace; font-size: 140px; font-weight: bold; color: #2c3e50; line-height: 1; margin: 0;">
+                style="font-family: 'Courier New', monospace; font-size: 110px; font-weight: bold; color: #2c3e50; line-height: 1; margin: 0;">
                 00:00:00
             </div>
         </div>
