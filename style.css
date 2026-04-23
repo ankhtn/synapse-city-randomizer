@@ -286,7 +286,7 @@
         }
 
         .btn-team.team-active {
-            background-color: #198754 !important;
+            background-color: #008080 !important; /* Xanh-Vàng sẫm (Teal) */
             color: white !important;
             opacity: 1 !important;
             cursor: pointer !important;
@@ -313,14 +313,14 @@
         }
 
         .btn-team.team-enabled {
-            background-color: #007bff !important;
+            background-color: #7f8c8d !important;
             color: white !important;
             opacity: 1 !important;
             cursor: pointer !important;
         }
 
         .btn-team.team-enabled:hover {
-            background-color: #0056b3 !important;
+            background-color: #636e72 !important;
         }
 
         .cell-body {
