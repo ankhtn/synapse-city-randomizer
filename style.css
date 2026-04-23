@@ -11,7 +11,7 @@
         .center-panel {
             background: transparent;
             color: #333;
-            padding: 10px 15px;
+            padding: 2px 15px 10px 15px;
             display: flex;
             flex-direction: column;
             z-index: 10;
@@ -23,7 +23,8 @@
             font-size: 24px;
             margin-top: 0;
             border-bottom: 2px solid #34495e;
-            padding-bottom: 8px;
+            padding-bottom: 4px;
+            margin-bottom: 4px;
             text-align: center;
             cursor: default;
             user-select: none;
@@ -194,6 +195,7 @@
             display: flex;
             flex-direction: column;
             margin-top: 4px;
+            gap: 4px;
         }
 
         button:disabled {
@@ -204,7 +206,7 @@
 
         .comp-box {
             padding: 5px 10px;
-            margin: 4px auto;
+            margin: 0;
             border-radius: 6px;
             width: 100%;
             box-sizing: border-box;
@@ -231,7 +233,6 @@
 
         #box-random1,
         #box-select-team {
-            margin-top: 0.7px;
             transition: margin-top 0.3s ease;
         }
 
@@ -240,9 +241,7 @@
             margin-top: 40px;
         }
 
-        #box-slot {
-            margin-top: 4px;
-        }
+
 
         .state-inactive {
             background-color: #aeb6bf;

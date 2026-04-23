@@ -39,14 +39,15 @@
         <!-- Center Column -->
         <div class="center-panel">
             <button id="btn-fullscreen" onclick="toggleFullScreen()"
-                style="background-color: #34495e; margin-bottom: 6px; font-size: 12px; padding: 5px 10px; width: auto; align-self: center;">⛶</button>
-            <h1><img src="syncitylogo.D2qIUmBC.png" alt="Synapse City" style="max-width: 100%; height: auto; display: block; margin: 0 auto;"></h1>
+                style="background-color: #34495e; margin-bottom: 2px; font-size: 12px; padding: 5px 10px; width: auto; align-self: center;">⛶</button>
+            <h1><img src="syncitylogo.D2qIUmBC.png" alt="Synapse City"
+                    style="max-width: 100%; height: auto; display: block; margin: 0 auto;"></h1>
 
 
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
                 <div
-                    style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px;">
+                    style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 2px; gap: 10px;">
                     <button id="btn-reset" onclick="handleReset()"
                         style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;"
                         data-tippy-content="Reset Round 1">↺</button>
@@ -81,15 +82,19 @@
 
                 <div class="comp-box state-inactive" id="box-select-team">
                     <div class="box-title" id="box-team-title">Select Team</div>
-                    <div style="display: flex; gap: 5px; width: 100%; justify-content: center;">
-                        <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)"
-                            style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>1</button>
-                        <button class="btn-team team-disabled" id="btn-team-2" onclick="handleSelectTeam(2)"
-                            style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>2</button>
-                        <button class="btn-team team-disabled" id="btn-team-3" onclick="handleSelectTeam(3)"
-                            style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>3</button>
-                        <button class="btn-team team-disabled" id="btn-team-4" onclick="handleSelectTeam(4)"
-                            style="flex: 1; margin-bottom: 0; padding: 8px 0;" disabled>4</button>
+                    <div style="display: grid; grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(3, 30px); grid-auto-flow: column; gap: 4px; width: 100%; justify-content: center; align-items: center;">
+                        <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>1</button>
+                        <button class="btn-team team-disabled" id="btn-team-2" onclick="handleSelectTeam(2)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>2</button>
+                        <button class="btn-team team-disabled" id="btn-team-3" onclick="handleSelectTeam(3)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>3</button>
+                        <button class="btn-team team-disabled" id="btn-team-4" onclick="handleSelectTeam(4)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>4</button>
+                        <button class="btn-team team-disabled" id="btn-team-5" onclick="handleSelectTeam(5)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>5</button>
+                        <button class="btn-team team-disabled" id="btn-team-6" onclick="handleSelectTeam(6)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>6</button>
+                        <button class="btn-team team-disabled" id="btn-team-7" onclick="handleSelectTeam(7)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>7</button>
+                        <button class="btn-team team-disabled" id="btn-team-8" onclick="handleSelectTeam(8)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>8</button>
+                        <button class="btn-team team-disabled" id="btn-team-9" onclick="handleSelectTeam(9)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>9</button>
+                        <button class="btn-team team-disabled" id="btn-team-10" onclick="handleSelectTeam(10)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>10</button>
+                        <button class="btn-team team-disabled" id="btn-team-11" onclick="handleSelectTeam(11)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>11</button>
+                        <button class="btn-team team-disabled" id="btn-team-12" onclick="handleSelectTeam(12)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>12</button>
                     </div>
                 </div>
 
@@ -160,7 +165,7 @@
             </svg>
             <div id="popup-game-label"
                 style="position: absolute; top: 21%; left: 50%; transform: translateX(-50%); color: #000; font-size: 38px; font-weight: bold; z-index: 10; letter-spacing: 2px; margin: 0;">
-                Game 1</div>
+                Team 1</div>
             <div id="popup-clock"
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
                 2:00</div>

@@ -4,7 +4,7 @@ let audioCtx = null;
 let lastBeepStartTime = 0;
 let beepCount = 0;
 
-function playBeep(frequency = 880, duration = 50, times = 1, type = 'sine') {
+function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
@@ -511,7 +511,7 @@ function updateTeamButtonsUI() {
   const boxSelectTeam = document.getElementById('box-select-team');
   const isBoxActive = boxSelectTeam && (boxSelectTeam.classList.contains('state-active') || boxSelectTeam.classList.contains('state-completed'));
 
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 12; i++) {
     const btn = document.getElementById(`btn-team-${i}`);
     if (!btn) continue;
 
@@ -640,10 +640,28 @@ function setMode(isComp) {
   handleSingleModeToggle();
 }
 
+let pendingModeToggle = false;
+
 function handleSingleModeToggle() {
   const toggle = document.getElementById('mode-toggle');
-  isCompetitionMode = !toggle.checked;
+  
+  if (isCompetitionMode && toggle.checked && compRoundActive) {
+    toggle.checked = false; // Revert visual switch
+    const popup = document.getElementById('confirm-popup');
+    const textEl = document.getElementById('confirm-popup-text');
+    if (popup && textEl) {
+      textEl.innerHTML = `A competition round is already in progress. <b>Switching to Free Play</b> will clear the current setup and any countdown progress.<br><br>Do you want to continue?`;
+      popup.style.display = 'flex';
+      pendingModeToggle = true;
+    }
+    return;
+  }
 
+  isCompetitionMode = !toggle.checked;
+  executeModeToggleLogic();
+}
+
+function executeModeToggleLogic() {
   const labelFree = document.getElementById('label-free');
   const labelComp = document.getElementById('label-comp');
 
@@ -663,12 +681,24 @@ function handleSingleModeToggle() {
 function handleConfirmYes() {
   const popup = document.getElementById('confirm-popup');
   if (popup) popup.style.display = 'none';
-  executeReset();
+  
+  if (pendingModeToggle) {
+    pendingModeToggle = false;
+    const toggle = document.getElementById('mode-toggle');
+    toggle.checked = true;
+    isCompetitionMode = false;
+    executeModeToggleLogic();
+  } else {
+    executeReset();
+  }
 }
 
 function handleConfirmNo() {
   const popup = document.getElementById('confirm-popup');
   if (popup) popup.style.display = 'none';
+  if (pendingModeToggle) {
+    pendingModeToggle = false;
+  }
 }
 
 function handleReset() {
@@ -908,7 +938,7 @@ function compStartTimer() {
   if (isCompetitionMode && activeTeam !== null) {
     document.getElementById('popup-game-label').innerText = `Team ${activeTeam}`;
   } else {
-    document.getElementById('popup-game-label').innerText = `Game ${currentGameNumber}`;
+    document.getElementById('popup-game-label').innerText = `Team 1`;
   }
 
   if (timerInterval) clearInterval(timerInterval);
