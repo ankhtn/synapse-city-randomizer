@@ -4,7 +4,7 @@ let audioCtx = null;
 let lastBeepStartTime = 0;
 let beepCount = 0;
 
-function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
+function playBeep(frequency = 880, duration = 50, times = 1, type = 'sine') {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
@@ -974,7 +974,7 @@ async function handlePopupAction() {
       } else if (count === 0) {
         clearInterval(preTimerInterval);
         btn.innerText = 'GO';
-        playBeep(1046.5, 1000, 1, 'triangle');
+        playBeep(1320, 1000, 1, 'sine');
         ///const now = performance.now();
         //console.log(`[Countdown] Beep GO at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
         //lastBeepTime = now;
@@ -999,7 +999,7 @@ async function handlePopupAction() {
             currentRemainingSeconds = 0;
             if (popupClock) popupClock.style.color = '#e74c3c';
             btn.innerText = `Complete`;
-            playBeep(1046.5, 1000, 1, 'triangle');
+            playBeep(1320, 1000, 1, 'sine');
             btn.disabled = false;
             btn.style.cursor = 'pointer';
             btn.style.backgroundColor = '#007bff';
