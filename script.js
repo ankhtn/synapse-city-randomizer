@@ -8,22 +8,22 @@ function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
-  
+
   for (let i = 0; i < times; i++) {
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-    
+
     oscillator.type = type;
     oscillator.frequency.value = frequency;
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    
+
     const startTime = audioCtx.currentTime + i * 0.12; // 120ms interval between beeps
     oscillator.start(startTime);
     gainNode.gain.setValueAtTime(1, startTime);
     gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration / 1000);
-    
+
     oscillator.stop(startTime + duration / 1000);
   }
 }
@@ -514,10 +514,10 @@ function updateResetButtonLabel() {
 function updateRoundLabel() {
   const lbl = document.getElementById('round-label');
   if (lbl) lbl.innerText = `Round ${currentRoundNumber}`;
-  
+
   const btnReset = document.getElementById('btn-reset');
   if (btnReset && btnReset._tippy) btnReset._tippy.setContent(`Reset Round ${currentRoundNumber}`);
-  
+
   const btnNext = document.getElementById('btn-next-round');
   if (btnNext && btnNext._tippy) btnNext._tippy.setContent(`Begin Round ${currentRoundNumber + 1}`);
 }
@@ -912,7 +912,7 @@ async function handlePopupAction() {
   if ((action.includes('3') && action.includes('GO')) || action === 'Start') {
     btn.disabled = true;
     btn.style.cursor = 'default';
-    
+
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -925,8 +925,8 @@ async function handlePopupAction() {
     let count = 3;
     btn.innerText = count;
     playBeep();
-    let lastBeepTime = performance.now();
-    console.log(`[Countdown] Beep 3 at ${lastBeepTime.toFixed(1)}ms`);
+    //let lastBeepTime = performance.now();
+    //console.log(`[Countdown] Beep 3 at ${lastBeepTime.toFixed(1)}ms`);
 
     if (preTimerInterval) clearInterval(preTimerInterval);
     preTimerInterval = setInterval(() => {
@@ -934,19 +934,19 @@ async function handlePopupAction() {
       if (count > 0) {
         btn.innerText = count;
         playBeep();
-        const now = performance.now();
-        console.log(`[Countdown] Beep ${count} at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
-        lastBeepTime = now;
+        //const now = performance.now();
+        //console.log(`[Countdown] Beep ${count} at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
+        //lastBeepTime = now;
       } else if (count === 0) {
         clearInterval(preTimerInterval);
         btn.innerText = 'GO';
         playBeep(1046.5, 1000, 1, 'triangle');
-        const now = performance.now();
-        console.log(`[Countdown] Beep GO at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
-        lastBeepTime = now;
+        ///const now = performance.now();
+        //console.log(`[Countdown] Beep GO at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
+        //lastBeepTime = now;
         btn.style.backgroundColor = '#d4edda';
         btn.style.color = '#333';
-        
+
         const skipBtn = document.getElementById('popup-skip-btn');
         if (skipBtn) skipBtn.disabled = false;
 
@@ -1127,10 +1127,10 @@ function updateRealtimeClocks() {
   const m = String(now.getMinutes()).padStart(2, '0');
   const s = String(now.getSeconds()).padStart(2, '0');
   const timeStr = `${h}:${m}:${s}`;
-  
+
   const smallClock = document.getElementById('small-realtime-clock');
   if (smallClock) smallClock.innerText = timeStr;
-  
+
   const largeClock = document.getElementById('large-realtime-clock');
   if (largeClock) largeClock.innerText = timeStr;
 }
