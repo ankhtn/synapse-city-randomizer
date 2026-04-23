@@ -1128,8 +1128,8 @@ function updateClock(seconds, isSkip = false) {
         playBeep();
       }
       actionBtn.style.backgroundColor = '#fff3cd';
-      if (popupClock) popupClock.style.color = '#d4a017';
-      if (ring) ring.style.stroke = '#d4a017';
+      if (popupClock) popupClock.style.color = '#d6a100';
+      if (ring) ring.style.stroke = '#d6a100';
     } else if (seconds > 5) {
       actionBtn.innerText = 'GO';
       actionBtn.style.backgroundColor = '#d4edda';
@@ -1176,16 +1176,12 @@ function updateRealtimeClocks() {
 
   const phaseLabel = document.getElementById('realtime-phase-label');
   if (phaseLabel) {
-    if (typeof isCompetitionMode !== 'undefined' && !isCompetitionMode) {
-      phaseLabel.innerText = "Free Play";
+    const activeBox = document.querySelector('.comp-box.state-active');
+    if (activeBox) {
+      const titleEl = activeBox.querySelector('.box-title');
+      phaseLabel.innerText = titleEl ? titleEl.innerText : "Free Play";
     } else {
-      const activeBox = document.querySelector('.comp-box.state-active');
-      if (activeBox) {
-        const titleEl = activeBox.querySelector('.box-title');
-        phaseLabel.innerText = titleEl ? titleEl.innerText : "Competition";
-      } else {
-        phaseLabel.innerText = "Competition";
-      }
+      phaseLabel.innerText = "Free Play";
     }
   }
 }
