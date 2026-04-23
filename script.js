@@ -1093,8 +1093,14 @@ function updateClock(seconds, isSkip = false) {
         actionBtn.innerText = seconds;
         playBeep();
       }
+      actionBtn.style.backgroundColor = '#fff3cd';
+      if (popupClock) popupClock.style.color = '#d4a017';
+      if (ring) ring.style.stroke = '#d4a017';
     } else if (seconds > 5) {
       actionBtn.innerText = 'GO';
+      actionBtn.style.backgroundColor = '#d4edda';
+      if (popupClock) popupClock.style.color = '#029456';
+      if (ring) ring.style.stroke = '#029456';
     }
   }
 }
