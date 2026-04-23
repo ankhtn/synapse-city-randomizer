@@ -307,7 +307,7 @@
         }
 
         #popup-skip-btn:disabled {
-            background-color: #e9ecef !important;
+            background-color: white !important;
             color: #6c757d !important;
             cursor: default !important;
         }

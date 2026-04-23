@@ -925,10 +925,14 @@ function handlePopupAction() {
         btn.innerText = count;
         playBeep();
       } else if (count === 0) {
+        clearInterval(preTimerInterval);
         btn.innerText = 'GO';
         playBeep(880, 150, 2);
         btn.style.backgroundColor = '#d4edda';
-        btn.style.color = '#6c757d';
+        btn.style.color = '#333';
+        
+        const skipBtn = document.getElementById('popup-skip-btn');
+        if (skipBtn) skipBtn.disabled = false;
 
         timerRunning = true;
         const popupClock = document.getElementById('popup-clock');
@@ -957,12 +961,6 @@ function handlePopupAction() {
           }
           updateClock(currentRemainingSeconds);
         }, 1000);
-      } else if (count === -3) {
-        clearInterval(preTimerInterval);
-        if (timerRunning) {
-          const skipBtn = document.getElementById('popup-skip-btn');
-          if (skipBtn) skipBtn.disabled = false;
-        }
       }
     }, 1000);
 
