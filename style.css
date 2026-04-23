@@ -286,8 +286,8 @@
         }
 
         .btn-team.team-active {
-            background-color: #008080 !important;
-            /* Xanh-Vàng sẫm (Teal) */
+            background-color: #d4a017 !important;
+            /* Vàng sẫm (Dark Yellow) */
             color: white !important;
             opacity: 1 !important;
             cursor: pointer !important;
@@ -314,14 +314,14 @@
         }
 
         .btn-team.team-enabled {
-            background-color: #7f8c8d !important;
+            background-color: #007bff !important;
             color: white !important;
             opacity: 1 !important;
             cursor: pointer !important;
         }
 
         .btn-team.team-enabled:hover {
-            background-color: #636e72 !important;
+            background-color: #0056b3 !important;
         }
 
         .cell-body {
