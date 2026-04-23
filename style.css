@@ -301,9 +301,9 @@
         }
 
         .btn-team.team-disabled {
-            background-color: #e9ecef !important;
-            color: #6c757d !important;
-            opacity: 1 !important;
+            background-color: #7f8c8d !important;
+            color: white !important;
+            opacity: 0.6 !important;
             cursor: default !important;
         }
 

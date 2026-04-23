@@ -1133,6 +1133,21 @@ function updateRealtimeClocks() {
 
   const largeClock = document.getElementById('large-realtime-clock');
   if (largeClock) largeClock.innerText = timeStr;
+
+  const phaseLabel = document.getElementById('realtime-phase-label');
+  if (phaseLabel) {
+    if (typeof isCompetitionMode !== 'undefined' && !isCompetitionMode) {
+      phaseLabel.innerText = "Free Play";
+    } else {
+      const activeBox = document.querySelector('.comp-box.state-active');
+      if (activeBox) {
+        const titleEl = activeBox.querySelector('.box-title');
+        phaseLabel.innerText = titleEl ? titleEl.innerText : "Competition";
+      } else {
+        phaseLabel.innerText = "Competition";
+      }
+    }
+  }
 }
 
 let isRealtimePopupPinned = false;
