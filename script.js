@@ -1,6 +1,9 @@
 const ImageSize = 600 * 1;
 
 let audioCtx = null;
+let lastBeepStartTime = 0;
+let beepCount = 0;
+
 function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -8,6 +11,8 @@ function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
+
+  const callTimePerf = performance.now();
 
   for (let i = 0; i < times; i++) {
     const oscillator = audioCtx.createOscillator();
@@ -19,12 +24,41 @@ function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 
-    const startTime = audioCtx.currentTime + i * 0.12; // 120ms interval between beeps
-    oscillator.start(startTime);
-    gainNode.gain.setValueAtTime(1, startTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration / 1000);
+    const startTimeCtx = audioCtx.currentTime + i * 0.12; // 120ms interval between beeps
+    const endTimeCtx = startTimeCtx + duration / 1000;
 
-    oscillator.stop(startTime + duration / 1000);
+    // Estimate performance.now() equivalent for the audio hardware start time
+    const expectedStartPerf = callTimePerf + (startTimeCtx - audioCtx.currentTime) * 1000;
+
+    let intervalFromLast = 0;
+    if (lastBeepStartTime > 0) {
+      intervalFromLast = expectedStartPerf - lastBeepStartTime;
+    }
+    lastBeepStartTime = expectedStartPerf;
+    beepCount++;
+
+    const currentBeepIdx = beepCount;
+
+    oscillator.start(startTimeCtx);
+    gainNode.gain.setValueAtTime(1, startTimeCtx);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, endTimeCtx);
+
+    oscillator.stop(endTimeCtx);
+
+    oscillator.onended = () => {
+      const actualEndPerf = performance.now();
+      const actualDuration = actualEndPerf - expectedStartPerf;
+
+      console.log(`Beep #${currentBeepIdx} (${frequency}Hz, ${type})`);
+      if (intervalFromLast > 0) {
+        console.log(` ├─ Interval from previous beep: ${intervalFromLast.toFixed(1)}ms`);
+      } else {
+        console.log(` ├─ Interval from previous beep: First beep`);
+      }
+      console.log(` ├─ Started at: ${expectedStartPerf.toFixed(1)}ms`);
+      console.log(` ├─ Ended at: ${actualEndPerf.toFixed(1)}ms`);
+      console.log(` └─ Duration: ${actualDuration.toFixed(1)}ms`);
+    };
   }
 }
 
@@ -1161,7 +1195,7 @@ let isRealtimePopupPinned = false;
 function toggleRealtimePopup() {
   const popup = document.getElementById('realtime-popup');
   if (!popup) return;
-  
+
   if (isRealtimePopupPinned) {
     isRealtimePopupPinned = false;
     popup.style.display = 'none';
