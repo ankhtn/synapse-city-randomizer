@@ -1,14 +1,66 @@
 const ImageSize = 600 * 1;
 
-const tickAudio = new Audio('audio/123.mp3');
-tickAudio.preload = 'auto';
-const doneAudio = new Audio('audio/done.mp3');
-doneAudio.preload = 'auto';
+let audioCtx = null;
+let lastBeepStartTime = 0;
+let beepCount = 0;
 
-function playBeep(type = 'tick') {
-  const audio = type === 'done' ? doneAudio : tickAudio;
-  audio.currentTime = 0;
-  audio.play().catch(e => console.log('Audio play failed:', e));
+function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+
+  const callTimePerf = performance.now();
+
+  for (let i = 0; i < times; i++) {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    const startTimeCtx = audioCtx.currentTime + i * 0.12; // 120ms interval between beeps
+    const endTimeCtx = startTimeCtx + duration / 1000;
+
+    const expectedStartPerf = callTimePerf + (startTimeCtx - audioCtx.currentTime) * 1000;
+    
+    let intervalFromLast = 0;
+    if (lastBeepStartTime > 0) {
+      intervalFromLast = expectedStartPerf - lastBeepStartTime;
+    }
+    lastBeepStartTime = expectedStartPerf;
+    beepCount++;
+
+    const currentBeepIdx = beepCount;
+    const jsExecutionTime = performance.now();
+    
+    oscillator.start(startTimeCtx);
+    gainNode.gain.setValueAtTime(1, startTimeCtx);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, endTimeCtx);
+
+    oscillator.stop(endTimeCtx);
+
+    oscillator.onended = () => {
+      const actualEndPerf = performance.now();
+      const actualDuration = actualEndPerf - expectedStartPerf;
+
+      console.log(`Beep #${currentBeepIdx} (${frequency}Hz, ${type})`);
+      if (intervalFromLast > 0) {
+        console.log(` ├─ Interval from previous beep: ${intervalFromLast.toFixed(1)}ms`);
+      } else {
+        console.log(` ├─ Interval from previous beep: First beep`);
+      }
+      console.log(` ├─ JS execution of start(): ${jsExecutionTime.toFixed(1)}ms (Code runs here)`);
+      console.log(` ├─ Hardware actual start: ${expectedStartPerf.toFixed(1)}ms (Speaker sounds here)`);
+      console.log(` ├─ Hardware actual end: ${actualEndPerf.toFixed(1)}ms`);
+      console.log(` └─ Audio Duration: ${actualDuration.toFixed(1)}ms`);
+    };
+  }
 }
 
 const WhiteWashout = 0.0;
@@ -926,7 +978,12 @@ async function handlePopupAction() {
     btn.disabled = true;
     btn.style.cursor = 'default';
 
-
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+    }
 
     btn.style.backgroundColor = '#ffcccc';
     btn.style.color = '#333';
@@ -948,7 +1005,7 @@ async function handlePopupAction() {
       } else if (count === 0) {
         clearInterval(preTimerInterval);
         btn.innerText = 'GO';
-        playBeep('done');
+        playBeep(1320, 1000, 1, 'sine');
         ///const now = performance.now();
         //console.log(`[Countdown] Beep GO at ${now.toFixed(1)}ms (Delta: ${(now - lastBeepTime).toFixed(1)}ms)`);
         //lastBeepTime = now;
@@ -973,7 +1030,7 @@ async function handlePopupAction() {
             currentRemainingSeconds = 0;
             if (popupClock) popupClock.style.color = '#e74c3c';
             btn.innerText = `Complete`;
-            playBeep('done');
+            playBeep(1320, 1000, 1, 'sine');
             btn.disabled = false;
             btn.style.cursor = 'pointer';
             btn.style.backgroundColor = '#007bff';
