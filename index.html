@@ -40,7 +40,7 @@
         <div class="center-panel">
             <button id="btn-fullscreen" onclick="toggleFullScreen()"
                 style="background-color: #34495e; margin-bottom: 2px; font-size: 12px; padding: 5px 10px; width: auto; align-self: center;">⛶</button>
-            <h1><img src="syncitylogo.D2qIUmBC.png" alt="Synapse City"
+            <h1><img src="image/syncitylogo.D2qIUmBC.png" alt="Synapse City"
                     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"></h1>
 
 
@@ -82,19 +82,44 @@
 
                 <div class="comp-box state-inactive" id="box-select-team">
                     <div class="box-title" id="box-team-title">Select Team</div>
-                    <div style="display: grid; grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(3, 30px); grid-auto-flow: column; gap: 4px; width: 100%; justify-content: center; align-items: center;">
-                        <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>1</button>
-                        <button class="btn-team team-disabled" id="btn-team-2" onclick="handleSelectTeam(2)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>2</button>
-                        <button class="btn-team team-disabled" id="btn-team-3" onclick="handleSelectTeam(3)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>3</button>
-                        <button class="btn-team team-disabled" id="btn-team-4" onclick="handleSelectTeam(4)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>4</button>
-                        <button class="btn-team team-disabled" id="btn-team-5" onclick="handleSelectTeam(5)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>5</button>
-                        <button class="btn-team team-disabled" id="btn-team-6" onclick="handleSelectTeam(6)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>6</button>
-                        <button class="btn-team team-disabled" id="btn-team-7" onclick="handleSelectTeam(7)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>7</button>
-                        <button class="btn-team team-disabled" id="btn-team-8" onclick="handleSelectTeam(8)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>8</button>
-                        <button class="btn-team team-disabled" id="btn-team-9" onclick="handleSelectTeam(9)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>9</button>
-                        <button class="btn-team team-disabled" id="btn-team-10" onclick="handleSelectTeam(10)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>10</button>
-                        <button class="btn-team team-disabled" id="btn-team-11" onclick="handleSelectTeam(11)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>11</button>
-                        <button class="btn-team team-disabled" id="btn-team-12" onclick="handleSelectTeam(12)" style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;" disabled>12</button>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(3, 30px); grid-auto-flow: column; gap: 4px; width: 100%; justify-content: center; align-items: center;">
+                        <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>1</button>
+                        <button class="btn-team team-disabled" id="btn-team-2" onclick="handleSelectTeam(2)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>2</button>
+                        <button class="btn-team team-disabled" id="btn-team-3" onclick="handleSelectTeam(3)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>3</button>
+                        <button class="btn-team team-disabled" id="btn-team-4" onclick="handleSelectTeam(4)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>4</button>
+                        <button class="btn-team team-disabled" id="btn-team-5" onclick="handleSelectTeam(5)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>5</button>
+                        <button class="btn-team team-disabled" id="btn-team-6" onclick="handleSelectTeam(6)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>6</button>
+                        <button class="btn-team team-disabled" id="btn-team-7" onclick="handleSelectTeam(7)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>7</button>
+                        <button class="btn-team team-disabled" id="btn-team-8" onclick="handleSelectTeam(8)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>8</button>
+                        <button class="btn-team team-disabled" id="btn-team-9" onclick="handleSelectTeam(9)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>9</button>
+                        <button class="btn-team team-disabled" id="btn-team-10" onclick="handleSelectTeam(10)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>10</button>
+                        <button class="btn-team team-disabled" id="btn-team-11" onclick="handleSelectTeam(11)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>11</button>
+                        <button class="btn-team team-disabled" id="btn-team-12" onclick="handleSelectTeam(12)"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
+                            disabled>12</button>
                     </div>
                 </div>
 
