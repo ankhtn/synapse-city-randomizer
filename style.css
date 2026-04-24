@@ -338,6 +338,10 @@
             cursor: default !important;
         }
 
+        #popup-action-btn:disabled {
+            opacity: 1 !important;
+        }
+
         .btn-team.team-enabled {
             background-color: #007bff !important;
             color: white !important;

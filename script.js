@@ -1220,8 +1220,10 @@ function updateRealtimeClocks() {
 }
 
 let isRealtimePopupPinned = false;
+let realtimeHoverTimeout = null;
 
 function toggleRealtimePopup() {
+  if (realtimeHoverTimeout) clearTimeout(realtimeHoverTimeout);
   const popup = document.getElementById('realtime-popup');
   if (!popup) return;
 
@@ -1235,11 +1237,15 @@ function toggleRealtimePopup() {
 }
 
 function openRealtimePopup() {
-  const popup = document.getElementById('realtime-popup');
-  if (popup && !isRealtimePopupPinned) popup.style.display = 'flex';
+  if (realtimeHoverTimeout) clearTimeout(realtimeHoverTimeout);
+  realtimeHoverTimeout = setTimeout(() => {
+    const popup = document.getElementById('realtime-popup');
+    if (popup && !isRealtimePopupPinned) popup.style.display = 'flex';
+  }, 1000);
 }
 
 function closeRealtimePopup() {
+  if (realtimeHoverTimeout) clearTimeout(realtimeHoverTimeout);
   const popup = document.getElementById('realtime-popup');
   if (popup && !isRealtimePopupPinned) popup.style.display = 'none';
 }
