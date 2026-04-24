@@ -1241,7 +1241,7 @@ function openRealtimePopup() {
   realtimeHoverTimeout = setTimeout(() => {
     const popup = document.getElementById('realtime-popup');
     if (popup && !isRealtimePopupPinned) popup.style.display = 'flex';
-  }, 1000);
+  }, 500);
 }
 
 function closeRealtimePopup() {

@@ -40,7 +40,7 @@
         <div class="center-panel">
             <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
                 </svg>
             </button>
             <h1><img src="image/syncitylogo.D2qIUmBC.png" alt="Synapse City"
@@ -146,7 +146,7 @@
             <div class="toggle-container">
                 <span id="label-comp" class="inactive" onclick="setMode(true)"
                     style="cursor: pointer; white-space: nowrap;">Competition</span>
-                <label class="switch" style="margin-bottom: 0;">
+                <label class="switch" style="margin-bottom: 0;" data-tippy-content="Toggle Competition Mode">
                     <input type="checkbox" id="mode-toggle" onchange="handleSingleModeToggle()" checked>
                     <span class="slider round"></span>
                 </label>
@@ -181,7 +181,7 @@
 
     <!-- Timer Popup -->
     <div id="timer-popup"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; justify-content: center; align-items: center; background: transparent; overflow: hidden;">
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; justify-content: center; align-items: center; background: transparent; overflow: hidden;">
         <div
             style="width: 600px; height: 600px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); user-select: none; cursor: default;">
             <svg width="100%" height="100%" viewBox="0 0 600 600"
@@ -198,7 +198,7 @@
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
                 2:00</div>
             <button id="popup-action-btn" onclick="handlePopupAction()"
-                style="position: absolute; bottom: 23%; left: 50%; transform: translateX(-50%); width: 250px; font-size: 36px; padding: 18px 0; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: 900; transition: background 0.3s, color 0.3s; margin: 0; white-space: nowrap;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
+                style="position: absolute; bottom: 23%; left: 50%; transform: translateX(-50%); width: 250px; font-size: 36px; padding: 18px 0; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: normal; transition: background 0.3s, color 0.3s; margin: 0; white-space: nowrap;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
             <button id="popup-skip-btn" onclick="handleSkipAction()" data-tippy-content="Skip 1/2 remaining time"
                 style="display: flex; position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: white; color: #007bff; border: none; cursor: pointer; z-index: 10; transition: background 0.3s, opacity 0.3s; margin: 0; align-items: center; justify-content: center;"
                 disabled>⏭</button>
