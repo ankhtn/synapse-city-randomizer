@@ -1,8 +1,8 @@
 const ImageSize = 600 * 1;
 
-const tickAudio = new Audio('123.mp3');
+const tickAudio = new Audio('audio/123.mp3');
 tickAudio.preload = 'auto';
-const doneAudio = new Audio('done.mp3');
+const doneAudio = new Audio('audio/done.mp3');
 doneAudio.preload = 'auto';
 
 function playBeep(type = 'tick') {
@@ -593,7 +593,7 @@ let pendingModeToggle = false;
 
 function handleSingleModeToggle() {
   const toggle = document.getElementById('mode-toggle');
-  
+
   if (isCompetitionMode && toggle.checked && compRoundActive) {
     toggle.checked = false; // Revert visual switch
     const popup = document.getElementById('confirm-popup');
@@ -630,7 +630,7 @@ function executeModeToggleLogic() {
 function handleConfirmYes() {
   const popup = document.getElementById('confirm-popup');
   if (popup) popup.style.display = 'none';
-  
+
   if (pendingModeToggle) {
     pendingModeToggle = false;
     const toggle = document.getElementById('mode-toggle');
