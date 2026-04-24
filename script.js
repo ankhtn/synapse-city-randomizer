@@ -646,7 +646,7 @@ let pendingModeToggle = false;
 function handleSingleModeToggle() {
   const toggle = document.getElementById('mode-toggle');
 
-  if (isCompetitionMode && toggle.checked && compRoundActive) {
+  if (isCompetitionMode && toggle.checked && compRoundActive && !anyTeamCompleted) {
     toggle.checked = false; // Revert visual switch
     const popup = document.getElementById('confirm-popup');
     const textEl = document.getElementById('confirm-popup-text');
@@ -714,7 +714,7 @@ function handleNextRound() {
 
 function promptReset() {
   if (isCompetitionMode) {
-    if (pendingRoundDelta === 0 && compRoundActive) {
+    if (pendingRoundDelta === 0 && compRoundActive && !anyTeamCompleted) {
       const popup = document.getElementById('confirm-popup');
       const textEl = document.getElementById('confirm-popup-text');
       if (popup) {
@@ -986,7 +986,7 @@ async function handlePopupAction() {
     }
 
     btn.style.backgroundColor = '#ffcccc';
-    btn.style.color = '#333';
+    btn.style.color = '#000';
     let count = 3;
     btn.innerText = count;
     playBeep();
@@ -1159,11 +1159,13 @@ function updateClock(seconds, isSkip = false) {
         playBeep();
       }
       actionBtn.style.backgroundColor = '#fff3cd';
+      actionBtn.style.color = '#000';
       if (popupClock) popupClock.style.color = '#d6a100';
       if (ring) ring.style.stroke = '#d6a100';
     } else if (seconds > 5) {
       actionBtn.innerText = 'GO';
       actionBtn.style.backgroundColor = '#d4edda';
+      actionBtn.style.color = '#000';
       if (popupClock) popupClock.style.color = '#029456';
       if (ring) ring.style.stroke = '#029456';
     }
