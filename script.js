@@ -1250,6 +1250,18 @@ function closeRealtimePopup() {
   if (popup && !isRealtimePopupPinned) popup.style.display = 'none';
 }
 
+document.addEventListener('click', (e) => {
+  if (isRealtimePopupPinned) {
+    const isSmallClock = e.target.closest('#small-realtime-clock');
+    const isRealtimePopup = e.target.closest('#realtime-popup');
+    if (!isSmallClock && !isRealtimePopup) {
+      isRealtimePopupPinned = false;
+      const popup = document.getElementById('realtime-popup');
+      if (popup) popup.style.display = 'none';
+    }
+  }
+});
+
 window.onload = () => {
   tippy('[data-tippy-content]', {
     onShow(instance) {
