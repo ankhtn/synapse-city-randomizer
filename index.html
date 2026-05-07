@@ -38,11 +38,14 @@
 
         <!-- Center Column -->
         <div class="center-panel">
-            <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
-                </svg>
-            </button>
+            <div style="display: flex; width: 100%; align-items: center; justify-content: center; position: relative; margin-bottom: 0.2vw; flex-shrink: 0;">
+                <img src="image/logo - AIROC AI IoT Robotics Challenge (tr).png" alt="AIROC" style="max-height: 1.6vw; max-width: 4vw; object-fit: contain; position: absolute; left: 0;">
+                <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen" style="margin-bottom: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+                    </svg>
+                </button>
+            </div>
             <h1><img src="image/syncitylogo.D2qIUmBC.png" alt="Synapse City"
                     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"></h1>
 
@@ -230,13 +233,13 @@
     <div id="realtime-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent; pointer-events: none;">
         <div
-            style="background: white; padding: 1vw 2vw; border-radius: 0.6vw; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none;">
+            style="background: white; width: 50vw; padding: 1.5vw 0; border-radius: 1vw; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none; box-sizing: border-box;">
             <div id="realtime-phase-label"
-                style="font-family: Arial, sans-serif; font-size: 0.9vw; color: #7f8c8d; font-weight: bold; margin-bottom: 0.4vw; letter-spacing: 0.05vw;">
+                style="font-family: Arial, sans-serif; font-size: 1.5vw; color: #7f8c8d; font-weight: bold; margin-bottom: 0.5vw; letter-spacing: 0.1vw;">
                 Waiting...
             </div>
             <div id="large-realtime-clock"
-                style="font-family: 'Courier New', monospace; font-size: 4.5vw; font-weight: 900; color: #2c3e50; line-height: 1; margin: 0;">
+                style="font-family: 'Courier New', monospace; font-size: 9.5vw; font-weight: 900; color: #2c3e50; line-height: 1; margin: 0;">
                 00:00:00
             </div>
         </div>
