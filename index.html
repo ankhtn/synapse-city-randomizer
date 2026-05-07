@@ -27,11 +27,11 @@
         <!-- Table Column Left -->
         <div class="side-column">
             <div class="grid-cell table-col">
-                <h4 style="margin: 0 0 10px 0;">Explorer</h4>
+                <h4 style="margin: 0 0 0.5vw 0;">Explorer</h4>
                 <div id="table-explorer"></div>
             </div>
             <div class="grid-cell table-col">
-                <h4 style="margin: 0 0 10px 0;">Creator</h4>
+                <h4 style="margin: 0 0 0.5vw 0;">Creator</h4>
                 <div id="table-creator"></div>
             </div>
         </div>
@@ -50,15 +50,15 @@
 
             <div id="global-buttons" class="global-buttons" style="align-items: center;">
                 <div
-                    style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 2px; gap: 10px;">
+                    style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 0.1vw; gap: 0.5vw;">
                     <button id="btn-reset" onclick="handleReset()"
-                        style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;"
+                        style="width: 1.6vw; height: 1.6vw; padding: 0; margin-bottom: 0; font-size: 0.9vw; display: flex; align-items: center; justify-content: center;"
                         data-tippy-content="Reset Round 1">↺</button>
                     <div id="round-label"
-                        style="font-weight: bold; font-size: 18px; user-select: none; flex: 1; text-align: center;">
+                        style="font-weight: bold; font-size: 0.9vw; user-select: none; flex: 1; text-align: center;">
                         Round 1</div>
                     <button id="btn-next-round" onclick="handleNextRound()"
-                        style="width: 32px; height: 32px; padding: 0; margin-bottom: 0; font-size: 18px; display: flex; align-items: center; justify-content: center;"
+                        style="width: 1.6vw; height: 1.6vw; padding: 0; margin-bottom: 0; font-size: 0.9vw; display: flex; align-items: center; justify-content: center;"
                         data-tippy-content="Begin Round 2" disabled>▶</button>
                 </div>
 
@@ -86,7 +86,7 @@
                 <div class="comp-box state-inactive" id="box-select-team">
                     <div class="box-title" id="box-team-title">Select Team</div>
                     <div
-                        style="display: grid; grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(3, 30px); grid-auto-flow: row; gap: 4px; width: 100%; justify-content: center; align-items: center;">
+                        style="display: grid; grid-template-columns: repeat(4, 1.5vw); grid-template-rows: repeat(3, 1.5vw); grid-auto-flow: row; gap: 0.2vw; width: 100%; justify-content: center; align-items: center;">
                         <button class="btn-team team-disabled" id="btn-team-1" onclick="handleSelectTeam(1)"
                             style="margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"
                             disabled>1</button>
@@ -158,11 +158,11 @@
         <!-- Table Column Right -->
         <div class="side-column">
             <div class="grid-cell table-col">
-                <h4 style="margin: 0 0 10px 0;">Innovator</h4>
+                <h4 style="margin: 0 0 0.5vw 0;">Innovator</h4>
                 <div id="table-innovator"></div>
             </div>
             <div class="grid-cell table-col">
-                <h4 style="margin: 0 0 10px 0;">Master</h4>
+                <h4 style="margin: 0 0 0.5vw 0;">Master</h4>
                 <div id="table-master"></div>
             </div>
         </div>
@@ -183,7 +183,7 @@
     <div id="timer-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; justify-content: center; align-items: center; background: transparent; overflow: hidden;">
         <div
-            style="width: 600px; height: 600px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); user-select: none; cursor: default;">
+            style="width: 30vw; height: 30vw; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); user-select: none; cursor: default;">
             <svg width="100%" height="100%" viewBox="0 0 600 600"
                 style="position: absolute; top: 0; left: 0; pointer-events: none; background-color: transparent;">
                 <circle cx="300" cy="300" r="255" fill="none" stroke="#e74c3c" stroke-width="10" />
@@ -192,15 +192,15 @@
                     style="transition: stroke-dashoffset 1s linear;" />
             </svg>
             <div id="popup-game-label"
-                style="position: absolute; top: 21%; left: 50%; transform: translateX(-50%); color: #000; font-size: 38px; font-weight: bold; z-index: 10; letter-spacing: 2px; margin: 0;">
+                style="position: absolute; top: 21%; left: 50%; transform: translateX(-50%); color: #000; font-size: 1.9vw; font-weight: bold; z-index: 10; letter-spacing: 0.1vw; margin: 0;">
                 Team 1</div>
             <div id="popup-clock"
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 130px; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Courier New', monospace; white-space: pre; font-size: 6.5vw; font-weight: bold; color: #029456; z-index: 10; margin: 0; line-height: 1;">
                 2:00</div>
             <button id="popup-action-btn" onclick="handlePopupAction()"
-                style="position: absolute; bottom: 23%; left: 50%; transform: translateX(-50%); width: 250px; font-size: 36px; padding: 18px 0; border-radius: 12px; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: normal; transition: background 0.3s, color 0.3s; margin: 0; white-space: nowrap;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
+                style="position: absolute; bottom: 23%; left: 50%; transform: translateX(-50%); width: 12.5vw; font-size: 1.8vw; padding: 0.9vw 0; border-radius: 0.6vw; background-color: #007bff; color: white; border: none; cursor: pointer; z-index: 10; font-weight: normal; transition: background 0.3s, color 0.3s; margin: 0; white-space: nowrap;">3&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;GO</button>
             <button id="popup-skip-btn" onclick="handleSkipAction()" data-tippy-content="Skip 1/2 remaining time"
-                style="display: flex; position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; font-size: 24px; border-radius: 8px; background-color: white; color: #007bff; border: none; cursor: pointer; z-index: 10; transition: background 0.3s, opacity 0.3s; margin: 0; align-items: center; justify-content: center;"
+                style="display: flex; position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 3vw; height: 2vw; font-size: 1.2vw; border-radius: 0.4vw; background-color: white; color: #007bff; border: none; cursor: pointer; z-index: 10; transition: background 0.3s, opacity 0.3s; margin: 0; align-items: center; justify-content: center;"
                 disabled>⏭</button>
         </div>
     </div>
@@ -209,19 +209,19 @@
     <div id="confirm-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
         <div
-            style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center; max-width: 400px; font-family: Arial, sans-serif;">
-            <p id="confirm-popup-text" style="font-size: 16px; margin-top: 0; margin-bottom: 20px; color: #333;">A
+            style="background: white; padding: 1.25vw; border-radius: 0.4vw; box-shadow: 0 0.2vw 0.8vw rgba(0,0,0,0.3); text-align: center; max-width: 20vw; font-family: Arial, sans-serif;">
+            <p id="confirm-popup-text" style="font-size: 0.8vw; margin-top: 0; margin-bottom: 1vw; color: #333;">A
                 competition round is already
                 in progress. Starting a New Round will clear the current setup and any countdown progress.<br><br>Do
                 you
                 want to continue?</p>
-            <div style="display: flex; justify-content: center; gap: 15px;">
+            <div style="display: flex; justify-content: center; gap: 0.8vw;">
                 <button onclick="handleConfirmYes()"
-                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 14px;">Yes, Reset
+                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 0.7vw;">Yes, Reset
                     this
                     Round</button>
                 <button onclick="handleConfirmNo()"
-                    style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 14px;">Cancel</button>
+                    style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 0.7vw;">Cancel</button>
             </div>
         </div>
     </div>
@@ -230,13 +230,13 @@
     <div id="realtime-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent; pointer-events: none;">
         <div
-            style="background: white; padding: 20px 40px; border-radius: 12px; box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none;">
+            style="background: white; padding: 1vw 2vw; border-radius: 0.6vw; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none;">
             <div id="realtime-phase-label"
-                style="font-family: Arial, sans-serif; font-size: 18px; color: #7f8c8d; font-weight: bold; margin-bottom: 8px; letter-spacing: 1px;">
+                style="font-family: Arial, sans-serif; font-size: 0.9vw; color: #7f8c8d; font-weight: bold; margin-bottom: 0.4vw; letter-spacing: 0.05vw;">
                 Waiting...
             </div>
             <div id="large-realtime-clock"
-                style="font-family: 'Courier New', monospace; font-size: 90px; font-weight: 900; color: #2c3e50; line-height: 1; margin: 0;">
+                style="font-family: 'Courier New', monospace; font-size: 4.5vw; font-weight: 900; color: #2c3e50; line-height: 1; margin: 0;">
                 00:00:00
             </div>
         </div>
