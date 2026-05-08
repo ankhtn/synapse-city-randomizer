@@ -7,10 +7,12 @@
             overflow: hidden;
             --fullscreen-map-max-size: 9999px;
             --center-scale: 1;
+            --font-scale: 1;
         }
 
         .center-panel {
             --center-scale: 1.1;
+            --font-scale: 1.05;
             background: transparent;
             color: #333;
             padding: calc(0.19125vw * var(--center-scale)) calc(0.765vw * var(--center-scale)) calc(0.57375vw * var(--center-scale)) calc(0.765vw * var(--center-scale));
@@ -26,7 +28,7 @@
         }
 
         .center-panel h1 {
-            font-size: calc(1.1475vw * var(--center-scale));
+            font-size: calc(1.1475vw * var(--center-scale) * var(--font-scale));
             margin-top: 0;
             border-bottom: calc(0.095625vw * var(--center-scale)) solid #34495e;
             padding-bottom: calc(0.19125vw * var(--center-scale));
@@ -85,10 +87,16 @@
             align-self: center;
         }
 
+        body.is-fullscreen .grid-cell.table-col {
+            height: 100%;
+            max-height: var(--fullscreen-map-max-size);
+            align-self: center;
+        }
+
         .table-col h4 {
-            margin: 0 0 0.75vw 0;
+            margin: 0 0 1vw 0;
             color: #333;
-            font-size: 1.5vw;
+            font-size: 1.3vw;
             text-align: center;
             cursor: default;
             user-select: none;
@@ -97,7 +105,7 @@
 
         button {
             padding: calc(0.478125vw * var(--center-scale)) calc(0.765vw * var(--center-scale));
-            font-size: calc(0.765vw * var(--center-scale));
+            font-size: calc(0.765vw * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             color: white;
             background-color: #007bff;
@@ -131,7 +139,7 @@
             background-color: #007bff;
             color: white;
         }
-        
+
         #btn-fullscreen svg {
             position: static;
             width: calc(1.1475vw * var(--center-scale));
@@ -195,7 +203,7 @@
 
         #label-free,
         #label-comp {
-            font-size: calc(0.57375vw * var(--center-scale));
+            font-size: calc(0.57375vw * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             transition: color 0.3s;
             user-select: none;
@@ -235,7 +243,7 @@
             flex-shrink: 0;
         }
 
-        .global-buttons > div {
+        .global-buttons>div {
             flex-shrink: 0;
         }
 
@@ -261,7 +269,7 @@
         }
 
         .comp-box .box-title {
-            font-size: calc(0.765vw * var(--center-scale));
+            font-size: calc(0.765vw * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             margin-top: calc(0.19125vw * var(--center-scale));
             margin-bottom: calc(0.3825vw * var(--center-scale));
@@ -404,11 +412,11 @@
 
         .info-table {
             width: 100%;
-            max-width: 15vw;
+            max-width: 20vw;
             margin: 0 auto;
             border-collapse: collapse;
             text-align: center;
-            font-size: 1.35vw;
+            font-size: 1.15vw;
             font-weight: bold;
             table-layout: fixed;
             cursor: default;
@@ -419,7 +427,7 @@
         .info-table th,
         .info-table td {
             border: 0.15vw solid #ccc;
-            padding: 0.45vw 0;
+            padding: 0.6vw 0;
         }
 
         .info-table td:first-child {
@@ -441,7 +449,7 @@
 
         #small-realtime-clock {
             font-family: 'Courier New', monospace;
-            font-size: calc(1.434375vw * var(--center-scale));
+            font-size: calc(1.434375vw * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             text-align: center;
             cursor: pointer;
