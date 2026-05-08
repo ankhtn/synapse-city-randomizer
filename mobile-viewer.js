@@ -23,10 +23,10 @@ const SynapseMobileViewer = (() => {
   const HP2 = 2 * hPitch;
 
   const LEVELS = [
-    { id: 'explorer', name: 'Explorer' },
-    { id: 'creator', name: 'Creator' },
-    { id: 'innovator', name: 'Innovator' },
-    { id: 'master', name: 'Master' },
+    { id: 'explorer', name: 'Explorer', expectedCount: 4 },
+    { id: 'creator', name: 'Creator', expectedCount: 5 },
+    { id: 'innovator', name: 'Innovator', expectedCount: 6 },
+    { id: 'master', name: 'Master', expectedCount: 7 },
   ];
 
   const SAMPLE_RANDOM = 'A3R.D2Y.E2G.H1B..A1B.D4G.E3P.F2Y.H2R..A4-.B1-.';
@@ -151,6 +151,8 @@ const SynapseMobileViewer = (() => {
 
   function visualizePollutions(draw, entries) {
     for (const entry of entries) {
+      if (entry.placeholder) continue;
+
       const g1 = draw.group();
       g1.transform(siteXY(entry.site));
       const dd = PolutionRR * 2;
@@ -318,7 +320,19 @@ const SynapseMobileViewer = (() => {
           css: color.css,
         });
       }
+
+      const expectedCount = LEVELS[levelIndex].expectedCount;
+      if (levels[levelIndex].length < expectedCount) {
+        errors.push(`${LEVELS[levelIndex].name}: expected ${expectedCount} tokens, received ${levels[levelIndex].length}. Missing slots are shown as "?".`);
+      } else if (levels[levelIndex].length > expectedCount) {
+        errors.push(`${LEVELS[levelIndex].name}: expected ${expectedCount} tokens, received ${levels[levelIndex].length}.`);
+      }
     });
+
+    for (let levelIndex = levelGroups.length; levelIndex < LEVELS.length; levelIndex++) {
+      const expectedCount = LEVELS[levelIndex].expectedCount;
+      errors.push(`${LEVELS[levelIndex].name}: expected ${expectedCount} tokens, received 0. Missing slots are shown as "?".`);
+    }
 
     return { levels, errors, missing: false };
   }
@@ -336,16 +350,29 @@ const SynapseMobileViewer = (() => {
     return [...entries].sort((a, b) => a.site.localeCompare(b.site));
   }
 
-  function renderTable(containerId, entries) {
+  function createPlaceholderEntry() {
+    return {
+      token: '?',
+      site: '?',
+      code: '-',
+      colorName: '?',
+      fill: '#FFF',
+      css: 'color-unknown',
+      placeholder: true,
+    };
+  }
+
+  function displayEntries(entries, expectedCount) {
+    const actualEntries = sortedEntries(entries);
+    const missingCount = Math.max(0, expectedCount - actualEntries.length);
+    return actualEntries.concat(Array.from({ length: missingCount }, createPlaceholderEntry));
+  }
+
+  function renderTable(containerId, entries, expectedCount) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    if (entries.length === 0) {
-      container.innerHTML = '<div class="empty-state">No random data</div>';
-      return;
-    }
-
-    const rows = sortedEntries(entries).map((entry) => {
+    const rows = displayEntries(entries, expectedCount).map((entry) => {
       return `
         <tr class="${entry.css}">
           <td>${escapeHtml(entry.site)}</td>
@@ -387,12 +414,11 @@ const SynapseMobileViewer = (() => {
     if (!container) return;
 
     container.innerHTML = LEVELS.map((level, index) => {
-      const count = levels[index].length;
       return `
         <section class="level-section" aria-labelledby="level-${level.id}-title">
           <div class="level-header">
             <h2 id="level-${level.id}-title" class="level-name">${level.name}</h2>
-            <div class="level-count">${count}</div>
+            <div class="level-count">${level.expectedCount}</div>
           </div>
           <div id="map-${level.id}" class="map-slot"></div>
           <div id="table-${level.id}" class="table-wrap"></div>
@@ -402,7 +428,7 @@ const SynapseMobileViewer = (() => {
 
     LEVELS.forEach((level, index) => {
       renderField(`map-${level.id}`, levels[index]);
-      renderTable(`table-${level.id}`, levels[index]);
+      renderTable(`table-${level.id}`, levels[index], level.expectedCount);
     });
   }
 
