@@ -41,6 +41,9 @@ const SynapseMobileViewer = (() => {
     '-': { name: '?', fill: '#FFF', css: 'color-unknown' },
   };
 
+  let currentLevels = LEVELS.map(() => []);
+  let activeLevelIndex = 0;
+
   function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
@@ -409,34 +412,54 @@ const SynapseMobileViewer = (() => {
     `;
   }
 
-  function renderLevels(levels) {
-    const container = document.getElementById('levels');
-    if (!container) return;
+  function renderTabs() {
+    const tabs = document.getElementById('level-tabs');
+    if (!tabs) return;
 
-    container.innerHTML = LEVELS.map((level, index) => {
+    tabs.innerHTML = LEVELS.map((level, index) => {
+      const isActive = index === activeLevelIndex;
       return `
-        <section class="level-section" aria-labelledby="level-${level.id}-title">
-          <div class="level-header">
-            <h2 id="level-${level.id}-title" class="level-name">${level.name}</h2>
-            <div class="level-count">${level.expectedCount}</div>
-          </div>
-          <div id="map-${level.id}" class="map-slot"></div>
-          <div id="table-${level.id}" class="table-wrap"></div>
-        </section>
+        <button
+          type="button"
+          class="level-tab${isActive ? ' active' : ''}"
+          data-level-index="${index}"
+          aria-pressed="${isActive ? 'true' : 'false'}">
+          ${escapeHtml(level.name)}
+        </button>
       `;
     }).join('');
 
-    LEVELS.forEach((level, index) => {
-      renderField(`map-${level.id}`, levels[index]);
-      renderTable(`table-${level.id}`, levels[index], level.expectedCount);
+    tabs.querySelectorAll('.level-tab').forEach((button) => {
+      button.addEventListener('click', () => {
+        renderActiveLevel(Number(button.dataset.levelIndex));
+      });
     });
+  }
+
+  function renderActiveLevel(levelIndex) {
+    activeLevelIndex = Math.max(0, Math.min(LEVELS.length - 1, levelIndex));
+    const level = LEVELS[activeLevelIndex];
+    const entries = currentLevels[activeLevelIndex] || [];
+
+    const label = document.getElementById('active-level-label');
+    if (label) label.textContent = level.name;
+
+    const count = document.getElementById('active-level-count');
+    if (count) count.textContent = String(level.expectedCount);
+
+    renderTabs();
+    renderTable('random-table', entries, level.expectedCount);
+    renderField('map-active', entries);
   }
 
   function init() {
     const params = new URLSearchParams(window.location.search);
     const result = parseRandomParam(params.get('random'));
+    currentLevels = result.levels;
+    activeLevelIndex = 0;
+
     renderStatus(result);
-    renderLevels(result.levels);
+    renderActiveLevel(activeLevelIndex);
   }
 
   return {

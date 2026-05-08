@@ -11,14 +11,23 @@
 </head>
 
 <body>
-    <header class="viewer-header">
-        <img src="image/syncitylogo.D2qIUmBC.png" alt="Synapse City" class="viewer-logo">
-        <div class="viewer-title">Mobile</div>
-    </header>
 
-    <main class="viewer-shell">
+    <main class="viewer-app">
+        <nav id="level-tabs" class="level-tabs" aria-label="Level selector"></nav>
         <div id="status" class="status" hidden></div>
-        <div id="levels" class="levels" aria-live="polite"></div>
+
+        <section class="random-panel" aria-live="polite">
+            <div class="random-panel-header">
+                <div>
+                    <div class="random-title">Random Color</div>
+                    <div id="active-level-label" class="active-level-label">Explorer</div>
+                </div>
+                <div id="active-level-count" class="level-count">4</div>
+            </div>
+            <div id="random-table" class="table-wrap"></div>
+        </section>
+
+        <div id="map-active" class="map-slot" aria-label="Sa bàn"></div>
     </main>
 </body>
 
