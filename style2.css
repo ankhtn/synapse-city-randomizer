@@ -23,9 +23,8 @@
             min-height: 0;
         }
 
-        body.is-fullscreen .center-panel {
-            --center-scale: 1.2;
-        }
+
+
 
         .center-panel h1 {
             font-size: calc(2.04vh * var(--center-scale) * var(--font-scale));
