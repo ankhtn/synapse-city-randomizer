@@ -28,7 +28,7 @@ function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
     const endTimeCtx = startTimeCtx + duration / 1000;
 
     const expectedStartPerf = callTimePerf + (startTimeCtx - audioCtx.currentTime) * 1000;
-    
+
     let intervalFromLast = 0;
     if (lastBeepStartTime > 0) {
       intervalFromLast = expectedStartPerf - lastBeepStartTime;
@@ -38,7 +38,7 @@ function playBeep(frequency = 880, duration = 100, times = 1, type = 'sine') {
 
     const currentBeepIdx = beepCount;
     const jsExecutionTime = performance.now();
-    
+
     oscillator.start(startTimeCtx);
     gainNode.gain.setValueAtTime(1, startTimeCtx);
     gainNode.gain.exponentialRampToValueAtTime(0.001, endTimeCtx);
@@ -1285,7 +1285,7 @@ document.addEventListener("fullscreenchange", () => {
   const btn = document.getElementById("btn-fullscreen");
   const iconEnter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>`;
   const iconExit = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>`;
-  
+
   if (document.fullscreenElement) {
     if (btn) btn.innerHTML = iconExit;
     document.body.classList.add("is-fullscreen");
@@ -1298,7 +1298,7 @@ document.addEventListener("fullscreenchange", () => {
 function generateMobileViewerUrl() {
   const codes = ['R', 'Y', 'G', 'B', 'P', 'Y', 'M', '-'];
   let parts = [];
-  
+
   const boxRand2 = document.getElementById('box-random2');
   const isRand2Completed = boxRand2 && boxRand2.classList.contains('state-completed');
 
@@ -1309,7 +1309,7 @@ function generateMobileViewerUrl() {
     } else {
       let levelParts = [];
       let isRevealed = (count <= 5) || isRand2Completed;
-      
+
       for (let i = 0; i < count; i++) {
         let site = sites[i];
         let colorCode = isRevealed ? codes[i] : '-';
@@ -1319,7 +1319,7 @@ function generateMobileViewerUrl() {
     }
   }
   let randomStr = parts.join('..');
-  
+
   let baseUrl = window.location.href.split('?')[0];
   baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
   return baseUrl + 'mobile-viewer.html?random=' + randomStr;
@@ -1336,7 +1336,7 @@ function showQRCode() {
   const url = generateMobileViewerUrl();
   const randomStr = url.split('random=')[1] || '';
   const code = generateLinkCode(randomStr);
-  
+
   const popupCodeDisplay = document.getElementById('popup-link-code');
   if (popupCodeDisplay) {
     popupCodeDisplay.innerText = code;
@@ -1344,16 +1344,22 @@ function showQRCode() {
 
   console.log("QR Code URL:", url);
 
-  const size = Math.min(window.innerHeight * 0.5, window.innerWidth * 0.8, 400);
+  const size = Math.min(window.innerHeight * 0.60, window.innerWidth * 0.75, 744);
 
   new QRCode(container, {
     text: url,
     width: size,
     height: size,
-    colorDark : "#000000",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.L
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.L
   });
+
+  container.style.cursor = 'pointer';
+  container.title = 'Click to open Mobile Viewer in a new tab';
+  container.onclick = function () {
+    window.open(url, '_blank');
+  };
 
   popup.style.display = 'flex';
 }
@@ -1387,7 +1393,7 @@ function updateLinkCodeDisplay() {
     const url = generateMobileViewerUrl();
     const randomStr = url.split('random=')[1] || '';
     const code = generateLinkCode(randomStr);
-    
+
     if (display) {
       display.innerText = code;
     }
