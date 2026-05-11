@@ -15,7 +15,7 @@
             --font-scale: 1.05;
             background: transparent;
             color: #333;
-            padding: calc(0.19125vw * var(--center-scale)) calc(0.765vw * var(--center-scale)) calc(0.57375vw * var(--center-scale)) calc(0.765vw * var(--center-scale));
+            padding: calc(0.34vh * var(--center-scale)) calc(1.36vh * var(--center-scale)) calc(1.02vh * var(--center-scale)) calc(1.36vh * var(--center-scale));
             display: flex;
             flex-direction: column;
             z-index: 10;
@@ -23,16 +23,15 @@
             min-height: 0;
         }
 
-        body.is-fullscreen .center-panel {
-            --center-scale: 1.2;
-        }
+
+
 
         .center-panel h1 {
-            font-size: calc(1.1475vw * var(--center-scale) * var(--font-scale));
+            font-size: calc(2.04vh * var(--center-scale) * var(--font-scale));
             margin-top: 0;
-            border-bottom: calc(0.095625vw * var(--center-scale)) solid #34495e;
-            padding-bottom: calc(0.19125vw * var(--center-scale));
-            margin-bottom: calc(0.19125vw * var(--center-scale));
+            border-bottom: calc(0.17vh * var(--center-scale)) solid #34495e;
+            padding-bottom: calc(0.34vh * var(--center-scale));
+            margin-bottom: calc(0.34vh * var(--center-scale));
             text-align: center;
             cursor: default;
             user-select: none;
@@ -43,8 +42,8 @@
             flex: 1;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
-            gap: 0.75vw;
-            padding: 0.75vw;
+            gap: 1.3333vh;
+            padding: 1.3333vh;
             box-sizing: border-box;
             background-color: #ddd;
         }
@@ -52,14 +51,14 @@
         .side-column {
             display: grid;
             grid-template-rows: 1fr 1fr;
-            gap: 0.75vw;
+            gap: 1.3333vh;
             min-height: 0;
         }
 
         .grid-cell {
             background: white;
-            border-radius: 0.75vw;
-            box-shadow: 0 0.15vw 0.3vw rgba(0, 0, 0, 0.1);
+            border-radius: 1.3333vh;
+            box-shadow: 0 0.2667vh 0.5333vh rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             padding: 0;
@@ -94,9 +93,9 @@
         }
 
         .table-col h4 {
-            margin: 0 0 1vw 0;
+            margin: 0 0 1.7778vh 0;
             color: #333;
-            font-size: 1.3vw;
+            font-size: 2.3111vh;
             text-align: center;
             cursor: default;
             user-select: none;
@@ -104,17 +103,17 @@
         }
 
         button {
-            padding: calc(0.478125vw * var(--center-scale)) calc(0.765vw * var(--center-scale));
-            font-size: calc(0.765vw * var(--center-scale) * var(--font-scale));
+            padding: calc(0.85vh * var(--center-scale)) calc(1.36vh * var(--center-scale));
+            font-size: calc(1.36vh * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             color: white;
             background-color: #007bff;
             border: none;
-            border-radius: calc(0.286875vw * var(--center-scale));
+            border-radius: calc(0.51vh * var(--center-scale));
             cursor: pointer;
             transition: background 0.3s;
             width: 100%;
-            margin-bottom: calc(0.3825vw * var(--center-scale));
+            margin-bottom: calc(0.68vh * var(--center-scale));
         }
 
         button:hover {
@@ -129,9 +128,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: calc(0.19125vw * var(--center-scale));
-            margin-bottom: calc(0.19125vw * var(--center-scale));
-            border-radius: calc(0.19125vw * var(--center-scale));
+            padding: calc(0.34vh * var(--center-scale));
+            margin-bottom: calc(0.34vh * var(--center-scale));
+            border-radius: calc(0.34vh * var(--center-scale));
             transition: all 0.2s;
         }
 
@@ -142,8 +141,8 @@
 
         #btn-fullscreen svg {
             position: static;
-            width: calc(1.1475vw * var(--center-scale));
-            height: calc(1.1475vw * var(--center-scale));
+            width: calc(2.04vh * var(--center-scale));
+            height: calc(2.04vh * var(--center-scale));
             background-color: transparent;
         }
 
@@ -152,11 +151,11 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap: calc(0.3825vw * var(--center-scale));
-            margin-top: calc(0.286875vw * var(--center-scale));
+            gap: calc(0.68vh * var(--center-scale));
+            margin-top: calc(0.51vh * var(--center-scale));
             background: transparent;
             padding: 0;
-            border-radius: calc(0.286875vw * var(--center-scale));
+            border-radius: calc(0.51vh * var(--center-scale));
             color: #333;
             width: 100%;
             flex-shrink: 0;
@@ -165,8 +164,8 @@
         .switch {
             position: relative;
             display: inline-block;
-            width: calc(1.72125vw * var(--center-scale));
-            height: calc(0.95625vw * var(--center-scale));
+            width: calc(3.06vh * var(--center-scale));
+            height: calc(1.7vh * var(--center-scale));
         }
 
         .switch input {
@@ -189,10 +188,10 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: calc(0.669375vw * var(--center-scale));
-            width: calc(0.669375vw * var(--center-scale));
-            left: calc(0.1434375vw * var(--center-scale));
-            bottom: calc(0.1434375vw * var(--center-scale));
+            height: calc(1.19vh * var(--center-scale));
+            width: calc(1.19vh * var(--center-scale));
+            left: calc(0.255vh * var(--center-scale));
+            bottom: calc(0.255vh * var(--center-scale));
             background-color: white;
             transition: .4s;
         }
@@ -203,7 +202,7 @@
 
         #label-free,
         #label-comp {
-            font-size: calc(0.57375vw * var(--center-scale) * var(--font-scale));
+            font-size: calc(1.02vh * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             transition: color 0.3s;
             user-select: none;
@@ -220,15 +219,15 @@
         }
 
         input:focus+.slider {
-            box-shadow: 0 0 calc(0.095625vw * var(--center-scale)) #3498db;
+            box-shadow: 0 0 calc(0.17vh * var(--center-scale)) #3498db;
         }
 
         input:checked+.slider:before {
-            transform: translateX(calc(0.765vw * var(--center-scale)));
+            transform: translateX(calc(1.36vh * var(--center-scale)));
         }
 
         .slider.round {
-            border-radius: calc(0.95625vw * var(--center-scale));
+            border-radius: calc(1.7vh * var(--center-scale));
         }
 
         .slider.round:before {
@@ -238,8 +237,8 @@
         .global-buttons {
             display: flex;
             flex-direction: column;
-            margin-top: calc(0.19125vw * var(--center-scale));
-            gap: calc(0.3825vw * var(--center-scale));
+            margin-top: calc(0.34vh * var(--center-scale));
+            gap: calc(0.68vh * var(--center-scale));
             flex-shrink: 0;
         }
 
@@ -254,12 +253,12 @@
         }
 
         .comp-box {
-            padding: calc(0.3825vw * var(--center-scale)) calc(0.478125vw * var(--center-scale));
+            padding: calc(0.68vh * var(--center-scale)) calc(0.85vh * var(--center-scale));
             margin: 0;
-            border-radius: calc(0.3825vw * var(--center-scale));
+            border-radius: calc(0.68vh * var(--center-scale));
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 calc(0.095625vw * var(--center-scale)) calc(0.19125vw * var(--center-scale)) rgba(0, 0, 0, 0.1);
+            box-shadow: 0 calc(0.17vh * var(--center-scale)) calc(0.34vh * var(--center-scale)) rgba(0, 0, 0, 0.1);
             color: #333;
             transition: background-color 0.3s;
             display: flex;
@@ -269,10 +268,10 @@
         }
 
         .comp-box .box-title {
-            font-size: calc(0.765vw * var(--center-scale) * var(--font-scale));
+            font-size: calc(1.36vh * var(--center-scale) * var(--font-scale));
             font-weight: bold;
-            margin-top: calc(0.19125vw * var(--center-scale));
-            margin-bottom: calc(0.3825vw * var(--center-scale));
+            margin-top: calc(0.34vh * var(--center-scale));
+            margin-bottom: calc(0.68vh * var(--center-scale));
             cursor: default;
             user-select: none;
             text-align: center;
@@ -289,7 +288,7 @@
 
         body.is-fullscreen #box-random1,
         body.is-fullscreen #box-select-team {
-            margin-top: calc(1.9125vw * var(--center-scale));
+            margin-top: calc(3.4vh * var(--center-scale));
         }
 
         .state-inactive {
@@ -378,7 +377,7 @@
         .cell-body {
             display: flex;
             flex: 1;
-            gap: 0.75vw;
+            gap: 1.3333vh;
             min-height: 0;
             justify-content: center;
         }
@@ -389,7 +388,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0.75vw;
+            padding: 1.3333vh;
             box-sizing: border-box;
         }
 
@@ -405,18 +404,18 @@
             width: 100%;
             height: 100%;
             background-color: white;
-            border-radius: 0.45vw;
+            border-radius: 0.8vh;
             cursor: default;
             user-select: none;
         }
 
         .info-table {
             width: 100%;
-            max-width: 20vw;
+            max-width: 35.5556vh;
             margin: 0 auto;
             border-collapse: collapse;
             text-align: center;
-            font-size: 1.15vw;
+            font-size: 2.0444vh;
             font-weight: bold;
             table-layout: fixed;
             cursor: default;
@@ -426,8 +425,8 @@
 
         .info-table th,
         .info-table td {
-            border: 0.15vw solid #ccc;
-            padding: 0.6vw 0;
+            border: 0.2667vh solid #ccc;
+            padding: 1.0667vh 0;
         }
 
         .info-table td:first-child {
@@ -449,13 +448,13 @@
 
         #small-realtime-clock {
             font-family: 'Courier New', monospace;
-            font-size: calc(1.434375vw * var(--center-scale) * var(--font-scale));
+            font-size: calc(2.55vh * var(--center-scale) * var(--font-scale));
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             color: #000;
-            padding: calc(0.19125vw * var(--center-scale)) 0;
-            margin-bottom: calc(0.19125vw * var(--center-scale));
+            padding: calc(0.34vh * var(--center-scale)) 0;
+            margin-bottom: calc(0.34vh * var(--center-scale));
             background: transparent;
             width: 100%;
             box-sizing: border-box;

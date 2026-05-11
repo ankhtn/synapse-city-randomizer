@@ -645,6 +645,7 @@ let pendingModeToggle = false;
 
 function handleSingleModeToggle() {
   const toggle = document.getElementById('mode-toggle');
+  if (!toggle) return;
 
   if (isCompetitionMode && toggle.checked && compRoundActive && !anyTeamCompleted) {
     toggle.checked = false; // Revert visual switch
@@ -1195,13 +1196,14 @@ function syncFullscreenMapSize() {
 }
 
 function updateRealtimeClocks() {
+  const smallClock = document.getElementById('small-realtime-clock');
+  if (!smallClock) return;
   const now = new Date();
   const h = String(now.getHours()).padStart(2, '0');
   const m = String(now.getMinutes()).padStart(2, '0');
   const s = String(now.getSeconds()).padStart(2, '0');
   const timeStr = `${h}:${m}:${s}`;
 
-  const smallClock = document.getElementById('small-realtime-clock');
   if (smallClock) smallClock.innerText = timeStr;
 
   const largeClock = document.getElementById('large-realtime-clock');
