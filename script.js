@@ -1290,3 +1290,56 @@ document.addEventListener("fullscreenchange", () => {
     document.body.classList.remove("is-fullscreen");
   }
 });
+
+function generateMobileViewerUrl() {
+  const codes = ['R', 'Y', 'G', 'B', 'P', 'Y', 'M', '-'];
+  let parts = [];
+  
+  const boxRand2 = document.getElementById('box-random2');
+  const isRand2Completed = boxRand2 && boxRand2.classList.contains('state-completed');
+
+  for (let count of [4, 5, 6, 7]) {
+    let sites = levelStates[count] && levelStates[count].sites;
+    if (!sites) {
+      parts.push("");
+    } else {
+      let levelParts = [];
+      let isRevealed = (count <= 5) || isRand2Completed;
+      
+      for (let i = 0; i < count; i++) {
+        let site = sites[i];
+        let colorCode = isRevealed ? codes[i] : '-';
+        levelParts.push(site + colorCode);
+      }
+      parts.push(levelParts.join('.'));
+    }
+  }
+  let randomStr = parts.join('..');
+  
+  let baseUrl = window.location.href.split('?')[0];
+  baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
+  return baseUrl + 'mobile-viewer.html?random=' + randomStr;
+}
+
+function showQRCode() {
+  const popup = document.getElementById('qr-popup');
+  const container = document.getElementById('qrcode');
+  if (!popup || !container) return;
+
+  container.innerHTML = '';
+  const url = generateMobileViewerUrl();
+  console.log("QR Code URL:", url);
+
+  const size = Math.min(window.innerHeight * 0.5, window.innerWidth * 0.8, 400);
+
+  new QRCode(container, {
+    text: url,
+    width: size,
+    height: size,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.L
+  });
+
+  popup.style.display = 'flex';
+}
