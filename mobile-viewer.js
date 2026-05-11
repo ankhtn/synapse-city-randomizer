@@ -467,12 +467,15 @@ const SynapseMobileViewer = (() => {
 
   function init() {
     const params = new URLSearchParams(window.location.search);
-    const randomStr = params.get('random') || '';
-    const result = parseRandomParam(randomStr);
+    const rawRandomStr = params.get('random') || '';
+    const result = parseRandomParam(rawRandomStr);
     currentLevels = result.levels;
     activeLevelIndex = 3;
 
-    const code = generateLinkCode(randomStr);
+    // Lọc bỏ mọi ký tự thừa (rác từ QR scanner, tracking params...) để đảm bảo chuỗi băm giống hệt trên Web
+    const cleanStr = currentLevels.map(level => level.filter(entry => !entry.placeholder).map(entry => entry.token).join('.')).join('..');
+    const code = generateLinkCode(cleanStr);
+    
     const display = document.getElementById('link-code-value');
     if (display) {
       display.innerText = code;
