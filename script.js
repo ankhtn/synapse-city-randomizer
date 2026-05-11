@@ -286,6 +286,7 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
     levelStates[PollutionCount].sites = random2;
   } else if (stage === -1) {
     random2 = [];
+    levelStates[PollutionCount].sites = null;
   } else {
     const IntersectRules = [
       [1, 'ABC'],
@@ -1329,6 +1330,8 @@ function showQRCode() {
   const container = document.getElementById('qrcode');
   if (!popup || !container) return;
 
+  setBoxState('box-qr-code', 'completed');
+
   container.innerHTML = '';
   const url = generateMobileViewerUrl();
   console.log("QR Code URL:", url);
@@ -1375,12 +1378,25 @@ function generateLinkCode(str) {
 
 function updateLinkCodeDisplay() {
   setTimeout(() => {
+    const hasRandom1 = levelStates[4] && levelStates[4].sites && levelStates[4].sites.length > 0;
+    const display = document.getElementById('link-code-display');
+    const qrBtn = document.getElementById('btn-qr-code');
+
+    if (!hasRandom1) {
+      if (display) display.innerText = '------';
+      if (qrBtn) qrBtn.disabled = true;
+      setBoxState('box-qr-code', 'inactive');
+      return;
+    }
+
     const url = generateMobileViewerUrl();
     const randomStr = url.split('random=')[1] || '';
     const code = generateLinkCode(randomStr);
-    const display = document.getElementById('link-code-display');
+    
     if (display) {
       display.innerText = code;
     }
+    if (qrBtn) qrBtn.disabled = false;
+    setBoxState('box-qr-code', 'active');
   }, 10);
 }

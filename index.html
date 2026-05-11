@@ -39,11 +39,16 @@
 
         <!-- Center Column -->
         <div class="center-panel">
-            <div style="display: flex; width: 100%; align-items: center; justify-content: center; position: relative; min-height: calc(5.44vh * var(--center-scale)); margin-bottom: calc(0.34vh * var(--center-scale)); flex-shrink: 0;">
-                <img src="image/logo - AIROC AI IoT Robotics Challenge (tr).png" alt="AIROC" style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; left: 0;">
-                <img src="image/logo - PTV square (tr).png" alt="Pythaverse" style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; right: 0;">
-                <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen" style="margin-bottom: 0;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <div
+                style="display: flex; width: 100%; align-items: center; justify-content: center; position: relative; min-height: calc(5.44vh * var(--center-scale)); margin-bottom: calc(0.34vh * var(--center-scale)); flex-shrink: 0;">
+                <img src="image/logo - AIROC AI IoT Robotics Challenge (tr).png" alt="AIROC"
+                    style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; left: 0;">
+                <img src="image/logo - PTV square (tr).png" alt="Pythaverse"
+                    style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; right: 0;">
+                <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen"
+                    style="margin-bottom: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                        fill="currentColor">
                         <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
                     </svg>
                 </button>
@@ -65,12 +70,12 @@
                         style="width: calc(2.38vh * var(--center-scale)); height: calc(2.38vh * var(--center-scale)); border-radius: 50%; font-size: calc(1.02vh * var(--center-scale) * var(--font-scale)); padding: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 0;"
                         disabled>▶</button>
                 </div>
-                <div class="comp-box state-active" id="box-qr-code">
+                <div class="comp-box state-inactive" id="box-qr-code">
                     <div class="box-title">
-                        Link Code: <span id="link-code-display" style="color: #c0392b; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: none;">------</span>
+                        Link Code: <span id="link-code-display"
+                            style="color: #c0392b; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: none;">------</span>
                     </div>
-                    <button id="btn-qr-code" onclick="showQRCode()" style="margin-bottom: 0; display: flex; align-items: center; justify-content: center; gap: calc(0.85vh * var(--center-scale)); background-color: #27ae60; width: 100%;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="position: static; width: calc(2.04vh * var(--center-scale)); height: calc(2.04vh * var(--center-scale)); background-color: transparent;"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2zm-3-6h2v8h-2v-8z"/></svg>
+                    <button id="btn-qr-code" disabled onclick="showQRCode()" style="margin-bottom: 0;">
                         Mobile QR Code
                     </button>
                 </div>
@@ -223,14 +228,16 @@
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
         <div
             style="background: white; padding: 3.3333vh 2vw; border-radius: 1.0667vh; box-shadow: 0 0.5333vh 2.1333vh rgba(0,0,0,0.3); text-align: center; max-width: 30vw; font-family: Arial, sans-serif;">
-            <p id="confirm-popup-text" style="font-size: 2.1333vh; margin-top: 0; margin-bottom: 2.6667vh; color: #333;">A
+            <p id="confirm-popup-text"
+                style="font-size: 2.1333vh; margin-top: 0; margin-bottom: 2.6667vh; color: #333;">A
                 competition round is already
                 in progress. Starting a New Round will clear the current setup and any countdown progress.<br><br>Do
                 you
                 want to continue?</p>
             <div style="display: flex; justify-content: center; gap: 2.1333vh;">
                 <button onclick="handleConfirmYes()"
-                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 1.8667vh; padding: 1vh 1vw;">Yes, Reset
+                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 1.8667vh; padding: 1vh 1vw;">Yes,
+                    Reset
                     this
                     Round</button>
                 <button onclick="handleConfirmNo()"
@@ -262,7 +269,9 @@
         <div
             style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
             <div style="font-size: 2.5vh; font-weight: bold; color: #333;">Scan to view on Mobile</div>
-            <div id="qrcode" style="background: white; padding: 1vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;"></div>
+            <div id="qrcode"
+                style="background: white; padding: 1vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;">
+            </div>
             <button onclick="document.getElementById('qr-popup').style.display='none'"
                 style="margin: 0; background-color: #95a5a6; width: auto; padding: 1vh 3vw; font-size: 2vh;">Close</button>
         </div>
