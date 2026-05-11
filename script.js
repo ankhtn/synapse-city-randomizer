@@ -820,6 +820,7 @@ function globalRandom1() {
   generateMap(5, 0, 'map-creator', 'table-creator');
   generateMap(6, 1, 'map-innovator', 'table-innovator');
   generateMap(7, 1, 'map-master', 'table-master');
+  updateLinkCodeDisplay();
 }
 
 function globalRandom2() {
@@ -829,6 +830,7 @@ function globalRandom2() {
   }
   generateMap(6, 2, 'map-innovator', 'table-innovator');
   generateMap(7, 2, 'map-master', 'table-master');
+  updateLinkCodeDisplay();
   return true;
 }
 
@@ -837,6 +839,7 @@ function globalClear() {
   generateMap(5, -1, 'map-creator', 'table-creator');
   generateMap(6, -1, 'map-innovator', 'table-innovator');
   generateMap(7, -1, 'map-master', 'table-master');
+  updateLinkCodeDisplay();
 }
 
 function compResetRound() {
@@ -1409,4 +1412,27 @@ function showQRCode() {
   container.appendChild(logo);
 
   popup.style.display = 'flex';
+}
+
+function generateLinkCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  let code = Math.abs(hash).toString();
+  while (code.length < 6) {
+    code = '0' + code;
+  }
+  return code.slice(-6);
+}
+
+function updateLinkCodeDisplay() {
+  const url = generateMobileViewerUrl();
+  const randomStr = url.split('random=')[1] || '';
+  const code = generateLinkCode(randomStr);
+  const display = document.getElementById('link-code-display');
+  if (display) {
+    display.innerText = code;
+  }
 }

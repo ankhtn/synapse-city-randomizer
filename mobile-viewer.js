@@ -452,11 +452,31 @@ const SynapseMobileViewer = (() => {
     renderField('map-active', entries);
   }
 
+  function generateLinkCode(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    let code = Math.abs(hash).toString();
+    while (code.length < 6) {
+      code = '0' + code;
+    }
+    return code.slice(-6);
+  }
+
   function init() {
     const params = new URLSearchParams(window.location.search);
-    const result = parseRandomParam(params.get('random'));
+    const randomStr = params.get('random') || '';
+    const result = parseRandomParam(randomStr);
     currentLevels = result.levels;
     activeLevelIndex = 3;
+
+    const code = generateLinkCode(randomStr);
+    const display = document.getElementById('link-code-value');
+    if (display) {
+      display.innerText = code;
+    }
 
     renderStatus(result);
     renderActiveLevel(activeLevelIndex);

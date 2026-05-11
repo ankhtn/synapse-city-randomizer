@@ -65,10 +65,13 @@
                         disabled>▶</button>
                 </div>
                 
-                <button id="btn-qr-code" onclick="showQRCode()" style="width: 100%; margin-bottom: calc(0.68vh * var(--center-scale)); display: flex; align-items: center; justify-content: center; gap: calc(0.85vh * var(--center-scale)); background-color: #27ae60; padding: calc(0.5vh * var(--center-scale)) 0; font-size: calc(1.36vh * var(--center-scale) * var(--font-scale));">
+                <button id="btn-qr-code" onclick="showQRCode()" style="width: 100%; margin-bottom: calc(0.34vh * var(--center-scale)); display: flex; align-items: center; justify-content: center; gap: calc(0.85vh * var(--center-scale)); background-color: #27ae60; padding: calc(0.5vh * var(--center-scale)) 0; font-size: calc(1.36vh * var(--center-scale) * var(--font-scale));">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="position: static; width: calc(2.04vh * var(--center-scale)); height: calc(2.04vh * var(--center-scale)); background-color: transparent;"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2zm-3-6h2v8h-2v-8z"/></svg>
                     Mobile QR Code
                 </button>
+                <div id="randomizer-link-code" style="text-align: center; font-weight: bold; font-size: calc(1.5vh * var(--center-scale) * var(--font-scale)); margin-bottom: calc(0.68vh * var(--center-scale)); color: #34495e; user-select: text;">
+                    Link Code: <span id="link-code-display" style="color: #c0392b;">------</span>
+                </div>
 
                 <div class="comp-box state-active" id="box-random1">
                     <div class="box-title">Random 1</div>
