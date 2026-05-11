@@ -39,9 +39,9 @@
 
         <!-- Center Column -->
         <div class="center-panel">
-            <div style="display: flex; width: 100%; align-items: center; justify-content: center; position: relative; margin-bottom: calc(0.34vh * var(--center-scale)); flex-shrink: 0;">
-                <img src="image/logo - AIROC AI IoT Robotics Challenge (tr).png" alt="AIROC" style="max-height: calc(2.72vh * var(--center-scale)); max-width: calc(6.8vh * var(--center-scale)); object-fit: contain; position: absolute; left: 0;">
-                <img src="image/logo - PTV square (tr).png" alt="Pythaverse" style="max-height: calc(2.72vh * var(--center-scale)); max-width: calc(6.8vh * var(--center-scale)); object-fit: contain; position: absolute; right: 0;">
+            <div style="display: flex; width: 100%; align-items: center; justify-content: center; position: relative; min-height: calc(5.44vh * var(--center-scale)); margin-bottom: calc(0.34vh * var(--center-scale)); flex-shrink: 0;">
+                <img src="image/logo - AIROC AI IoT Robotics Challenge (tr).png" alt="AIROC" style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; left: 0;">
+                <img src="image/logo - PTV square (tr).png" alt="Pythaverse" style="max-height: calc(5.44vh * var(--center-scale)); max-width: calc(13.6vh * var(--center-scale)); object-fit: contain; position: absolute; right: 0;">
                 <button id="btn-fullscreen" onclick="toggleFullScreen()" data-tippy-content="Toggle Full Screen" style="margin-bottom: 0;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
@@ -221,7 +221,7 @@
     <div id="confirm-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
         <div
-            style="background: white; padding: 3.3333vh; border-radius: 1.0667vh; box-shadow: 0 0.5333vh 2.1333vh rgba(0,0,0,0.3); text-align: center; max-width: 53.3333vh; font-family: Arial, sans-serif;">
+            style="background: white; padding: 3.3333vh 2vw; border-radius: 1.0667vh; box-shadow: 0 0.5333vh 2.1333vh rgba(0,0,0,0.3); text-align: center; max-width: 30vw; font-family: Arial, sans-serif;">
             <p id="confirm-popup-text" style="font-size: 2.1333vh; margin-top: 0; margin-bottom: 2.6667vh; color: #333;">A
                 competition round is already
                 in progress. Starting a New Round will clear the current setup and any countdown progress.<br><br>Do
@@ -229,11 +229,11 @@
                 want to continue?</p>
             <div style="display: flex; justify-content: center; gap: 2.1333vh;">
                 <button onclick="handleConfirmYes()"
-                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 1.8667vh;">Yes, Reset
+                    style="width: auto; margin-bottom: 0; background-color: #e74c3c; font-size: 1.8667vh; padding: 1vh 1vw;">Yes, Reset
                     this
                     Round</button>
                 <button onclick="handleConfirmNo()"
-                    style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 1.8667vh;">Cancel</button>
+                    style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 1.8667vh; padding: 1vh 1vw;">Cancel</button>
             </div>
         </div>
     </div>
@@ -242,7 +242,7 @@
     <div id="realtime-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent; pointer-events: none;">
         <div
-            style="background: white; width: 88.8889vh; padding: 2.6667vh 0; border-radius: 1.7778vh; box-shadow: 0 1.7778vh 7.1111vh rgba(0,0,0,0.8), 0 0 3.5556vh rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none; box-sizing: border-box;">
+            style="background: white; width: 50vw; padding: 2.6667vh 0; border-radius: 1.7778vh; box-shadow: 0 1.7778vh 7.1111vh rgba(0,0,0,0.8), 0 0 3.5556vh rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none; box-sizing: border-box;">
             <div id="realtime-phase-label"
                 style="font-family: Arial, sans-serif; font-size: 2.6667vh; color: #7f8c8d; font-weight: bold; margin-bottom: 0.8889vh; letter-spacing: 0.1778vh;">
                 Waiting...
@@ -259,11 +259,11 @@
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2500; justify-content: center; align-items: center; background: rgba(0,0,0,0.7);"
         onclick="if(event.target === this) this.style.display='none'">
         <div
-            style="background: white; padding: 4vh; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
+            style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
             <div style="font-size: 2.5vh; font-weight: bold; color: #333;">Scan to view on Mobile</div>
             <div id="qrcode" style="background: white; padding: 1vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;"></div>
             <button onclick="document.getElementById('qr-popup').style.display='none'"
-                style="margin: 0; background-color: #95a5a6; width: auto; padding: 1vh 3vh; font-size: 2vh;">Close</button>
+                style="margin: 0; background-color: #95a5a6; width: auto; padding: 1vh 3vw; font-size: 2vh;">Close</button>
         </div>
     </div>
 
