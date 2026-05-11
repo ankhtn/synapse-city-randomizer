@@ -93,9 +93,9 @@
         }
 
         .table-col h4 {
-            margin: 0 0 1.7778vh 0;
+            margin: 0 0 1.2vh 0;
             color: #333;
-            font-size: 2.3111vh;
+            font-size: 2.4vh;
             text-align: center;
             cursor: default;
             user-select: none;
@@ -415,7 +415,7 @@
             margin: 0 auto;
             border-collapse: collapse;
             text-align: center;
-            font-size: 2.0444vh;
+            font-size: 2.4vh;
             font-weight: bold;
             table-layout: fixed;
             cursor: default;
@@ -426,7 +426,7 @@
         .info-table th,
         .info-table td {
             border: 0.2667vh solid #ccc;
-            padding: 1.0667vh 0;
+            padding: 0.6vh 0;
         }
 
         .info-table td:first-child {
