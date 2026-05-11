@@ -461,7 +461,8 @@ const SynapseMobileViewer = (() => {
     while (code.length < 6) {
       code = '0' + code;
     }
-    return code.slice(-6);
+    let code6 = code.substring(0, 6);
+    return code6.substring(0, 3) + ' ' + code6.substring(3, 6);
   }
 
   function init() {

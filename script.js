@@ -1374,7 +1374,8 @@ function generateLinkCode(str) {
   while (code.length < 6) {
     code = '0' + code;
   }
-  return code.slice(-6);
+  let code6 = code.substring(0, 6);
+  return code6.substring(0, 3) + ' ' + code6.substring(3, 6);
 }
 
 function updateLinkCodeDisplay() {
@@ -1384,7 +1385,7 @@ function updateLinkCodeDisplay() {
     const qrBtn = document.getElementById('btn-qr-code');
 
     if (!hasRandom1) {
-      if (display) display.innerText = '------';
+      if (display) display.innerText = '--- ---';
       if (qrBtn) qrBtn.disabled = true;
       setBoxState('box-qr-code', 'inactive');
       return;
