@@ -381,7 +381,6 @@ const SynapseMobileViewer = (() => {
           <td>${escapeHtml(entry.site)}</td>
           <td>
             <div class="color-cell">
-              <span class="color-swatch" style="background: ${escapeHtml(entry.fill)}"></span>
               <span>${escapeHtml(entry.colorName)}</span>
             </div>
           </td>
