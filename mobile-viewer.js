@@ -381,7 +381,7 @@ const SynapseMobileViewer = (() => {
           <td>${escapeHtml(entry.site)}</td>
           <td>
             <div class="color-cell">
-              <span>${escapeHtml(entry.colorName)}</span>
+              <span ${entry.colorName === 'Mystery' ? 'style="color: #e74c3c;"' : ''}>${escapeHtml(entry.colorName)}</span>
             </div>
           </td>
         </tr>

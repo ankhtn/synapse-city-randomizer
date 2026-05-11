@@ -84,11 +84,7 @@ body {
 }
 
 .random-panel {
-    overflow: hidden;
-    border: 1px solid #cfd7e2;
-    border-radius: 8px;
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(21, 33, 47, 0.08);
+    margin-top: 8px;
 }
 
 .random-panel-header {
@@ -127,15 +123,13 @@ body {
 }
 
 .table-wrap {
-    padding: 8px 10px 10px;
-    background: #fbfcfd;
+    padding: 0;
 }
 
 .random-table {
-    width: 100%;
+    margin: 0 auto;
     border-collapse: collapse;
-    table-layout: fixed;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 800;
 }
 
@@ -146,9 +140,14 @@ body {
 }
 
 .random-table td:first-child {
-    width: 34%;
     color: #1f2b38;
     text-align: center;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.random-table td:nth-child(2) {
+    min-width: 75px;
 }
 
 .color-cell {
@@ -191,7 +190,7 @@ body {
 
 .color-unknown {
     background: #ffffff;
-    color: #6b7280;
+    color: #000000;
 }
 
 .map-slot {
