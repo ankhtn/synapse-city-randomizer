@@ -1334,6 +1334,14 @@ function showQRCode() {
 
   container.innerHTML = '';
   const url = generateMobileViewerUrl();
+  const randomStr = url.split('random=')[1] || '';
+  const code = generateLinkCode(randomStr);
+  
+  const popupCodeDisplay = document.getElementById('popup-link-code');
+  if (popupCodeDisplay) {
+    popupCodeDisplay.innerText = code;
+  }
+
   console.log("QR Code URL:", url);
 
   const size = Math.min(window.innerHeight * 0.5, window.innerWidth * 0.8, 400);
@@ -1344,21 +1352,8 @@ function showQRCode() {
     height: size,
     colorDark : "#000000",
     colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.H
+    correctLevel : QRCode.CorrectLevel.L
   });
-
-  const logo = document.createElement('img');
-  logo.src = 'image/logo - AIROC AI IoT Robotics Challenge (tr).png';
-  logo.style.position = 'absolute';
-  logo.style.top = '50%';
-  logo.style.left = '50%';
-  logo.style.transform = 'translate(-50%, -50%)';
-  logo.style.width = (size * 0.15) + 'px';
-  logo.style.height = 'auto';
-  logo.style.backgroundColor = 'white';
-  logo.style.padding = '2px';
-  logo.style.borderRadius = '4px';
-  container.appendChild(logo);
 
   popup.style.display = 'flex';
 }

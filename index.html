@@ -71,12 +71,9 @@
                         disabled>▶</button>
                 </div>
                 <div class="comp-box state-inactive" id="box-qr-code">
-                    <div class="box-title">
-                        Link Code: <span id="link-code-display"
-                            style="color: #c0392b; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 0.05em; text-transform: none;">------</span>
-                    </div>
-                    <button id="btn-qr-code" disabled onclick="showQRCode()" style="margin-bottom: 0;">
-                        Mobile QR Code
+                    <div class="box-title">QR Link Code</div>
+                    <button id="btn-qr-code" disabled onclick="showQRCode()" style="margin-bottom: 0; font-family: 'Courier New', monospace; letter-spacing: 0.15em; font-size: calc(1.8vh * var(--center-scale) * var(--font-scale));">
+                        <span id="link-code-display">------</span>
                     </button>
                 </div>
 
@@ -268,9 +265,12 @@
         onclick="if(event.target === this) this.style.display='none'">
         <div
             style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
-            <div style="font-size: 2.5vh; font-weight: bold; color: #333;">Scan to view on Mobile</div>
+            <div style="font-size: 2.5vh; font-weight: bold; color: #333; line-height: 1.4;">
+                Link Code: <span id="popup-link-code" style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">------</span><br>
+                <span style="font-size: 2vh; font-weight: normal;">Scan to view on Mobile</span>
+            </div>
             <div id="qrcode"
-                style="background: white; padding: 1vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;">
+                style="background: white; padding: 3vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;">
             </div>
             <button onclick="document.getElementById('qr-popup').style.display='none'"
                 style="margin: 0; background-color: #95a5a6; width: auto; padding: 1vh 3vw; font-size: 2vh;">Close</button>
