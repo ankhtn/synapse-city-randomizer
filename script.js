@@ -1392,8 +1392,21 @@ function showQRCode() {
     height: size,
     colorDark : "#000000",
     colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.L
+    correctLevel : QRCode.CorrectLevel.H
   });
+
+  const logo = document.createElement('img');
+  logo.src = 'image/logo - AIROC AI IoT Robotics Challenge (tr).png';
+  logo.style.position = 'absolute';
+  logo.style.top = '50%';
+  logo.style.left = '50%';
+  logo.style.transform = 'translate(-50%, -50%)';
+  logo.style.width = (size * 0.15) + 'px';
+  logo.style.height = 'auto';
+  logo.style.backgroundColor = 'white';
+  logo.style.padding = '2px';
+  logo.style.borderRadius = '4px';
+  container.appendChild(logo);
 
   popup.style.display = 'flex';
 }
