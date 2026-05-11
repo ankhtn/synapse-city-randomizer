@@ -199,7 +199,7 @@ body {
     width: min(100%, 62vh);
     width: min(100%, 62dvh);
     aspect-ratio: 1 / 1;
-    margin: auto auto 0;
+    margin: 0 auto;
     overflow: hidden;
     border: 1px solid #cfd7e2;
     border-radius: 8px;
