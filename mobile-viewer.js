@@ -456,7 +456,7 @@ const SynapseMobileViewer = (() => {
     const params = new URLSearchParams(window.location.search);
     const result = parseRandomParam(params.get('random'));
     currentLevels = result.levels;
-    activeLevelIndex = 0;
+    activeLevelIndex = 3;
 
     renderStatus(result);
     renderActiveLevel(activeLevelIndex);
