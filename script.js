@@ -1428,11 +1428,13 @@ function generateLinkCode(str) {
 }
 
 function updateLinkCodeDisplay() {
-  const url = generateMobileViewerUrl();
-  const randomStr = url.split('random=')[1] || '';
-  const code = generateLinkCode(randomStr);
-  const display = document.getElementById('link-code-display');
-  if (display) {
-    display.innerText = code;
-  }
+  setTimeout(() => {
+    const url = generateMobileViewerUrl();
+    const randomStr = url.split('random=')[1] || '';
+    const code = generateLinkCode(randomStr);
+    const display = document.getElementById('link-code-display');
+    if (display) {
+      display.innerText = code;
+    }
+  }, 10);
 }
