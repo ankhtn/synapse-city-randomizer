@@ -288,7 +288,7 @@
 
         body.is-fullscreen #box-random1,
         body.is-fullscreen #box-select-team {
-            margin-top: calc(3.4vh * var(--center-scale));
+            margin-top: calc(0.8vh * var(--center-scale));
         }
 
         .state-inactive {
