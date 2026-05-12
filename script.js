@@ -511,6 +511,7 @@ let compCountdownFinished = false;
 let timerRunning = false;
 let currentGameNumber = 1;
 let currentRemainingSeconds = 0;
+let timerEndsAt = null;
 let currentRoundNumber = 1;
 let pendingRoundDelta = 1;
 let completedTeams = [];
@@ -557,6 +558,11 @@ function normalizeNumber(value, fallback) {
   return Number.isFinite(number) ? number : fallback;
 }
 
+function normalizeTimestamp(value) {
+  const timestamp = Number(value);
+  return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : null;
+}
+
 function normalizeTeam(value) {
   const team = Number(value);
   return Number.isInteger(team) && team >= 1 && team <= 12 ? team : null;
@@ -599,7 +605,8 @@ function normalizeCompetitionSnapshot(value) {
     return null;
   }
 
-  const step = COMPETITION_STEPS.includes(value.step) ? value.step : 'random1';
+  const originalStep = COMPETITION_STEPS.includes(value.step) ? value.step : 'random1';
+  let step = originalStep;
   const savedLevels = normalizeSavedLevelStates(value.levelStates);
 
   if (needsRandomSites(step) && COMPETITION_LEVELS.some(count => !savedLevels[count].sites)) {
@@ -612,7 +619,23 @@ function normalizeCompetitionSnapshot(value) {
     return null;
   }
 
+  let normalizedTimerEndsAt = normalizeTimestamp(value.timerEndsAt);
   let remaining = Math.max(0, Math.min(120, Math.floor(normalizeNumber(value.currentRemainingSeconds, 0))));
+
+  if (step === 'timer-running') {
+    if (!normalizedTimerEndsAt && remaining > 0) {
+      normalizedTimerEndsAt = Date.now() + remaining * 1000;
+    }
+    if (!normalizedTimerEndsAt) return null;
+
+    remaining = Math.max(0, Math.min(120, Math.ceil((normalizedTimerEndsAt - Date.now()) / 1000)));
+    if (remaining <= 0) {
+      step = 'timer-finished';
+      remaining = 0;
+      normalizedTimerEndsAt = null;
+    }
+  }
+
   if (step === 'timer-finished') remaining = 0;
 
   return {
@@ -627,7 +650,9 @@ function normalizeCompetitionSnapshot(value) {
     compRoundActive: Boolean(value.compRoundActive) || step !== 'random1',
     compCountdownFinished: step === 'timer-finished' || Boolean(value.compCountdownFinished),
     currentRemainingSeconds: remaining,
+    timerEndsAt: normalizedTimerEndsAt,
     timerPopupOpen: Boolean(value.timerPopupOpen) || step === 'timer-running' || step === 'timer-finished',
+    autoRestore: originalStep === 'timer-running',
     levelStates: savedLevels
   };
 }
@@ -673,10 +698,15 @@ function saveCompetitionState() {
     anyTeamCompleted,
     compRoundActive,
     compCountdownFinished,
-    currentRemainingSeconds,
     timerPopupOpen: getTimerPopupVisible(),
     levelStates: getSavedLevelStates()
   };
+
+  if (competitionStep === 'timer-running') {
+    snapshot.timerEndsAt = timerEndsAt || Date.now() + currentRemainingSeconds * 1000;
+  } else {
+    snapshot.currentRemainingSeconds = currentRemainingSeconds;
+  }
 
   try {
     localStorage.setItem(COMPETITION_STORAGE_KEY, JSON.stringify(snapshot));
@@ -765,6 +795,87 @@ function setTimerPopupButtonState(step) {
   }
 
   if (skipBtn) skipBtn.disabled = true;
+}
+
+function getRemainingSecondsFromEndTime() {
+  if (!timerEndsAt) return currentRemainingSeconds;
+  return Math.max(0, Math.min(120, Math.ceil((timerEndsAt - Date.now()) / 1000)));
+}
+
+function setRunningTimerControls() {
+  const btn = document.getElementById('popup-action-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.style.cursor = 'default';
+  }
+
+  const skipBtn = document.getElementById('popup-skip-btn');
+  if (skipBtn) skipBtn.disabled = false;
+}
+
+function finishCountdownTimer(shouldBeep = false) {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  timerEndsAt = null;
+  currentRemainingSeconds = 0;
+  compCountdownFinished = true;
+  timerRunning = false;
+
+  const popupClock = document.getElementById('popup-clock');
+  if (popupClock) popupClock.style.color = '#e74c3c';
+
+  const ring = document.getElementById('popup-ring');
+  if (ring) ring.style.stroke = '#e74c3c';
+
+  const btn = document.getElementById('popup-action-btn');
+  if (btn) {
+    btn.innerText = `Complete`;
+    btn.disabled = false;
+    btn.style.cursor = 'pointer';
+    btn.style.backgroundColor = '#007bff';
+    btn.style.color = 'white';
+  }
+
+  const skipBtn = document.getElementById('popup-skip-btn');
+  if (skipBtn) skipBtn.disabled = true;
+
+  updateClock(currentRemainingSeconds);
+  if (shouldBeep) playBeep(1320, 1000, 1, 'sine');
+  if (isCompetitionMode) setCompetitionStep('timer-finished');
+}
+
+function tickCountdownFromEndTime(shouldBeepOnFinish = false) {
+  currentRemainingSeconds = getRemainingSecondsFromEndTime();
+  if (currentRemainingSeconds <= 0) {
+    finishCountdownTimer(shouldBeepOnFinish);
+    return;
+  }
+
+  updateClock(currentRemainingSeconds);
+}
+
+function startCountdownInterval() {
+  if (timerInterval) clearInterval(timerInterval);
+  tickCountdownFromEndTime();
+  if (!timerRunning) return;
+
+  timerInterval = setInterval(() => {
+    tickCountdownFromEndTime(true);
+  }, 250);
+}
+
+function continueRestoredCountdownTimer() {
+  const popup = document.getElementById('timer-popup');
+  if (popup) popup.style.display = 'flex';
+
+  const label = document.getElementById('popup-game-label');
+  if (label) label.innerText = activeTeam !== null ? `Team ${activeTeam}` : 'Team 1';
+
+  timerRunning = true;
+  compCountdownFinished = false;
+  setRunningTimerControls();
+  startCountdownInterval();
+  saveCompetitionState();
 }
 
 function showRestoredTimerPopup(step) {
@@ -867,6 +978,7 @@ function applyRestoredCompetitionState(snapshot) {
   compRoundActive = snapshot.compRoundActive;
   compCountdownFinished = snapshot.compCountdownFinished;
   currentRemainingSeconds = snapshot.currentRemainingSeconds;
+  timerEndsAt = snapshot.timerEndsAt;
   timerRunning = false;
 
   if (timerInterval) clearInterval(timerInterval);
@@ -887,7 +999,9 @@ function applyRestoredCompetitionState(snapshot) {
   renderSavedCompetitionMaps(snapshot.step);
   applyCompetitionStepUI(snapshot.step);
 
-  if (snapshot.timerPopupOpen && activeTeam !== null) {
+  if (snapshot.step === 'timer-running' && timerEndsAt && activeTeam !== null) {
+    continueRestoredCountdownTimer();
+  } else if (snapshot.timerPopupOpen && activeTeam !== null) {
     showRestoredTimerPopup(snapshot.step);
   }
 
@@ -1019,6 +1133,7 @@ function applyModeState() {
     if (timerInterval) clearInterval(timerInterval);
     if (preTimerInterval) clearInterval(preTimerInterval);
     currentRemainingSeconds = 0;
+    timerEndsAt = null;
     updateClock(120);
 
     setBoxState('box-random1', 'active');
@@ -1048,6 +1163,7 @@ function applyModeState() {
     if (timerInterval) clearInterval(timerInterval);
     if (preTimerInterval) clearInterval(preTimerInterval);
     currentRemainingSeconds = 0;
+    timerEndsAt = null;
     updateClock(120);
 
     setBoxState('box-random1', 'active');
@@ -1225,6 +1341,7 @@ function handleRandom2() {
         timerRunning = false;
         compCountdownFinished = false;
         currentRemainingSeconds = 0;
+        timerEndsAt = null;
 
         const btnStart = document.getElementById('btn-start');
         btnStart.innerText = `Complete`;
@@ -1304,6 +1421,7 @@ function compResetRound() {
   if (preTimerInterval) clearInterval(preTimerInterval);
   hideTimerPopup();
   currentRemainingSeconds = 0;
+  timerEndsAt = null;
   const clock = document.getElementById('countdown-clock');
   updateClock(120);
   clock.style.color = '#95a5a6';
@@ -1400,6 +1518,7 @@ function compStartTimer() {
   compCountdownFinished = false;
 
   currentRemainingSeconds = 120;
+  timerEndsAt = null;
 
   const popupClock = document.getElementById('popup-clock');
   if (popupClock) popupClock.style.color = '#95a5a6';
@@ -1470,35 +1589,14 @@ async function handlePopupAction() {
         if (skipBtn) skipBtn.disabled = false;
 
         timerRunning = true;
+        timerEndsAt = Date.now() + currentRemainingSeconds * 1000;
         if (isCompetitionMode) setCompetitionStep('timer-running');
         const popupClock = document.getElementById('popup-clock');
         if (popupClock) popupClock.style.color = '#029456';
         const ring = document.getElementById('popup-ring');
         if (ring) ring.style.stroke = '#029456';
         updateClock(currentRemainingSeconds);
-
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-          currentRemainingSeconds--;
-          if (currentRemainingSeconds <= 0) {
-            clearInterval(timerInterval);
-            currentRemainingSeconds = 0;
-            if (popupClock) popupClock.style.color = '#e74c3c';
-            btn.innerText = `Complete`;
-            playBeep(1320, 1000, 1, 'sine');
-            btn.disabled = false;
-            btn.style.cursor = 'pointer';
-            btn.style.backgroundColor = '#007bff';
-            btn.style.color = 'white';
-            const skipBtn = document.getElementById('popup-skip-btn');
-            if (skipBtn) skipBtn.disabled = true;
-            compCountdownFinished = true;
-            timerRunning = false;
-            if (isCompetitionMode) setCompetitionStep('timer-finished');
-          }
-          updateClock(currentRemainingSeconds);
-          if (isCompetitionMode && timerRunning) saveCompetitionState();
-        }, 1000);
+        startCountdownInterval();
       }
     }, 1000);
 
@@ -1543,30 +1641,12 @@ async function handlePopupAction() {
 
 function handleSkipAction() {
   if (timerRunning && !compCountdownFinished) {
-    currentRemainingSeconds = Math.floor(currentRemainingSeconds / 2);
+    currentRemainingSeconds = Math.floor(getRemainingSecondsFromEndTime() / 2);
+    timerEndsAt = Date.now() + currentRemainingSeconds * 1000;
     updateClock(currentRemainingSeconds, true);
 
     if (currentRemainingSeconds <= 0) {
-      clearInterval(timerInterval);
-      currentRemainingSeconds = 0;
-      const popupClock = document.getElementById('popup-clock');
-      if (popupClock) popupClock.style.color = '#e74c3c';
-
-      const btn = document.getElementById('popup-action-btn');
-      if (btn) {
-        btn.innerText = `Complete`;
-        btn.disabled = false;
-        btn.style.cursor = 'pointer';
-        btn.style.backgroundColor = '#007bff';
-        btn.style.color = 'white';
-      }
-
-      const skipBtn = document.getElementById('popup-skip-btn');
-      if (skipBtn) skipBtn.disabled = true;
-
-      compCountdownFinished = true;
-      timerRunning = false;
-      if (isCompetitionMode) setCompetitionStep('timer-finished');
+      finishCountdownTimer();
     } else if (isCompetitionMode) {
       setCompetitionStep('timer-running');
     }
@@ -1738,7 +1818,11 @@ window.onload = () => {
 
   const savedCompetition = readCompetitionSnapshot();
   if (savedCompetition) {
-    showRestorePopup(savedCompetition);
+    if (savedCompetition.autoRestore) {
+      applyRestoredCompetitionState(savedCompetition);
+    } else {
+      showRestorePopup(savedCompetition);
+    }
   } else {
     initializeDefaultModeState();
   }
