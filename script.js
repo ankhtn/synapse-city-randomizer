@@ -1371,6 +1371,21 @@ function showQRCode() {
   popup.style.display = 'flex';
 }
 
+window.handleCopyUrl = function() {
+  const url = generateMobileViewerUrl();
+  navigator.clipboard.writeText(url).then(() => {
+    // Optionally show a tiny tippy or alert
+    alert("URL copied to clipboard!");
+  }).catch(err => {
+    console.error("Could not copy text: ", err);
+  });
+};
+
+window.handleGoToUrl = function() {
+  const url = generateMobileViewerUrl();
+  window.open(url, '_blank');
+};
+
 function generateLinkCode(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {

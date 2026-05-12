@@ -277,7 +277,11 @@
                 <span id="popup-link-code"
                     style="font-size: 10vh; color: #007bff; letter-spacing: 0.1em; display: inline-block; margin-bottom: 1vh;">---
                     ---</span><br>
-                <span style="font-size: 2.3vh; font-weight: normal;">Scan to view Mobile Link</span>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 2vw;">
+                    <button onclick="handleCopyUrl()" style="width: auto; font-size: 1.8vh; padding: 0.5vh 1vw; margin: 0; background-color: #007bff;">Copy URL</button>
+                    <span style="font-size: 2.3vh; font-weight: normal; white-space: nowrap;">Scan to view Mobile Link</span>
+                    <button onclick="handleGoToUrl()" style="width: auto; font-size: 1.8vh; padding: 0.5vh 1vw; margin: 0; background-color: #007bff;">Go to URL</button>
+                </div>
             </div>
             <div id="qrcode"
                 style="background: white; padding: 3vh; border: 1px solid #ddd; border-radius: 1vh; position: relative; margin-top: 1vh;">
