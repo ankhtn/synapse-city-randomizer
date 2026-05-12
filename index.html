@@ -269,19 +269,19 @@
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2500; justify-content: center; align-items: center; background: rgba(0,0,0,0.7);"
         onclick="if(event.target === this) this.style.display='none'">
         <div
-            style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
+            style="background: white; padding: 4vh 3.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
+            <span onclick="document.getElementById('qr-popup').style.display='none'"
+                style="position: absolute; top: 1.5vh; right: 1vw; font-size: 4vh; color: #95a5a6; cursor: pointer; user-select: none; line-height: 1;">&times;</span>
             <div
                 style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4; cursor: default; user-select: none;">
                 <span style="font-size: 2.3vh; font-weight: normal;">Scan to view Mobile Link</span><br>
                 <span id="popup-link-code"
-                    style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">---
+                    style="font-size: 10vh; color: #007bff; font-family: 'Courier New', monospace; letter-spacing: 0.1em; display: inline-block; margin-top: 1vh;">---
                     ---</span>
             </div>
             <div id="qrcode"
-                style="background: white; padding: 3vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;">
+                style="background: white; padding: 3vh; border: 1px solid #ddd; border-radius: 1vh; position: relative; margin-top: 1vh;">
             </div>
-            <button onclick="document.getElementById('qr-popup').style.display='none'"
-                style="margin: 0; background-color: #95a5a6; width: auto; padding: 1.4vh 3.7vw; font-size: 2.3vh;">Close</button>
         </div>
     </div>
 
