@@ -64,7 +64,7 @@
                     <button id="btn-reset" onclick="handleReset()" data-tippy-content="Reset Round 1"
                         style="width: calc(2.38vh * var(--center-scale)); height: calc(2.38vh * var(--center-scale)); border-radius: 50%; font-size: calc(1.02vh * var(--center-scale) * var(--font-scale)); padding: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 0;">↺</button>
                     <div id="round-label"
-                        style="font-size: calc(1.768vh * var(--center-scale) * var(--font-scale)); font-weight: bold; flex-grow: 1; text-align: center; color: #333;">
+                        style="font-size: calc(1.768vh * var(--center-scale) * var(--font-scale)); font-weight: bold; flex-grow: 1; text-align: center; color: #333; cursor: default; user-select: none;">
                         Round 1</div>
                     <button id="btn-next-round" onclick="handleNextRound()" data-tippy-content="Begin Round 2"
                         style="width: calc(2.38vh * var(--center-scale)); height: calc(2.38vh * var(--center-scale)); border-radius: 50%; font-size: calc(1.02vh * var(--center-scale) * var(--font-scale)); padding: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 0;"
@@ -275,7 +275,7 @@
         onclick="if(event.target === this) this.style.display='none'">
         <div
             style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
-            <div style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4;">
+            <div style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4; cursor: default; user-select: none;">
                 <span style="font-size: 2.3vh; font-weight: normal;">Scan to view Mobile Link</span><br>
                 <span id="popup-link-code"
                     style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">---
