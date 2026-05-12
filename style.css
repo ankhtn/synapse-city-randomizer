@@ -453,8 +453,8 @@
             text-align: center;
             cursor: pointer;
             color: #000;
-            padding: calc(0.34vh * var(--center-scale)) 0;
-            margin-bottom: calc(0.34vh * var(--center-scale));
+            padding: calc(0.34vh * var(--center-scale)) 0 0 0;
+            margin-bottom: 0;
             background: transparent;
             width: 100%;
             box-sizing: border-box;
@@ -465,4 +465,25 @@
 
         #small-realtime-clock:hover {
             color: #007bff;
+        }
+
+        #small-link-code {
+            font-family: 'Courier New', monospace;
+            font-size: calc(1.5vh * var(--center-scale) * var(--font-scale));
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            color: #e74c3c;
+            padding: 0 0 calc(0.34vh * var(--center-scale)) 0;
+            margin-bottom: calc(0.34vh * var(--center-scale));
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+            transition: color 0.2s ease;
+            flex-shrink: 0;
+            letter-spacing: 0.1vw;
+        }
+
+        #small-link-code:hover {
+            color: #c0392b;
         }

@@ -1213,9 +1213,22 @@ function updateRealtimeClocks() {
   const largeClock = document.getElementById('large-realtime-clock');
   if (largeClock) largeClock.innerText = timeStr;
 
+  const smallLinkCode = document.getElementById('small-link-code');
+  if (smallLinkCode) {
+    const hasRandom1 = levelStates[4] && levelStates[4].sites && levelStates[4].sites.length > 0;
+    if (hasRandom1) {
+        const url = generateMobileViewerUrl();
+        const randomStr = url.split('random=')[1] || '';
+        const code = generateLinkCode(randomStr);
+        smallLinkCode.innerText = `Link Code: ${code}`;
+    } else {
+        smallLinkCode.innerText = `Link Code: --- ---`;
+    }
+  }
+
   const phaseLabel = document.getElementById('realtime-phase-label');
   if (phaseLabel) {
-    const activeBox = document.querySelector('.comp-box.state-active');
+    const activeBox = document.querySelector('.comp-box.state-active:not(#box-qr-code)');
     if (activeBox) {
       const titleEl = activeBox.querySelector('.box-title');
       phaseLabel.innerText = titleEl ? titleEl.innerText : "Free Play";
@@ -1259,8 +1272,9 @@ function closeRealtimePopup() {
 document.addEventListener('click', (e) => {
   if (isRealtimePopupPinned) {
     const isSmallClock = e.target.closest('#small-realtime-clock');
+    const isSmallLinkCode = e.target.closest('#small-link-code');
     const isRealtimePopup = e.target.closest('#realtime-popup');
-    if (!isSmallClock && !isRealtimePopup) {
+    if (!isSmallClock && !isSmallLinkCode && !isRealtimePopup) {
       isRealtimePopupPinned = false;
       const popup = document.getElementById('realtime-popup');
       if (popup) popup.style.display = 'none';
