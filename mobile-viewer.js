@@ -470,7 +470,7 @@ const SynapseMobileViewer = (() => {
     const rawRandomStr = params.get('random') || '';
     const result = parseRandomParam(rawRandomStr);
     currentLevels = result.levels;
-    activeLevelIndex = 3;
+    activeLevelIndex = 1;
 
     // Lọc bỏ mọi ký tự thừa (rác từ QR scanner, tracking params...) để đảm bảo chuỗi băm giống hệt trên Web
     const cleanStr = currentLevels.map(level => level.filter(entry => !entry.placeholder).map(entry => entry.token).join('.')).join('..');

@@ -59,8 +59,8 @@ body {
 }
 
 .level-tab.active {
-    border-color: #0f766e;
-    background: #0f766e;
+    border-color: #007bff;
+    background: #007bff;
     color: #ffffff;
 }
 
