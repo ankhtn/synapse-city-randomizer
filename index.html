@@ -71,8 +71,9 @@
                         disabled>▶</button>
                 </div>
                 <div class="comp-box state-inactive" id="box-qr-code">
-                    <div class="box-title">QR Link Code</div>
-                    <button id="btn-qr-code" disabled onclick="showQRCode()" style="margin-bottom: 0; font-family: 'Courier New', monospace; letter-spacing: 0.15em; font-size: calc(1.8vh * var(--center-scale) * var(--font-scale));">
+                    <div class="box-title">Mobile Link</div>
+                    <button id="btn-qr-code" disabled onclick="showQRCode()"
+                        style="margin-bottom: 0; font-family: 'Courier New', monospace; letter-spacing: 0.15em; font-size: calc(1.8vh * var(--center-scale) * var(--font-scale));">
                         <span id="link-code-display">--- ---</span>
                     </button>
                 </div>
@@ -157,7 +158,7 @@
                 onclick="toggleRealtimePopup()">
                 00:00:00
             </div>
-            
+
             <div id="small-link-code" onmouseenter="openRealtimePopup()" onmouseleave="closeRealtimePopup()"
                 onclick="toggleRealtimePopup()">
                 --- ---
@@ -275,8 +276,10 @@
         <div
             style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
             <div style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4;">
-                Link Code: <span id="popup-link-code" style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">--- ---</span><br>
-                <span style="font-size: 2.3vh; font-weight: normal;">Scan to view on Mobile</span>
+                <span style="font-size: 2.3vh; font-weight: normal;">Scan to view Mobile Link</span><br>
+                <span id="popup-link-code"
+                    style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">---
+                    ---</span>
             </div>
             <div id="qrcode"
                 style="background: white; padding: 3vh; border: 1px solid #ddd; border-radius: 1vh; position: relative;">
