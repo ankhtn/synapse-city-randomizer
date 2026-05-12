@@ -267,8 +267,10 @@ function countIntersect(sites, letters) {
   return count;
 }
 
-function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId) {
-  if (stage === 2) {
+function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId, options = {}) {
+  const fixedSites = options && Array.isArray(options.sites) ? [...options.sites] : null;
+
+  if (stage === 2 && !fixedSites) {
     if (!levelStates[PollutionCount].sites) {
       return;
     }
@@ -281,7 +283,13 @@ function generateMap(PollutionCount, stage = 0, mapContainerId, tableContainerId
   let OneColor = null;
   let random2 = [];
 
-  if (stage === 2) {
+  if (fixedSites) {
+    random2 = fixedSites;
+    levelStates[PollutionCount].sites = [...fixedSites];
+    if (stage === 1) {
+      OneColor = '#FFF';
+    }
+  } else if (stage === 2) {
     random2 = shuffleArray(levelStates[PollutionCount].sites);
     levelStates[PollutionCount].sites = random2;
   } else if (stage === -1) {
@@ -508,6 +516,422 @@ let pendingRoundDelta = 1;
 let completedTeams = [];
 let activeTeam = null;
 let anyTeamCompleted = false;
+let competitionStep = 'random1';
+let pendingRestoreSnapshot = null;
+
+const COMPETITION_STORAGE_KEY = 'synapseCityCompetitionState';
+const COMPETITION_STORAGE_VERSION = 1;
+const COMPETITION_LEVELS = [4, 5, 6, 7];
+const COMPETITION_STEPS = [
+  'random1',
+  'practice',
+  'quarantine',
+  'random2',
+  'select-team',
+  'timer-ready',
+  'timer-running',
+  'timer-finished'
+];
+
+function cloneSites(sites) {
+  return Array.isArray(sites) ? [...sites] : null;
+}
+
+function getSavedLevelStates() {
+  const saved = {};
+  for (const count of COMPETITION_LEVELS) {
+    saved[count] = {
+      sites: levelStates[count] ? cloneSites(levelStates[count].sites) : null
+    };
+  }
+  return saved;
+}
+
+function getTimerPopupVisible() {
+  const popup = document.getElementById('timer-popup');
+  return !!(popup && popup.style.display === 'flex');
+}
+
+function normalizeNumber(value, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function normalizeTeam(value) {
+  const team = Number(value);
+  return Number.isInteger(team) && team >= 1 && team <= 12 ? team : null;
+}
+
+function normalizeTeamList(value) {
+  if (!Array.isArray(value)) return [];
+  const teams = [];
+  for (const item of value) {
+    const team = normalizeTeam(item);
+    if (team !== null && !teams.includes(team)) teams.push(team);
+  }
+  return teams;
+}
+
+function normalizeSitesForLevel(value, count) {
+  if (!Array.isArray(value)) return null;
+  const sites = value.slice(0, count).map(site => String(site));
+  if (sites.length !== count) return null;
+  return sites.every(site => /^[A-H][1-4]$/.test(site)) ? sites : null;
+}
+
+function normalizeSavedLevelStates(value) {
+  const normalized = {};
+  for (const count of COMPETITION_LEVELS) {
+    const rawState = value && (value[count] || value[String(count)]);
+    normalized[count] = {
+      sites: normalizeSitesForLevel(rawState && rawState.sites, count)
+    };
+  }
+  return normalized;
+}
+
+function needsRandomSites(step) {
+  return step !== 'random1';
+}
+
+function normalizeCompetitionSnapshot(value) {
+  if (!value || value.version !== COMPETITION_STORAGE_VERSION || value.isCompetitionMode !== true) {
+    return null;
+  }
+
+  const step = COMPETITION_STEPS.includes(value.step) ? value.step : 'random1';
+  const savedLevels = normalizeSavedLevelStates(value.levelStates);
+
+  if (needsRandomSites(step) && COMPETITION_LEVELS.some(count => !savedLevels[count].sites)) {
+    return null;
+  }
+
+  const completed = normalizeTeamList(value.completedTeams);
+  const active = normalizeTeam(value.activeTeam);
+  if (['timer-ready', 'timer-running', 'timer-finished'].includes(step) && active === null) {
+    return null;
+  }
+
+  let remaining = Math.max(0, Math.min(120, Math.floor(normalizeNumber(value.currentRemainingSeconds, 0))));
+  if (step === 'timer-finished') remaining = 0;
+
+  return {
+    version: COMPETITION_STORAGE_VERSION,
+    isCompetitionMode: true,
+    step,
+    currentRoundNumber: Math.max(1, Math.floor(normalizeNumber(value.currentRoundNumber, 1))),
+    currentGameNumber: Math.max(1, Math.floor(normalizeNumber(value.currentGameNumber, 1))),
+    completedTeams: completed,
+    activeTeam: active,
+    anyTeamCompleted: Boolean(value.anyTeamCompleted) || completed.length > 0,
+    compRoundActive: Boolean(value.compRoundActive) || step !== 'random1',
+    compCountdownFinished: step === 'timer-finished' || Boolean(value.compCountdownFinished),
+    currentRemainingSeconds: remaining,
+    timerPopupOpen: Boolean(value.timerPopupOpen) || step === 'timer-running' || step === 'timer-finished',
+    levelStates: savedLevels
+  };
+}
+
+function clearCompetitionState() {
+  try {
+    localStorage.removeItem(COMPETITION_STORAGE_KEY);
+  } catch (error) {
+    console.warn('Could not clear competition state:', error);
+  }
+}
+
+function readCompetitionSnapshot() {
+  try {
+    const raw = localStorage.getItem(COMPETITION_STORAGE_KEY);
+    if (!raw) return null;
+
+    const snapshot = normalizeCompetitionSnapshot(JSON.parse(raw));
+    if (!snapshot) clearCompetitionState();
+    return snapshot;
+  } catch (error) {
+    console.warn('Could not read competition state:', error);
+    clearCompetitionState();
+    return null;
+  }
+}
+
+function saveCompetitionState() {
+  if (!isCompetitionMode) {
+    clearCompetitionState();
+    return;
+  }
+
+  const snapshot = {
+    version: COMPETITION_STORAGE_VERSION,
+    isCompetitionMode: true,
+    savedAt: Date.now(),
+    step: competitionStep,
+    currentRoundNumber,
+    currentGameNumber,
+    completedTeams: [...completedTeams],
+    activeTeam,
+    anyTeamCompleted,
+    compRoundActive,
+    compCountdownFinished,
+    currentRemainingSeconds,
+    timerPopupOpen: getTimerPopupVisible(),
+    levelStates: getSavedLevelStates()
+  };
+
+  try {
+    localStorage.setItem(COMPETITION_STORAGE_KEY, JSON.stringify(snapshot));
+  } catch (error) {
+    console.warn('Could not save competition state:', error);
+  }
+}
+
+function setCompetitionStep(step, shouldSave = true) {
+  if (COMPETITION_STEPS.includes(step)) {
+    competitionStep = step;
+  }
+  if (shouldSave) saveCompetitionState();
+}
+
+function getMapConfig(count) {
+  const configs = {
+    4: ['map-explorer', 'table-explorer'],
+    5: ['map-creator', 'table-creator'],
+    6: ['map-innovator', 'table-innovator'],
+    7: ['map-master', 'table-master']
+  };
+  return configs[count];
+}
+
+function isRandom2RevealedStep(step) {
+  return ['select-team', 'timer-ready', 'timer-running', 'timer-finished'].includes(step);
+}
+
+function renderSavedCompetitionMaps(step) {
+  const hasRandom1 = COMPETITION_LEVELS.some(count => levelStates[count] && levelStates[count].sites);
+  if (!hasRandom1) {
+    globalClear();
+    return;
+  }
+
+  const random2Revealed = isRandom2RevealedStep(step);
+
+  for (const count of COMPETITION_LEVELS) {
+    const config = getMapConfig(count);
+    const sites = levelStates[count] && levelStates[count].sites;
+
+    if (!sites) {
+      generateMap(count, -1, config[0], config[1]);
+      continue;
+    }
+
+    const stage = count <= 5 ? 0 : (random2Revealed ? 2 : 1);
+    generateMap(count, stage, config[0], config[1], { sites });
+  }
+
+  updateLinkCodeDisplay();
+}
+
+function setButtonDisabled(id, disabled) {
+  const btn = document.getElementById(id);
+  if (btn) btn.disabled = disabled;
+}
+
+function setTimerPopupButtonState(step) {
+  const popupClock = document.getElementById('popup-clock');
+  const ring = document.getElementById('popup-ring');
+  const btn = document.getElementById('popup-action-btn');
+  const skipBtn = document.getElementById('popup-skip-btn');
+
+  if (step === 'timer-finished') {
+    if (popupClock) popupClock.style.color = '#e74c3c';
+    if (ring) ring.style.stroke = '#e74c3c';
+    if (btn) {
+      btn.innerText = 'Complete';
+      btn.disabled = false;
+      btn.style.cursor = 'pointer';
+      btn.style.backgroundColor = '#007bff';
+      btn.style.color = 'white';
+    }
+  } else {
+    if (popupClock) popupClock.style.color = '#95a5a6';
+    if (ring) ring.style.stroke = '#95a5a6';
+    if (btn) {
+      btn.innerText = 'Start';
+      btn.disabled = false;
+      btn.style.cursor = 'pointer';
+      btn.style.backgroundColor = '#007bff';
+      btn.style.color = 'white';
+    }
+  }
+
+  if (skipBtn) skipBtn.disabled = true;
+}
+
+function showRestoredTimerPopup(step) {
+  const popup = document.getElementById('timer-popup');
+  if (!popup) return;
+
+  popup.style.display = 'flex';
+
+  const label = document.getElementById('popup-game-label');
+  if (label) label.innerText = activeTeam !== null ? `Team ${activeTeam}` : 'Team 1';
+
+  timerRunning = false;
+  if (timerInterval) clearInterval(timerInterval);
+  if (preTimerInterval) clearInterval(preTimerInterval);
+
+  updateClock(currentRemainingSeconds);
+  setTimerPopupButtonState(step);
+}
+
+function hideTimerPopup() {
+  const popup = document.getElementById('timer-popup');
+  if (popup) popup.style.display = 'none';
+}
+
+function applyCompetitionStepUI(step) {
+  setButtonDisabled('btn-reset', false);
+  setButtonDisabled('btn-random1', false);
+  setButtonDisabled('btn-practice', true);
+  setButtonDisabled('btn-quarantine', true);
+  setButtonDisabled('btn-random2', true);
+  setButtonDisabled('btn-start', true);
+
+  const btnStart = document.getElementById('btn-start');
+  if (btnStart) btnStart.innerText = 'Complete';
+
+  const slotTitle = document.getElementById('box-slot-title');
+  if (slotTitle) slotTitle.innerText = 'Setup Field Track';
+
+  setBoxState('box-random1', 'active');
+  setBoxState('box-practice', 'inactive');
+  setBoxState('box-quarantine', 'inactive');
+  setBoxState('box-random2', 'inactive');
+  setBoxState('box-select-team', 'inactive');
+  setBoxState('box-slot', 'inactive');
+
+  hideTimerPopup();
+
+  if (step === 'random1') {
+    updateClock(120);
+  } else {
+    setButtonDisabled('btn-random1', true);
+    setBoxState('box-random1', 'completed');
+  }
+
+  if (step === 'practice') {
+    setButtonDisabled('btn-practice', false);
+    setBoxState('box-practice', 'active');
+  } else if (['quarantine', 'random2', 'select-team', 'timer-ready', 'timer-running', 'timer-finished'].includes(step)) {
+    setBoxState('box-practice', 'completed');
+  }
+
+  if (step === 'quarantine') {
+    setButtonDisabled('btn-quarantine', false);
+    setBoxState('box-quarantine', 'active');
+  } else if (['random2', 'select-team', 'timer-ready', 'timer-running', 'timer-finished'].includes(step)) {
+    setBoxState('box-quarantine', 'completed');
+  }
+
+  if (step === 'random2') {
+    setButtonDisabled('btn-random2', false);
+    setBoxState('box-random2', 'active');
+  } else if (['select-team', 'timer-ready', 'timer-running', 'timer-finished'].includes(step)) {
+    setBoxState('box-random2', 'completed');
+  }
+
+  if (step === 'select-team') {
+    setBoxState('box-select-team', 'active');
+  } else if (['timer-ready', 'timer-running', 'timer-finished'].includes(step)) {
+    setBoxState('box-select-team', 'completed');
+    setBoxState('box-slot', 'active');
+    setButtonDisabled('btn-start', false);
+  }
+
+  const teamTitle = document.getElementById('box-team-title');
+  if (teamTitle) teamTitle.innerText = activeTeam !== null ? `Team ${activeTeam}` : 'Select Team';
+
+  updateRoundLabel();
+  updateResetButtonLabel();
+  updateTeamButtonsUI();
+}
+
+function applyRestoredCompetitionState(snapshot) {
+  isCompetitionMode = true;
+  competitionStep = snapshot.step;
+  currentRoundNumber = snapshot.currentRoundNumber;
+  currentGameNumber = snapshot.currentGameNumber;
+  completedTeams = [...snapshot.completedTeams];
+  activeTeam = snapshot.activeTeam;
+  anyTeamCompleted = snapshot.anyTeamCompleted;
+  compRoundActive = snapshot.compRoundActive;
+  compCountdownFinished = snapshot.compCountdownFinished;
+  currentRemainingSeconds = snapshot.currentRemainingSeconds;
+  timerRunning = false;
+
+  if (timerInterval) clearInterval(timerInterval);
+  if (preTimerInterval) clearInterval(preTimerInterval);
+
+  for (const count of COMPETITION_LEVELS) {
+    levelStates[count].sites = cloneSites(snapshot.levelStates[count].sites);
+  }
+
+  const toggle = document.getElementById('mode-toggle');
+  if (toggle) toggle.checked = false;
+
+  const labelFree = document.getElementById('label-free');
+  const labelComp = document.getElementById('label-comp');
+  if (labelFree) labelFree.className = 'inactive';
+  if (labelComp) labelComp.className = 'active';
+
+  renderSavedCompetitionMaps(snapshot.step);
+  applyCompetitionStepUI(snapshot.step);
+
+  if (snapshot.timerPopupOpen && activeTeam !== null) {
+    showRestoredTimerPopup(snapshot.step);
+  }
+
+  updateRealtimeClocks();
+  saveCompetitionState();
+}
+
+function showRestorePopup(snapshot) {
+  pendingRestoreSnapshot = snapshot;
+  const popup = document.getElementById('restore-popup');
+  if (popup) popup.style.display = 'flex';
+}
+
+function hideRestorePopup() {
+  const popup = document.getElementById('restore-popup');
+  if (popup) popup.style.display = 'none';
+}
+
+function handleRestoreCompetition() {
+  const snapshot = pendingRestoreSnapshot;
+  pendingRestoreSnapshot = null;
+  hideRestorePopup();
+
+  if (snapshot) {
+    applyRestoredCompetitionState(snapshot);
+  } else {
+    initializeDefaultModeState();
+  }
+}
+
+function handleStartFreshCompetition() {
+  pendingRestoreSnapshot = null;
+  hideRestorePopup();
+  clearCompetitionState();
+  initializeDefaultModeState();
+}
+
+function initializeDefaultModeState() {
+  const toggle = document.getElementById('mode-toggle');
+  if (toggle) toggle.checked = true;
+  isCompetitionMode = false;
+  competitionStep = 'random1';
+  handleSingleModeToggle();
+}
 
 function updateTeamButtonsUI() {
   const boxSelectTeam = document.getElementById('box-select-team');
@@ -571,6 +995,9 @@ function applyModeState() {
   const btnQuar = document.getElementById('btn-quarantine');
   const btnStart = document.getElementById('btn-start');
 
+  competitionStep = 'random1';
+  hideTimerPopup();
+
   if (isCompetitionMode) {
     globalClear();
     btnReset.disabled = false;
@@ -590,6 +1017,8 @@ function applyModeState() {
     timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
+    if (preTimerInterval) clearInterval(preTimerInterval);
+    currentRemainingSeconds = 0;
     updateClock(120);
 
     setBoxState('box-random1', 'active');
@@ -617,6 +1046,8 @@ function applyModeState() {
     timerRunning = false;
 
     if (timerInterval) clearInterval(timerInterval);
+    if (preTimerInterval) clearInterval(preTimerInterval);
+    currentRemainingSeconds = 0;
     updateClock(120);
 
     setBoxState('box-random1', 'active');
@@ -679,6 +1110,12 @@ function executeModeToggleLogic() {
   currentRoundNumber = 1;
   updateRoundLabel();
   applyModeState();
+
+  if (isCompetitionMode) {
+    saveCompetitionState();
+  } else {
+    clearCompetitionState();
+  }
 }
 
 function handleConfirmYes() {
@@ -740,6 +1177,7 @@ function executeReset() {
     compResetRound();
   } else {
     applyModeState();
+    clearCompetitionState();
   }
 }
 
@@ -863,6 +1301,9 @@ function compResetRound() {
   if (titleEl) titleEl.innerText = `Setup Field Track`;
 
   if (timerInterval) clearInterval(timerInterval);
+  if (preTimerInterval) clearInterval(preTimerInterval);
+  hideTimerPopup();
+  currentRemainingSeconds = 0;
   const clock = document.getElementById('countdown-clock');
   updateClock(120);
   clock.style.color = '#95a5a6';
@@ -886,6 +1327,7 @@ function compResetRound() {
   compRoundActive = false;
   compCountdownFinished = false;
   timerRunning = false;
+  setCompetitionStep('random1');
 }
 
 function compRandom1() {
@@ -897,6 +1339,7 @@ function compRandom1() {
   setBoxState('box-practice', 'active');
 
   compRoundActive = true;
+  setCompetitionStep('practice');
 }
 
 function compBtnPractice() {
@@ -904,6 +1347,7 @@ function compBtnPractice() {
   document.getElementById('btn-quarantine').disabled = false;
   setBoxState('box-practice', 'completed');
   setBoxState('box-quarantine', 'active');
+  setCompetitionStep('quarantine');
 }
 
 function compBtnQuarantine() {
@@ -911,6 +1355,7 @@ function compBtnQuarantine() {
   document.getElementById('btn-random2').disabled = false;
   setBoxState('box-quarantine', 'completed');
   setBoxState('box-random2', 'active');
+  setCompetitionStep('random2');
 }
 
 function compRandom2() {
@@ -924,6 +1369,7 @@ function compRandom2() {
   const teamTitle = document.getElementById('box-team-title');
   if (teamTitle) teamTitle.innerText = 'Select Team';
   updateTeamButtonsUI();
+  setCompetitionStep('select-team');
 }
 
 function handleSelectTeam(teamId) {
@@ -937,6 +1383,7 @@ function handleSelectTeam(teamId) {
 
   document.getElementById('btn-start').disabled = false;
   setBoxState('box-slot', 'active');
+  if (isCompetitionMode) setCompetitionStep('timer-ready');
 }
 
 function compStartTimer() {
@@ -973,6 +1420,7 @@ function compStartTimer() {
   if (skipBtn) skipBtn.disabled = true;
 
   updateClock(currentRemainingSeconds);
+  if (isCompetitionMode) setCompetitionStep('timer-ready');
 }
 
 async function handlePopupAction() {
@@ -982,6 +1430,7 @@ async function handlePopupAction() {
   if ((action.includes('3') && action.includes('GO')) || action === 'Start') {
     btn.disabled = true;
     btn.style.cursor = 'default';
+    if (isCompetitionMode) setCompetitionStep('timer-ready');
 
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1021,6 +1470,7 @@ async function handlePopupAction() {
         if (skipBtn) skipBtn.disabled = false;
 
         timerRunning = true;
+        if (isCompetitionMode) setCompetitionStep('timer-running');
         const popupClock = document.getElementById('popup-clock');
         if (popupClock) popupClock.style.color = '#029456';
         const ring = document.getElementById('popup-ring');
@@ -1044,8 +1494,10 @@ async function handlePopupAction() {
             if (skipBtn) skipBtn.disabled = true;
             compCountdownFinished = true;
             timerRunning = false;
+            if (isCompetitionMode) setCompetitionStep('timer-finished');
           }
           updateClock(currentRemainingSeconds);
+          if (isCompetitionMode && timerRunning) saveCompetitionState();
         }, 1000);
       }
     }, 1000);
@@ -1057,7 +1509,9 @@ async function handlePopupAction() {
     anyTeamCompleted = true;
     updateResetButtonLabel();
 
-    completedTeams.push(activeTeam);
+    if (activeTeam !== null && !completedTeams.includes(activeTeam)) {
+      completedTeams.push(activeTeam);
+    }
     activeTeam = null;
 
     const titleEl = document.getElementById('box-slot-title');
@@ -1075,6 +1529,7 @@ async function handlePopupAction() {
       const teamTitle = document.getElementById('box-team-title');
       if (teamTitle) teamTitle.innerText = 'Select Team';
       updateTeamButtonsUI();
+      setCompetitionStep('select-team');
     } else {
       const btnStart = document.getElementById('btn-start');
       if (btnStart) {
@@ -1111,6 +1566,9 @@ function handleSkipAction() {
 
       compCountdownFinished = true;
       timerRunning = false;
+      if (isCompetitionMode) setCompetitionStep('timer-finished');
+    } else if (isCompetitionMode) {
+      setCompetitionStep('timer-running');
     }
   }
 }
@@ -1277,10 +1735,21 @@ window.onload = () => {
       }
     }
   });
-  handleSingleModeToggle();
+
+  const savedCompetition = readCompetitionSnapshot();
+  if (savedCompetition) {
+    showRestorePopup(savedCompetition);
+  } else {
+    initializeDefaultModeState();
+  }
+
   updateRealtimeClocks();
   setInterval(updateRealtimeClocks, 1000);
 };
+
+window.addEventListener('beforeunload', () => {
+  if (isCompetitionMode) saveCompetitionState();
+});
 
 document.addEventListener("fullscreenchange", () => {
   const btn = document.getElementById("btn-fullscreen");

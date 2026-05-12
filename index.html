@@ -221,6 +221,26 @@
         </div>
     </div>
 
+    <!-- Restore Competition Popup -->
+    <div id="restore-popup"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3000; justify-content: center; align-items: center; background: rgba(0,0,0,0.55);">
+        <div
+            style="background: white; padding: 3.3333vh 2vw; border-radius: 1.0667vh; box-shadow: 0 0.5333vh 2.1333vh rgba(0,0,0,0.3); text-align: center; max-width: 32vw; font-family: Arial, sans-serif;">
+            <p
+                style="font-size: 2.1333vh; margin-top: 0; margin-bottom: 2.6667vh; color: #333;">
+                A previous Competition round was saved on this device.<br><br>Do you want to restore and continue?
+            </p>
+            <div style="display: flex; justify-content: center; gap: 2.1333vh;">
+                <button onclick="handleRestoreCompetition()"
+                    style="width: auto; margin-bottom: 0; background-color: #007bff; font-size: 1.8667vh; padding: 1vh 1vw;">Restore
+                    and Continue</button>
+                <button onclick="handleStartFreshCompetition()"
+                    style="width: auto; margin-bottom: 0; background-color: #95a5a6; font-size: 1.8667vh; padding: 1vh 1vw;">Start
+                    Fresh</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirm Popup -->
     <div id="confirm-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; justify-content: center; align-items: center; background: rgba(0,0,0,0.5);">
