@@ -1369,8 +1369,14 @@ function showQRCode() {
     correctLevel: QRCode.CorrectLevel.L
   });
 
+  // Remove the default title attribute added by QRCode.js
+  setTimeout(() => {
+    container.removeAttribute('title');
+    const childNodes = container.querySelectorAll('*');
+    childNodes.forEach(node => node.removeAttribute('title'));
+  }, 50);
+
   container.style.cursor = 'pointer';
-  container.title = 'Click to open Mobile Viewer in a new tab';
   container.onclick = function () {
     window.open(url, '_blank');
   };
