@@ -1213,18 +1213,6 @@ function updateRealtimeClocks() {
   const largeClock = document.getElementById('large-realtime-clock');
   if (largeClock) largeClock.innerText = timeStr;
 
-  const smallLinkCode = document.getElementById('small-link-code');
-  if (smallLinkCode) {
-    const hasRandom1 = levelStates[4] && levelStates[4].sites && levelStates[4].sites.length > 0;
-    if (hasRandom1) {
-        const url = generateMobileViewerUrl();
-        const randomStr = url.split('random=')[1] || '';
-        const code = generateLinkCode(randomStr);
-        smallLinkCode.innerText = `Link Code: ${code}`;
-    } else {
-        smallLinkCode.innerText = `Link Code: --- ---`;
-    }
-  }
 
   const phaseLabel = document.getElementById('realtime-phase-label');
   if (phaseLabel) {
@@ -1272,9 +1260,8 @@ function closeRealtimePopup() {
 document.addEventListener('click', (e) => {
   if (isRealtimePopupPinned) {
     const isSmallClock = e.target.closest('#small-realtime-clock');
-    const isSmallLinkCode = e.target.closest('#small-link-code');
     const isRealtimePopup = e.target.closest('#realtime-popup');
-    if (!isSmallClock && !isSmallLinkCode && !isRealtimePopup) {
+    if (!isSmallClock && !isRealtimePopup) {
       isRealtimePopupPinned = false;
       const popup = document.getElementById('realtime-popup');
       if (popup) popup.style.display = 'none';
@@ -1403,9 +1390,11 @@ function updateLinkCodeDisplay() {
     const hasRandom1 = levelStates[4] && levelStates[4].sites && levelStates[4].sites.length > 0;
     const display = document.getElementById('link-code-display');
     const qrBtn = document.getElementById('btn-qr-code');
+    const realtimeLinkCode = document.getElementById('realtime-link-code');
 
     if (!hasRandom1) {
       if (display) display.innerText = '--- ---';
+      if (realtimeLinkCode) realtimeLinkCode.innerText = '--- ---';
       if (qrBtn) qrBtn.disabled = true;
       setBoxState('box-qr-code', 'inactive');
       return;
@@ -1417,6 +1406,9 @@ function updateLinkCodeDisplay() {
 
     if (display) {
       display.innerText = code;
+    }
+    if (realtimeLinkCode) {
+      realtimeLinkCode.innerText = code;
     }
     if (qrBtn) qrBtn.disabled = false;
     setBoxState('box-qr-code', 'active');

@@ -159,11 +159,6 @@
                 00:00:00
             </div>
 
-            <div id="small-link-code" onmouseenter="openRealtimePopup()" onmouseleave="closeRealtimePopup()"
-                onclick="toggleRealtimePopup()">
-                --- ---
-            </div>
-
             <div class="toggle-container">
                 <span id="label-comp" class="inactive" onclick="setMode(true)"
                     style="cursor: pointer; white-space: nowrap;">Competition</span>
@@ -253,18 +248,18 @@
     <div id="realtime-popup"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1500; justify-content: center; align-items: center; background: transparent; pointer-events: none;">
         <div
-            style="background: white; width: 50vw; padding: 1.5vw 0; border-radius: 1vw; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none; box-sizing: border-box;">
+            style="background: white; width: 50vw; padding: 2.5vw 0; border-radius: 1vw; box-shadow: 0 1vw 4vw rgba(0,0,0,0.8), 0 0 2vw rgba(0,0,0,0.4); text-align: center; position: relative; pointer-events: auto; user-select: none; box-sizing: border-box;">
             <div id="realtime-phase-label"
-                style="font-family: Arial, sans-serif; font-size: 1.5vw; color: #7f8c8d; font-weight: bold; margin-bottom: 0.5vw; letter-spacing: 0.1vw;">
+                style="font-family: Arial, sans-serif; font-size: 2vw; color: #7f8c8d; font-weight: bold; margin-bottom: 2vw; letter-spacing: 0.1vw;">
                 Waiting...
             </div>
             <div id="large-realtime-clock"
                 style="font-family: 'Courier New', monospace; font-size: 9.5vw; font-weight: 900; color: #2c3e50; line-height: 1; margin: 0;">
                 00:00:00
             </div>
-            <div id="realtime-link-code"
-                style="font-family: 'Courier New', monospace; font-size: 1.5vw; color: #e74c3c; font-weight: bold; margin-top: 0.5vw; letter-spacing: 0.1vw;">
-                Link Code: --- ---
+            <div id="realtime-link-code" title="Mobile Link"
+                style="font-family: 'Courier New', monospace; font-size: 2vw; color: #007bff; font-weight: bold; margin-top: 0.5vw; letter-spacing: 0.1vw;">
+                --- ---
             </div>
         </div>
     </div>
@@ -275,7 +270,8 @@
         onclick="if(event.target === this) this.style.display='none'">
         <div
             style="background: white; padding: 4vh 2.5vw; border-radius: 2vh; box-shadow: 0 1vh 3vh rgba(0,0,0,0.5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2vh; position: relative;">
-            <div style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4; cursor: default; user-select: none;">
+            <div
+                style="font-size: 3.7vh; font-weight: bold; color: #333; line-height: 1.4; cursor: default; user-select: none;">
                 <span style="font-size: 2.3vh; font-weight: normal;">Scan to view Mobile Link</span><br>
                 <span id="popup-link-code"
                     style="color: #e74c3c; font-family: 'Courier New', monospace; letter-spacing: 0.1em;">---
